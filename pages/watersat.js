@@ -1,10 +1,3 @@
-function run() {
-  // Function to call date
-  let d = new Date();
-
-  document.body.innerHTML = " <h1>Today's date is " + d + " </h1>";
-}
-
 // for each in input
 const inputs = document.querySelectorAll("input");
 
