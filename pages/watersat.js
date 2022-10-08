@@ -10,27 +10,34 @@ const inputs = document.querySelectorAll("input");
 
 const btncalc = document.querySelector("#btncalc");
 btncalc.addEventListener("click", () => {
-  //inputs.forEach((inp) => {
-  //alert(inp.value);
-  //alert(inp.id);
-  //});
+  // inputs.forEach((inp) => {
+  // alert(inp.value);
+  // alert(inp.id);
+  // });
 
-  const GasSG = Number(document.getElementById("GasSG").value); // grab the value and convert to number
   const GasTemp = Number(document.getElementById("GasTemp").value);
   const GasPres = Number(document.getElementById("GasPres").value);
   const resPara = document.getElementById("result");
+  if (GasTemp > 100 || GasTemp < 0) {
+    alert("Temperature must be between 0 ans 100 C");
+  }
+  if (GasPres > 680) {
+    alert("Pressure must be less that 680 atm");
+  }
   let WC = water_content(GasPres, GasTemp);
-    // changing the result para to the result
-  resPara.innerHTML=WC;
+  // changing the result para to the result
+  resPara.innerHTML = `Water Content ${WC} mg/Sm3`
 });
 
 const btnclear = document.querySelector("#btnclear");
-btnclear.addEventListener("click", (e) => {
-  e.target.style.background = "blue";
-  console.log(e.target);
-  const resPara = document.getElementById("result");
-    resPara.innerHTML="";
+btnclear.addEventListener("click", () => {
+  clearres();
 });
+
+function clearres() {
+  const resPara = document.getElementById("result");
+  resPara.innerHTML = "";
+}
 
 function water_content(pres, temp) {
   /*
@@ -49,7 +56,8 @@ function water_content(pres, temp) {
 
     References
     ----------
-    Ref: https://www.jmcampbell.com/tip-of-the-month/2014/09/lean-sweet-natural-gas-water-content-correlation/
+    Ref:
+    https://www.jmcampbell.com/tip-of-the-month/2014/09/lean-sweet-natural-gas-water-content-correlation/
 
    */
 
