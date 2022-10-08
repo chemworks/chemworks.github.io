@@ -20,12 +20,11 @@ btncalc.addEventListener("click", () => {
   const resPara = document.getElementById("result");
   if (GasTemp > 100 || GasTemp < 0) {
     alert("Temperature must be between 0 ans 100 C");
-      clearres();
+    clearres();
   }
   if (GasPres > 680) {
     alert("Pressure must be less that 680 atm");
-clearres();
-
+    clearres();
   }
   let WC = water_content(GasPres, GasTemp);
   // changing the result para to the result
