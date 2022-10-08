@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 function run() {
   // Function to call date
   let d = new Date();
@@ -83,4 +84,12 @@ function water_content(pres, temp) {
   A = coefA[0] * Math.exp((-1 * (temp - coefB[0]) ** 2) / (2 * coefC[0] ** 2));
   B = coefA[1] * Math.exp((-1 * (temp - coefB[1]) ** 2) / (2 * coefC[1] ** 2));
   return (A / pres + B) * 1000;
+=======
+
+function run(){
+
+let d = new Date();
+
+document.body.innerHTML = "<h1>Today's date is " + d + "</h1>"
+>>>>>>> 3b709582ab1cc1a4e32676beedf07cb735023c32
 }
