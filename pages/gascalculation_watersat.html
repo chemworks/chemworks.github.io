@@ -24,29 +24,46 @@
         </ul>
       </div>
       <h1>Gas Water Saturation</h1>
-      <p>This is a simple web page to do some Chem Eng calculation</p>
-      <div id="container">
-        <p>
-          <input
-            id="GasTemp"
-            class="input is-rounded"
-            type="text"
-            placeholder="Gas Temperature in C"
-          />
-        </p>
-        <p>
-          <input
-            id="GasPres"
-            class="input is-rounded"
-            type="text"
-            placeholder="Gas Pressure in kgf/cm2(g)"
-          />
-        </p>
-        <p><button id="btncalc" class="button">Calc</button></p>
-        <p><button id="btnclear" class="button">Clear</button></p>
-        <div>
-          <p id="result"></p>
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p>Gas Temperature in C</p>
         </div>
+        <div class="column is-one-quarter">
+          <p>
+            <input
+              id="GasTemp"
+              class="input is-rounded"
+              type="text"
+              placeholder="Gas Temperature in C"
+            />
+          </p>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p> Pressure in kgf/cm2(g)</p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <input
+              id="GasPres"
+              class="input is-rounded"
+              type="text"
+              placeholder="Gas Pressure in kgf/cm2(g)"
+            />
+          </p>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p><button id="btncalc" class="button is-fullwidth ">Calc</button></p>
+        </div>
+        <div class="column is-one-quarter">
+          <p><button id="btnclear" class="button is-fullwidth">Clear</button></p>
+        </div>
+      </div>
+      <div>
+        <p id="result"></p>
       </div>
     </div>
   </body>
