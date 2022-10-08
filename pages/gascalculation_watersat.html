@@ -1,50 +1,62 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <title>Gas Water Saturation</title>
-  <link rel="stylesheet" href="../styles/styles.css">
-  <script type="text/javascript" src="./watersat.js" defer
-  ></script>
-</head>
-<body>
-  <div class="content">
-    <div class="tabs">
-      <ul>
-        <li class="is-active">
-          <a href="https://chemworks.github.io/">Home</a>
-        </li>
-        <li>
-          <a>Gas Water Sat</a>
-        </li>
-        <li>
-          <a>Gas Cv Calc</a>
-        </li>
-        <li>
-          <a>Orifice Flow</a>
-        </li>
-      </ul>
-    </div>
-    <h1>Gas Water Saturation</h1>
-    <p>This is a simple web page to do some Chem Eng
-    calculation</p>
-    <div>
-      <p><input class="input is-rounded" type="text" placeholder=
-      "Gas SG"></p>
-      <p><input class="input is-rounded" type="text" placeholder=
-      "Gas Temperature in C"></p>
-      <p><input class="input is-rounded" type="text" placeholder=
-      "Gas Pressure in kgf/cm2(g)"></p>
-      <p><button id="btncalc" class="button">Calc</button></p>
-      <p><button id="btnclear" class="button">Clear</button></p>
-      <div id="result">
-        <p><input class="input is-rounded" type="text" placeholder=
-        "Water content"></p>
+  <head>
+    <title>Gas Water Saturation</title>
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <script type="text/javascript" src="./watersat.js" defer></script>
+  </head>
+  <body>
+    <div class="content">
+      <div class="tabs">
+        <ul>
+          <li class="is-active">
+            <a href="https://chemworks.github.io/">Home</a>
+          </li>
+          <li>
+            <a>Gas Water Sat</a>
+          </li>
+          <li>
+            <a>Gas Cv Calc</a>
+          </li>
+          <li>
+            <a>Orifice Flow</a>
+          </li>
+        </ul>
       </div>
+      <h1>Gas Water Saturation</h1>
+      <p>This is a simple web page to do some Chem Eng calculation</p>
       <div id="container">
-        <button id="1">Click Me</button> <button id="2">Click
-        Me</button> <button id="3">Click Me</button>
+        <p>
+          <input
+            id="GasSG"
+            class="input is-rounded"
+            type="text"
+            placeholder="Gas SG"
+          />
+        </p>
+        <p>
+          <input
+            id="GasTemp"
+            class="input is-rounded"
+            type="text"
+            placeholder="Gas Temperature in C"
+          />
+        </p>
+        <p>
+          <input
+            id="GasPres"
+            class="input is-rounded"
+            type="text"
+            placeholder="Gas Pressure in kgf/cm2(g)"
+          />
+        </p>
+        <p><button id="btncalc" class="button">Calc</button></p>
+        <p><button id="btnclear" class="button">Clear</button></p>
+        <div>
+           <h2>The water content is </h2>
+          <p id="result"></p>
+        </div>
       </div>
     </div>
-  </div>
-</body>
+  </body>
 </html>
