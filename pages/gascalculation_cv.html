@@ -28,16 +28,21 @@
       <h1>Gas Cv Calculation</h1>
       <div class="columns">
         <div class="column is-one-quarter">
-          <p>Calculation for</p>
+          <p>Calculation for:</p>
         </div>
-        <div class="select is-rounded">
-          <select class="">
-            <option value="CV">CV</option>
-            <option value="">Flow</option>
-            <option value="">DP</option>
-          </select>
+
+        <div class="control column is-one-quarter">
+          <label class="radio">
+            <input type="radio" name="foobar" checked />
+            CV
+          </label>
+          <label class="radio">
+            <input type="radio" name="foobar" />
+            Flow
+          </label>
         </div>
       </div>
+
       <div class="columns">
         <div class="column is-one-quarter">
           <p>Gas Temperature in C</p>
@@ -48,7 +53,7 @@
               id="GasTemp"
               class="input is-rounded"
               type="text"
-              placeholder="70"
+              placeholder="50"
             />
           </p>
         </div>
@@ -71,30 +76,79 @@
 
       <div class="columns">
         <div class="column is-one-quarter">
-          <p>Pressure inlet kgf/cm2(g)</p>
+          <p>Pressure Outlet kgf/cm2(g)</p>
         </div>
         <div class="column is-one-quarter">
           <p>
             <input
-              id="GasPresIn"
+              id="GasPresOut"
               class="input is-rounded"
               type="text"
-              placeholder="70"
+              placeholder="3.5"
+            />
+          </p>
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p>sg </p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <input
+              id="sg"
+              class="input is-rounded"
+              type="text"
+              placeholder="1.4"
             />
           </p>
         </div>
       </div>
       <div class="columns">
         <div class="column is-one-quarter">
-          <p>Pressure inlet kgf/cm2(g)</p>
+          <p>k </p>
         </div>
         <div class="column is-one-quarter">
           <p>
             <input
-              id="GasPresIn"
+              id="k"
               class="input is-rounded"
               type="text"
-              placeholder="70"
+              placeholder="1.4"
+            />
+          </p>
+        </div>
+      </div>
+
+
+
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p>Cv</p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <input
+              id="CV"
+              class="input is-rounded"
+              type="text"
+              placeholder="10"
+            />
+          </p>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p>Differential Pressure kgf/cm2</p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <input
+              id="DiffPress"
+              class="input is-rounded"
+              type="text"
+              placeholder="6.5"
             />
           </p>
         </div>
@@ -122,7 +176,7 @@
           </p>
         </div>
       </div>
-      <div>
+      <div class="box column is-half">
         <p id="result"></p>
       </div>
     </div>
