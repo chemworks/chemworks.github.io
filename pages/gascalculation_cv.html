@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Gas Cv Calculation</title>
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <script type="text/javascript" src="./cvcalc.js" defer></script>
+  </head>
+  <body>
+    <div class="content">
+      <div class="tabs">
+        <ul>
+          <li class="is-active">
+            <a href="https://chemworks.github.io/">Home</a>
+          </li>
+          <li>
+            <a>Gas Water Sat</a>
+          </li>
+          <!--HOLD
+          <li>
+            <a>Gas Cv Calc</a>
+          </li>
+          <li>
+            <a>Orifice Flow</a>
+          </li>
+-->
+        </ul>
+      </div>
+      <h1>Gas Cv Calculation</h1>
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p>Calculation for</p>
+        </div>
+        <div class="select is-rounded">
+          <select class="">
+            <option value="CV">CV</option>
+            <option value="">Flow</option>
+            <option value="">DP</option>
+          </select>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p>Gas Temperature in C</p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <input
+              id="GasTemp"
+              class="input is-rounded"
+              type="text"
+              placeholder="70"
+            />
+          </p>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p>Pressure inlet kgf/cm2(g)</p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <input
+              id="GasPresIn"
+              class="input is-rounded"
+              type="text"
+              placeholder="70"
+            />
+          </p>
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p>Pressure inlet kgf/cm2(g)</p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <input
+              id="GasPresIn"
+              class="input is-rounded"
+              type="text"
+              placeholder="70"
+            />
+          </p>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p>Pressure inlet kgf/cm2(g)</p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <input
+              id="GasPresIn"
+              class="input is-rounded"
+              type="text"
+              placeholder="70"
+            />
+          </p>
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p>
+            <button
+              id="btncalc"
+              class="button is-rounded is-success is-fullwidth"
+            >
+              Calc
+            </button>
+          </p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <button
+              id="btnclear"
+              class="button is-rounded is-warning is-fullwidth"
+            >
+              Clear
+            </button>
+          </p>
+        </div>
+      </div>
+      <div>
+        <p id="result"></p>
+      </div>
+    </div>
+  </body>
+</html>
