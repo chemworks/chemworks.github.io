@@ -32,14 +32,46 @@
         </div>
 
         <div class="control column is-one-quarter">
-          <label class="radio">
-            <input type="radio" name="foobar" checked />
+          <label id="calcmode" class="radio">
+            <input type="radio" id="cvmode" name="select" value="cvmode" checked />
             CV
           </label>
           <label class="radio">
-            <input type="radio" name="foobar" />
+            <input type="radio" id="flow" name="select" value="flow" />
             Flow
           </label>
+        </div>
+      </div>
+
+      <div id="classFlow" class="columns not-hidden">
+        <div id="GasFlowText" class="column is-one-quarter">
+          <p>Gas Flow</p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <input
+              id="GasFlow"
+              class="input is-rounded"
+              type="text"
+              placeholder="50"
+            />
+          </p>
+        </div>
+      </div>
+
+      <div id="classCV" class="columns is-hidden">
+        <div id="CVtext" class="column is-one-quarter">
+          <p>Cv</p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <input
+              id="CV"
+              class="input is-rounded"
+              type="text"
+              placeholder="10"
+            />
+          </p>
         </div>
       </div>
 
@@ -92,7 +124,7 @@
 
       <div class="columns">
         <div class="column is-one-quarter">
-          <p>sg </p>
+          <p>sg</p>
         </div>
         <div class="column is-one-quarter">
           <p>
@@ -107,7 +139,7 @@
       </div>
       <div class="columns">
         <div class="column is-one-quarter">
-          <p>k </p>
+          <p>k</p>
         </div>
         <div class="column is-one-quarter">
           <p>
@@ -121,22 +153,6 @@
         </div>
       </div>
 
-
-
-      <div class="columns">
-        <div class="column is-one-quarter">
-          <p>Cv</p>
-        </div>
-        <div class="column is-one-quarter">
-          <p>
-            <input
-              id="CV"
-              class="input is-rounded"
-              type="text"
-              placeholder="10"
-            />
-          </p>
-        </div>
       </div>
       <div class="columns">
         <div class="column is-one-quarter">
