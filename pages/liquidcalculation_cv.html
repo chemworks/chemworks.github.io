@@ -1,0 +1,203 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Liquid Cv Calculation</title>
+    <link rel="stylesheet" href="../styles/styles.css" />
+    <script type="text/javascript" src="./cvcalc_liquid.js" defer></script>
+  </head>
+  <body>
+    <div class="content">
+      <div class="tabs">
+        <ul>
+          <li class="is-active">
+            <a href="https://chemworks.github.io/">Home</a>
+          </li>
+          <!--HOLD
+          <li>
+            <a href="./liquidcalculation.html">Gas Water Sat</a>
+          </li>
+
+          <li>
+            <a href="./gascalculation_cv.html">Gas Cv Calc</a>
+          </li>
+          <li>
+            <a>Orifice Flow</a>
+          </li>
+-->
+        </ul>
+      </div>
+      <h1>Liquid Cv Calculation</h1>
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p>Calculation for:</p>
+        </div>
+
+        <div class="control column is-one-quarter">
+          <label id="calcmode" class="radio">
+            <input type="radio" id="cvmode" name="select" value="cvmode" checked />
+            CV
+          </label>
+          <label class="radio">
+            <input type="radio" id="flow" name="select" value="flow" />
+            Flow
+          </label>
+        </div>
+      </div>
+
+      <div id="classFlow" class="columns not-hidden">
+        <div id="LiquidFlowText" class="column is-one-quarter">
+          <p>Liquid Flow</p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <input
+              id="LiquidFlow"
+              class="input is-rounded"
+              type="text"
+              placeholder="50"
+            />
+          </p>
+        </div>
+      </div>
+
+      <div id="classCV" class="columns is-hidden">
+        <div id="CVtext" class="column is-one-quarter">
+          <p>Cv</p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <input
+              id="CV"
+              class="input is-rounded"
+              type="text"
+              placeholder="10"
+            />
+          </p>
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p>Liquid Temperature in C</p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <input
+              id="LiquidTemp"
+              class="input is-rounded"
+              type="text"
+              placeholder="50"
+            />
+          </p>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p>Pressure inlet kgf/cm2(g)</p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <input
+              id="LiquidPresIn"
+              class="input is-rounded"
+              type="text"
+              placeholder="70"
+            />
+          </p>
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p>Pressure Outlet kgf/cm2(g)</p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <input
+              id="LiquidPresOut"
+              class="input is-rounded"
+              type="text"
+              placeholder="3.5"
+            />
+          </p>
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p>sg</p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <input
+              id="sg"
+              class="input is-rounded"
+              type="text"
+              placeholder="1.4"
+            />
+          </p>
+        </div>
+      </div>
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p>k</p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <input
+              id="k"
+              class="input is-rounded"
+              type="text"
+              placeholder="1.4"
+            />
+          </p>
+        </div>
+      </div>
+
+      </div>
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p>Differential Pressure kgf/cm2</p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <input
+              id="DiffPress"
+              class="input is-rounded"
+              type="text"
+              placeholder="6.5"
+            />
+          </p>
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column is-one-quarter">
+          <p>
+            <button
+              id="btncalc"
+              class="button is-rounded is-success is-fullwidth"
+            >
+              Calc
+            </button>
+          </p>
+        </div>
+        <div class="column is-one-quarter">
+          <p>
+            <button
+              id="btnclear"
+              class="button is-rounded is-warning is-fullwidth"
+            >
+              Clear
+            </button>
+          </p>
+        </div>
+      </div>
+      <section class="hero is-success is-half">
+      <div class="hero-body column is-half">
+        <p id="result"></p>
+      </section>
+    </div>
+  </body>
+</html>
