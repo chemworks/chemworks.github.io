@@ -59,7 +59,7 @@ btnclear.addEventListener("click", () => {
 
 function clearinput() {
     const resPara = document.getElementById("result")
-    resPara.innerHTML=""
+    resPara.innerHTML = ""
     const inputs = document.querySelectorAll("input")
     inputs.forEach((input) => {
         input.value = "";
