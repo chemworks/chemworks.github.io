@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memoria de Cálculo de Líneas</title>
+    <!-- Bulma CSS (ya incluido en styles.css) -->
+    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"> -->
+    <!-- Custom CSS (de LineCalculation, que ahora se unifica con chemworks.github.io/styles/styles.css) -->
+    <link rel="stylesheet" href="../styles/styles.css">
+    <!-- Font Awesome para iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+</head>
+<body>
+    <section class="section">
+        <div class="container" style="position: relative;">
+            <!-- Dark Mode Toggle -->
+            <div style="position: absolute; top: 20px; right: 20px;">
+                <button id="dark-mode-toggle" class="button is-small">
+                    <span class="icon is-small"><i class="fas fa-moon"></i></span>
+                </button>
+            </div>
+            
+            <!-- Navegación de ChemWorks -->
+            <div class="tabs">
+                <ul>
+                    <li><a href="https://chemworks.github.io/">Home</a></li>
+                    <li><a href="./gascalculation.html">Gas</a></li>
+                    <li><a href="./liquidcalculation.html">Liquid</a></li>
+                    <li class="is-active"><a href="./linecalculation.html">Line Calculation</a></li>
+                </ul>
+            </div>
+
+            <h1 class="title is-2 has-text-centered">Memoria de Cálculo de Líneas</h1>
+            <p class="subtitle is-5 has-text-centered">Herramienta de dimensionamiento y verificación</p>
+
+            <div class="card mb-5">
+                <header class="card-header is-clickable">
+                    <p class="card-header-title">
+                        Información del Proyecto y Criterios de Diseño
+                    </p>
+                    <button class="card-header-icon" aria-label="more options">
+                        <span class="icon">
+                            <i class="fas fa-angle-down" aria-hidden="true"></i>
+                        </span>
+                    </button>
+                </header>
+                <div class="card-content is-hidden">
+                    <div class="content">
+                        <h2 class="title is-4">Información del Proyecto</h2>
+                        <form id="project-info-form" class="box">
+                            <div class="field">
+                                <label class="label">Nombre del Proyecto</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="project-name" placeholder="Ej: Proyecto de Red de Gas" required>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Número de Proyecto</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="project-number" placeholder="Ej: PRJ-2025-001" required>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Cliente</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="client" placeholder="Ej: Energía del Futuro S.A." required>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Preparado por</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="prepared-by" placeholder="Ej: Tu Nombre / Depto. Ingeniería" required>
+                                </div>
+                            </div>
+                            <div class="field">
+                                <label class="label">Revisado por</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="reviewed-by" placeholder="Ej: Nombre del Revisor" required>
+                                </div>
+                            </div>
+                            <div class="field is-grouped">
+                                <div class="control">
+                                    <button type="submit" class="button is-link">Guardar Información</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div id="project-info-display" class="content mt-4">
+                            <!-- Project info will be dynamically loaded here by JavaScript -->
+                        </div>
+
+                        <h2 class="title is-4 mt-5">Criterios de Diseño</h2>
+                        <div id="design-criteria-display" class="content">
+                            <!-- Design criteria will be dynamically loaded here by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box mt-5">
+                <h2 class="title is-4">Gestión de Condiciones de Proceso</h2>
+                <form id="process-condition-form" class="box">
+                    <h3 class="title is-5">Añadir/Editar Corriente</h3>
+                    <div class="field">
+                        <label class="label">Nombre de Corriente</label>
+                        <div class="control">
+                            <input class="input" type="text" id="pc-stream-name" placeholder="Ej: Stream A" required>
+                        </div>
+                    </div>
+                    <div class="columns is-multiline">
+                        <div class="column is-one-third">
+                            <div class="field">
+                                <label class="label">Caudal Gas (Sm³/D)</label>
+                                <div class="control">
+                                    <input class="input" type="number" step="any" id="pc-gas-flow" value="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-one-third">
+                            <div class="field">
+                                <label class="label">Presión (kgf/cm²g)</label>
+                                <div class="control">
+                                    <input class="input" type="number" step="any" id="pc-pressure" value="0" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-one-third">
+                            <div class="field">
+                                <label class="label">Temperatura (°C)</label>
+                                <div class="control">
+                                    <input class="input" type="number" step="any" id="pc-temperature" value="0" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-one-third">
+                            <div class="field">
+                                <label class="label">Peso Molecular (MW)</label>
+                                <div class="control">
+                                    <input class="input" type="number" step="any" id="pc-mw" value="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-one-third">
+                            <div class="field">
+                                <label class="label">Factor Z</label>
+                                <div class="control">
+                                    <input class="input" type="number" step="any" id="pc-z-factor" value="1" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-one-third">
+                            <div class="field">
+                                <label class="label">Gamma (Cp/Cv)</label>
+                                <div class="control">
+                                    <input class="input" type="number" step="any" id="pc-gamma" value="1.3">
+                                </div>
+                            </div>
+                        </div>
+                         <div class="column is-one-third">
+                            <div class="field">
+                                <label class="label">Viscosidad (cP)</label>
+                                <div class="control">
+                                    <input class="input" type="number" step="any" id="pc-viscosity" value="0.012">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-one-third">
+                            <div class="field">
+                                <label class="label">Caudal Líq. Liviano (m³/D)</label>
+                                <div class="control">
+                                    <input class="input" type="number" step="any" id="pc-light-liq-flow" value="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-one-third">
+                            <div class="field">
+                                <label class="label">Densidad Líq. Liviano (kg/m³)</label>
+                                <div class="control">
+                                    <input class="input" type="number" step="any" id="pc-light-liq-density" value="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-one-third">
+                            <div class="field">
+                                <label class="label">Caudal Líq. Pesado (m³/D)</label>
+                                <div class="control">
+                                    <input class="input" type="number" step="any" id="pc-heavy-liq-flow" value="0">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column is-one-third">
+                            <div class="field">
+                                <label class="label">Densidad Líq. Pesado (kg/m³)</label>
+                                <div class="control">
+                                    <input class="input" type="number" step="any" id="pc-heavy-liq-density" value="0">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <button type="submit" class="button is-link">Guardar Corriente</button>
+                        </div>
+                        <div class="control">
+                            <button type="button" id="pc-clear-form-btn" class="button is-link is-light">Limpiar Formulario</button>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="level mt-5">
+                    <div class="level-left">
+                        <h3 class="title is-5">Corrientes de Proceso Actuales</h3>
+                    </div>
+                    <div class="level-right">
+                        <button id="delete-all-streams-btn" class="button is-danger is-small">
+                            <span class="icon is-small"><i class="fas fa-trash"></i></span>
+                            <span>Eliminar Todas las Corrientes</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="process-conditions-display" class="table-container">
+                    <!-- Process conditions table will be dynamically loaded here -->
+                </div>
+            </div>
+
+            <div class="box mt-5">
+                <h2 class="title is-4">Gestión de Líneas</h2>
+                <form id="line-form" class="box">
+                    <h3 class="title is-5">Añadir/Editar Línea</h3>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">TAG de Línea</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="line-tag" placeholder="Ej: 10-GH-001-CA11" required>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">Presión de Diseño (kgf/cm²g)</label>
+                                <div class="control">
+                                    <input class="input" type="number" step="any" id="line-design-pressure" placeholder="Ej: 100" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Tipo de Línea</label>
+                        <div class="control">
+                            <div class="select is-fullwidth">
+                                <select id="line-type" required>
+                                    <option value="">Seleccione Tipo</option>
+                                    <option value="CF">CF (Continuous Flow)</option>
+                                    <option value="NNF">NNF (Normally No Flow)</option>
+                                    <option value="VL">VL (Vent Line)</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Corriente(s) Asociada(s)</label>
+                        <div class="control">
+                            <div class="select is-multiple is-fullwidth">
+                                <select id="line-stream-name" multiple required size="5">
+                                    <option value="">Cargando Corrientes...</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label">Diámetro Seleccionado (ID)</label>
+                        <div class="control">
+                            <div class="select is-fullwidth">
+                                <select id="line-diameter-id" required>
+                                    <option value="">Cargando Diámetros...</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="field is-grouped">
+                        <div class="control">
+                            <button type="submit" class="button is-link">Guardar Línea</button>
+                        </div>
+                        <div class="control">
+                            <button type="button" id="line-clear-form-btn" class="button is-link is-light">Limpiar Formulario</button>
+                        </div>
+                    </div>
+                    <p class="help" id="line-suggestion-display"></p>
+                </form>
+
+                <div class="level mt-5">
+                     <div class="level-left">
+                        <h3 class="title is-5">Líneas Actuales</h3>
+                    </div>
+                    <div class="level-right">
+                         <button id="delete-all-lines-btn" class="button is-danger is-small">
+                            <span class="icon is-small"><i class="fas fa-trash"></i></span>
+                            <span>Eliminar Todas las Líneas</span>
+                        </button>
+                    </div>
+                </div>
+                <div id="lines-display" class="table-container">
+                    <!-- Line definitions table will be dynamically loaded here -->
+                </div>
+            </div>
+
+
+            <div class="field is-grouped is-grouped-centered mt-5">
+                <p class="control">
+                    <button id="calculate-btn" class="button is-primary is-medium">
+                        <span class="icon is-small"><i class="fas fa-calculator"></i></span>
+                        <span>Calcular</span>
+                    </button>
+                </p>
+                <p class="control">
+                    <button id="save-project-btn" class="button is-success is-medium">
+                        <span class="icon is-small"><i class="fas fa-save"></i></span>
+                        <span>Guardar Proyecto</span>
+                    </button>
+                </p>
+                <p class="control">
+                    <input type="file" id="load-project-file-input" style="display:none;" accept=".json">
+                    <button id="load-project-btn" class="button is-info is-medium">
+                        <span class="icon is-small"><i class="fas fa-upload"></i></span>
+                        <span>Cargar Proyecto</span>
+                    </button>
+                </p>
+                <p class="control">
+                    <button id="download-csv-btn" class="button is-link is-medium" disabled>
+                        <span class="icon is-small"><i class="fas fa-file-csv"></i></span>
+                        <span>Descargar CSV</span>
+                    </button>
+                </p>
+                <p class="control">
+                    <button id="download-pdf-btn" class="button is-danger is-medium" disabled>
+                         <span class="icon is-small"><i class="fas fa-file-pdf"></i></span>
+                        <span>Descargar PDF</span>
+                    </button>
+                </p>
+                 <p class="control">
+                    <button id="download-all-btn" class="button is-dark is-medium" disabled>
+                         <span class="icon is-small"><i class="fas fa-download"></i></span>
+                        <span>Descargar Todo</span>
+                    </button>
+                </p>
+                 <p class="control">
+                    <button id="reset-data-btn" class="button is-danger is-outlined is-medium">
+                        <span class="icon is-small"><i class="fas fa-undo"></i></span>
+                        <span>Reiniciar</span>
+                    </button>
+                </p>
+            </div>
+
+            <div class="box mt-5" id="results-section" style="display:none;">
+                <h2 class="title is-4">Listado de Ingeniería (Tabla de Resultados)</h2>
+                <div id="engineering-list-table" class="table-container"></div>
+                
+                <div class="card mt-5">
+                    <header class="card-header is-clickable">
+                        <p class="card-header-title">
+                            Resultados Detallados (Consola de Cálculo)
+                        </p>
+                        <button class="card-header-icon" aria-label="more options">
+                            <span class="icon">
+                                <i class="fas fa-angle-down" aria-hidden="true"></i>
+                            </span>
+                        </button>
+                    </header>
+                    <div class="card-content is-hidden">
+                        <div class="content">
+                             <pre id="calculation-output" class="console-output"></pre>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- jsPDF library for PDF generation -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <!-- jspdf-autotable for easier table generation in PDF -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    
+    <!-- Your custom JavaScript -->
+    <script src="../js/script.js"></script>
+</body>
+</html>
