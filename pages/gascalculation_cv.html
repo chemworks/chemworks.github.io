@@ -41,7 +41,7 @@
         <div class="box">
           <div class="columns is-vcentered">
             <div class="column is-one-quarter">
-              <p class="label">Calculation for:</p>
+              <label class="label">Calculation for:</label>
             </div>
             <div class="control column is-one-quarter">
               <label class="radio">
@@ -57,71 +57,85 @@
 
           <div id="classFlow" class="columns not-hidden">
             <div class="column is-one-quarter">
-              <p class="label">Gas Flow (Sm³/h)</p>
+              <label class="label">Gas Flow (Sm³/h)</label>
             </div>
             <div class="column is-one-quarter">
-              <input id="GasFlow" class="input is-rounded" type="number" placeholder="10000"/>
+                <div class="control">
+                    <input id="GasFlow" class="input" type="number" placeholder="10000"/>
+                </div>
             </div>
           </div>
 
           <div id="classCV" class="columns is-hidden">
             <div class="column is-one-quarter">
-              <p class="label">Cv</p>
+              <label class="label">Cv</label>
             </div>
             <div class="column is-one-quarter">
-              <input id="CV" class="input is-rounded" type="number" placeholder="20"/>
-            </div>
-          </div>
-
-          <div class="columns">
-            <div class="column is-one-quarter">
-              <p class="label">Gas Temperature (°C)</p>
-            </div>
-            <div class="column is-one-quarter">
-              <input id="GasTemp" class="input is-rounded" type="number" placeholder="60"/>
-            </div>
-          </div>
-          <div class="columns">
-            <div class="column is-one-quarter">
-              <p class="label">Pressure inlet (kgf/cm²g)</p>
-            </div>
-            <div class="column is-one-quarter">
-              <input id="GasPresIn" class="input is-rounded" type="number" placeholder="50"/>
+              <div class="control">
+                <input id="CV" class="input" type="number" placeholder="20"/>
+              </div>
             </div>
           </div>
 
           <div class="columns">
             <div class="column is-one-quarter">
-              <p class="label">Pressure Outlet (kgf/cm²g)</p>
+              <label class="label">Gas Temperature (°C)</label>
             </div>
             <div class="column is-one-quarter">
-              <input id="GasPresOut" class="input is-rounded" type="number" placeholder="40"/>
+                <div class="control">
+                    <input id="GasTemp" class="input" type="number" placeholder="60"/>
+                </div>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column is-one-quarter">
+              <label class="label">Pressure inlet (kgf/cm²g)</label>
+            </div>
+            <div class="column is-one-quarter">
+                <div class="control">
+                    <input id="GasPresIn" class="input" type="number" placeholder="50"/>
+                </div>
             </div>
           </div>
 
           <div class="columns">
             <div class="column is-one-quarter">
-              <p class="label">Specific Gravity (sg)</p>
+              <label class="label">Pressure Outlet (kgf/cm²g)</label>
             </div>
             <div class="column is-one-quarter">
-              <input id="sg" class="input is-rounded" type="number" placeholder="0.6"/>
-            </div>
-          </div>
-          <div class="columns">
-            <div class="column is-one-quarter">
-              <p class="label">k (Cp/Cv)</p>
-            </div>
-            <div class="column is-one-quarter">
-              <input id="k" class="input is-rounded" type="number" placeholder="1.3"/>
+                <div class="control">
+                    <input id="GasPresOut" class="input" type="number" placeholder="40"/>
+                </div>
             </div>
           </div>
 
           <div class="columns">
             <div class="column is-one-quarter">
-              <button id="btncalc" class="button is-rounded is-primary is-fullwidth">Calc</button>
+              <label class="label">Specific Gravity (sg)</label>
             </div>
             <div class="column is-one-quarter">
-              <button id="btnclear" class="button is-rounded is-warning is-fullwidth">Clear</button>
+                <div class="control">
+                    <input id="sg" class="input" type="number" placeholder="0.6"/>
+                </div>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column is-one-quarter">
+              <label class="label">k (Cp/Cv)</label>
+            </div>
+            <div class="column is-one-quarter">
+              <div class="control">
+                <input id="k" class="input" type="number" placeholder="1.3"/>
+              </div>
+            </div>
+          </div>
+
+          <div class="field is-grouped">
+            <div class="control">
+              <button id="btncalc" class="button is-link">Calc</button>
+            </div>
+            <div class="control">
+              <button id="btnclear" class="button is-link is-light">Clear</button>
             </div>
           </div>
           <section class="hero is-info is-half mt-5">
