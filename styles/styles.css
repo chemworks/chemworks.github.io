@@ -1,147 +1,244 @@
-/* styles.css */
+/* styles/styles.css */
 
-/* Import Bulma first */
+/* 1. Importación de Google Fonts y Bulma */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap');
 @import "https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css";
 
-/* General body and content styling */
+/* 2. Variables de Tema (Modo Claro y Oscuro) */
+:root {
+    --bg-color: #f5f7fa;
+    --text-color: #363636;
+    --card-bg-color: #ffffff;
+    --border-color: #dbdbdb;
+    --primary-color: #4A90E2;
+    --primary-color-dark: #3a7bc8;
+    --link-color: #4A90E2;
+    --input-bg-color: #ffffff;
+    --input-border-color: #dbdbdb;
+    --table-header-bg: #f5f5f5;
+    --table-row-hover-bg: #f9f9f9;
+    --navbar-bg: #ffffff;
+    --navbar-item-color: #4a4a4a;
+    --navbar-item-hover-bg: #f5f5f5;
+    --navbar-dropdown-bg: #ffffff;
+    --hero-bg: #eef5fd;
+    --hero-text: #3a7bc8;
+}
+
+html.dark-mode {
+    --bg-color: #1a202c;
+    --text-color: #e2e8f0;
+    --card-bg-color: #2d3748;
+    --border-color: #4a5568;
+    --primary-color: #63b3ed;
+    --primary-color-dark: #4299e1;
+    --link-color: #63b3ed;
+    --input-bg-color: #2d3748;
+    --input-border-color: #4a5568;
+    --table-header-bg: #2d3748;
+    --table-row-hover-bg: #4a5568;
+    --navbar-bg: #2d3748;
+    --navbar-item-color: #e2e8f0;
+    --navbar-item-hover-bg: #4a5568;
+    --navbar-dropdown-bg: #2d3748;
+    --hero-bg: #2c5282;
+    --hero-text: #e2e8f0;
+}
+
+/* 3. Estilos Generales */
 body {
-    font-family: 'Inter', sans-serif; /* Using Inter as per instructions */
-    background-color: #f0f2f5; /* Light background */
-    color: #363636;
-    line-height: 1.6;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    transition: background-color 0.3s, color 0.3s;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-.content {
-    max-width: 960px;
+.section {
+    padding: 2rem 1.5rem;
+}
+
+.container {
+    max-width: 1152px; /* Ancho máximo para mejor legibilidad */
     margin: 0 auto;
-    padding: 20px;
 }
 
-/* Specific styles for LineCalculation elements */
+/* 4. Logo */
+.chemworks-logo {
+    max-height: 80px;
+    width: auto;
+    margin-bottom: 1.5rem;
+}
+
+/* 5. Nueva Barra de Navegación (Navbar) */
+.navbar {
+    background-color: var(--navbar-bg);
+    border-bottom: 1px solid var(--border-color);
+    transition: background-color 0.3s, border-color 0.3s;
+    margin-bottom: 2rem; /* Añade espacio debajo de la barra */
+}
+
+.navbar-item, .navbar-link {
+    color: var(--navbar-item-color);
+    font-weight: 500;
+}
+
+.navbar-item:hover, .navbar-link:hover {
+    background-color: var(--navbar-item-hover-bg);
+    color: var(--primary-color);
+}
+
+/* Estilos para el enlace activo */
+.navbar-item.is-active, .navbar-link.is-active {
+    background-color: var(--navbar-item-hover-bg);
+    color: var(--primary-color) !important;
+    font-weight: 700;
+}
+
+/* Estilos para el menú desplegable */
+.navbar-dropdown {
+    background-color: var(--navbar-dropdown-bg);
+    border: 1px solid var(--border-color);
+    border-top: 2px solid var(--primary-color); /* Acento de color */
+    box-shadow: 0 8px 16px rgba(10, 10, 10, 0.1);
+    border-radius: 0 0 6px 6px;
+}
+
+.navbar-dropdown .navbar-item {
+    color: var(--navbar-item-color);
+    padding-left: 1.5rem; /* Indentación para sub-items */
+}
+
+.navbar-dropdown .navbar-item:hover {
+    background-color: var(--navbar-item-hover-bg);
+    color: var(--primary-color);
+}
+
+/* Resaltado del sub-item activo */
+.navbar-dropdown .navbar-item.is-active {
+    background-color: var(--primary-color) !important;
+    color: white !important;
+}
+
+/* 6. Contenido Principal y Tarjetas */
+.box, .card {
+    background-color: var(--card-bg-color);
+    color: var(--text-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+.card-header {
+    background-color: transparent;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: none;
+}
+
+.card-header-title {
+    color: var(--text-color);
+}
+
+/* 7. Formularios (Inputs, Botones, Selects) */
+.label {
+    color: var(--text-color);
+    font-weight: 500;
+}
+
+.input, .select select, .textarea {
+    background-color: var(--input-bg-color);
+    border-color: var(--input-border-color);
+    color: var(--text-color);
+    border-radius: 6px;
+    transition: all 0.3s;
+}
+
+.input:focus, .select select:focus, .textarea:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.2);
+}
+
+.button.is-primary {
+    background-color: var(--primary-color);
+    border: none;
+}
+.button.is-primary:hover {
+    background-color: var(--primary-color-dark);
+}
+
+.button {
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+/* 8. Tablas */
+.table {
+    background-color: var(--card-bg-color);
+    color: var(--text-color);
+    width: 100%; /* Asegura que la tabla ocupe todo el ancho */
+}
+
+.table thead th {
+    background-color: var(--table-header-bg);
+    color: var(--text-color);
+    border-color: var(--border-color);
+}
+
+.table tbody tr:hover {
+    background-color: var(--table-row-hover-bg) !important;
+}
+
+.table, .table td, .table th {
+    border-color: var(--border-color);
+}
+
+/* 9. Hero (Resultados) */
+.hero.is-success, .hero.is-info {
+    background-color: var(--hero-bg);
+    border-radius: 8px;
+}
+
+.hero.is-success .title, .hero.is-info .title {
+    color: var(--hero-text);
+}
+
+/* 10. Estilos específicos de LineCalculation */
 .console-output {
-    background-color: #2d2d2d;
-    color: #f0f0f0;
-    font-family: 'Courier New', Courier, monospace;
-    padding: 15px;
-    border-radius: 5px;
+    background-color: #2d3748; /* Siempre oscuro para consolas */
+    color: #f7fafc;
+    padding: 1rem;
+    border-radius: 6px;
     white-space: pre-wrap;
     word-wrap: break-word;
-    max-height: 500px;
-    overflow-y: auto;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 0.85em;
 }
 
-.status-ok {
-    background-color: #e6ffed !important;
-    color: #257942;
-    font-weight: bold;
-}
-.status-no-ok {
-    background-color: #ffe5e5 !important;
-    color: #c53030;
-    font-weight: bold;
-}
-.status-n-a {
-    background-color: #f5f5f5 !important;
-    color: #555;
-}
+.status-ok { color: #48bb78; font-weight: bold; }
+.status-no-ok { color: #f56565; font-weight: bold; }
+.status-n-a { color: #a0aec0; }
 
-.line-details-row > td {
+.line-details-row td {
     padding: 0 !important;
-    border: 0;
+    border: none !important;
 }
-.card-header.is-clickable {
-    cursor: pointer;
+.line-details-row .box {
+    margin: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1) inset;
 }
-/* Fluid Type Tag Styles */
-.tag.fluid-gas { background-color: #23d160; color: white; } /* Green */
-.tag.fluid-liquid { background-color: #3273dc; color: white; } /* Blue */
-.tag.fluid-multiphase { background-color: #ffdd57; color: rgba(0, 0, 0, 0.7); } /* Yellow */
-.tag.fluid-undefined { background-color: #b5b5b5; color: white; } /* Grey */
 
-/* Smaller Number Inputs */
-input[type=number] {
-    max-width: 180px; /* Adjust as needed */
-}
+.tag.fluid-gas { background-color: #a0aec0; color: #1a202c; }
+.tag.fluid-liquid { background-color: #63b3ed; color: #1a202c; }
+.tag.fluid-multiphase { background-color: #f6ad55; color: #1a202c; }
+.tag.fluid-undefined { background-color: #e2e8f0; color: #4a5568; }
+
 .action-buttons .button {
-    margin-right: 5px;
+    margin-right: 4px;
 }
 
-/* Ensure tables fit within container */
-.table-container {
-    overflow-x: auto;
-}
-.table.is-fullwidth {
-    width: 100%;
-}
-
-/* --- Dark Mode Styles --- */
-html.dark-mode {
-    background-color: #1a202c;
-    color: #cbd5e0;
-}
-.dark-mode body {
-     background-color: #1a202c;
-}
-.dark-mode .box, .dark-mode .card {
-    background-color: #2d3748;
-    color: #e2e8f0;
-    border-color: #4a5568; /* Adjust borders for dark mode */
-}
-.dark-mode .title, .dark-mode .subtitle, .dark-mode .label, .dark-mode .card-header-title {
-    color: #e2e8f0;
-}
-.dark-mode .input, .dark-mode .select select, .dark-mode textarea {
-    background-color: #4a5568;
-    border-color: #718096;
-    color: #f7fafc;
-}
-.dark-mode .input::placeholder, .dark-mode textarea::placeholder {
-    color: #a0aec0;
-}
-.dark-mode .table {
-    background-color: #2d3748;
-    color: #e2e8f0;
-}
-.dark-mode .table thead td, .dark-mode .table thead th {
-    color: #f7fafc;
-    border-color: #4a5568;
-}
-.dark-mode .table tbody tr {
-    border-color: #4a5568;
-}
-.dark-mode .table.is-striped tbody tr:not(.is-selected):nth-child(even) {
-    background-color: #4a5568;
-}
-.dark-mode .table.is-hoverable tbody tr:not(.is-selected):hover {
-    background-color: #718096;
-}
-.dark-mode .button.is-light {
-    background-color: #4a5568;
-    color: #f7fafc;
-}
-.dark-mode .card-header {
-    border-bottom: 1px solid #4a5568;
-}
-.dark-mode .status-ok {
-    background-color: #2f855a !important; /* Darker green */
-    color: #f0fff4;
-}
-.dark-mode .status-no-ok {
-    background-color: #c53030 !important; /* Darker red */
-    color: #fff5f5;
-}
-.dark-mode .status-n-a {
-    background-color: #4a5568 !important;
-    color: #e2e8f0;
-}
-.dark-mode .select:not(.is-multiple):not(.is-loading)::after {
-    border-color: #3182ce;
-}
-
-/* Specific styles for the ChemWorks logo */
-.chemworks-logo {
-    display: block; /* Ensures it takes up its own line */
-    margin: 0 auto 20px auto; /* Centers it and adds bottom margin */
-    max-height: 100px; /* Adjust as needed */
-    width: auto;
+/* 11. Clases de ayuda */
+.is-hidden {
+    display: none !important;
 }

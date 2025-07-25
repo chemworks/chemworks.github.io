@@ -4,32 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Memoria de Cálculo de Líneas</title>
-    <!-- Bulma CSS (ya incluido en styles.css) -->
-    <!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css"> -->
-    <!-- Custom CSS (de LineCalculation, que ahora se unifica con chemworks.github.io/styles/styles.css) -->
     <link rel="stylesheet" href="../styles/styles.css">
-    <!-- Font Awesome para iconos -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <section class="section">
-        <div class="container" style="position: relative;">
-            <!-- Dark Mode Toggle -->
-            <div style="position: absolute; top: 20px; right: 20px;">
-                <button id="dark-mode-toggle" class="button is-small">
-                    <span class="icon is-small"><i class="fas fa-moon"></i></span>
-                </button>
+        <div class="container">
+            <div class="has-text-centered">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZm9udC1mYW1pbHk9Ik1vbnRzZXJyYXQsIHNhbnMtc2VyaWYiPg0KICA8IS0tIA0KICAgIExvZ28gcGFyYSBDaGVtIFdvcmtzDQogICAgVmVyc2nDs246IE1vbGVjdWxhciBjb24gaW5pY2lhbGVzIENXDQogICAgRXN0ZSBhcmNoaXZvIFNWRyBlcyBlc2NhbGFibGUgYSBjdWFscXVpZXIgdGFtYcOxbyBzaW4gcGVyZGVyIGNhbGxpZGFkYS4NCiAgLS0+DQoNCiAgPCEtLSBHcnVwbyBwcmluY2lwYWwgcXVlIGNvbnRpZW5lIHRvZG9zIGxvcyBlbGVtZW50b3MgZGVsIGxvZ28gLS0+DQogIDxnPg0KICAgIDwhLS0gQW5pbGxvIGRlIGJlbmNlbm8gKGhleMOhZ29ubykgLS0+DQogICAgPGcgc3Ryb2tlPSIjNEE5MEUyIiBzdHJva2Utd2lkdGg9IjEyIiBmaWxsPSJub25lIj4NCiAgICAgIDxwYXRoIGQ9Ik0xMDAgMjUgTDE3NSA2Mi41IFYxMzcuNSBMMTAwIDE3NSBMMjUgMTM3LjUgVjYyLjUgTDEwMCAyNVoiIC8+DQogICAgICANCiAgICAgIDwhLS0gQyByY3Vsb2MgaW50ZXJpb3IgcGFyYSBhbG9qYXIgbGFzIGxldHJhcyAtLT4NCiAgICAgIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iMzUiIGZpbGw9IiM0QTkwRTIiIHN0cm9rZT0ibm9uZSIvPg0KICAgIDwvZz4NCiAgICANCiAgICA8IS0tIExldHJhcyAnQycgeSAnVycg0KICAgIDx0ZXh0IHg9IjYyIiB5PSIxMTMiIGZvbnQtc2l6ZT0iNDUiIGZpbGw9IndoaXRlIiBmb250LXdlaWdodD0iYm9sZCI+QzwvdGV4dD4NCiAgICA8dGV4dCB4PSI5MiIgeT0iMTEzIiBmb250LXNpemU9IjQ1IiBmaWxsPSJ3aGl0ZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlc8L3RleHRB" alt="Chem Works Logo" style="height: 80px; margin-bottom: 1rem;">
             </div>
             
-            <!-- Navegación de ChemWorks -->
-            <div class="tabs">
-                <ul>
-                    <li><a href="https://chemworks.github.io/">Home</a></li>
-                    <li><a href="./gascalculation.html">Gas</a></li>
-                    <li><a href="./liquidcalculation.html">Liquid</a></li>
-                    <li class="is-active"><a href="./linecalculation.html">Line Calculation</a></li>
-                </ul>
-            </div>
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div id="navbarBasicExample" class="navbar-menu is-active">
+                  <div class="navbar-start">
+                    <a href="../index.html" class="navbar-item">Home</a>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                      <a href="./gascalculation.html" class="navbar-link">Gas</a>
+                      <div class="navbar-dropdown">
+                        <a href="./gascalculation_watersat.html" class="navbar-item">Water Saturation</a>
+                        <a href="./gascalculation_cv.html" class="navbar-item">Cv Calculation</a>
+                      </div>
+                    </div>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                      <a href="./liquidcalculation.html" class="navbar-link">Liquid</a>
+                      <div class="navbar-dropdown">
+                        <a href="./liquidcalculation_cv.html" class="navbar-item">Cv Calculation</a>
+                      </div>
+                    </div>
+                    <a href="./linecalculation.html" class="navbar-item">Line Calculation</a>
+                  </div>
+                </div>
+            </nav>
 
             <h1 class="title is-2 has-text-centered">Memoria de Cálculo de Líneas</h1>
             <p class="subtitle is-5 has-text-centered">Herramienta de dimensionamiento y verificación</p>
@@ -86,13 +91,11 @@
                             </div>
                         </form>
                         <div id="project-info-display" class="content mt-4">
-                            <!-- Project info will be dynamically loaded here by JavaScript -->
-                        </div>
+                            </div>
 
                         <h2 class="title is-4 mt-5">Criterios de Diseño</h2>
                         <div id="design-criteria-display" class="content">
-                            <!-- Design criteria will be dynamically loaded here by JavaScript -->
-                        </div>
+                            </div>
                     </div>
                 </div>
             </div>
@@ -219,8 +222,7 @@
                     </div>
                 </div>
                 <div id="process-conditions-display" class="table-container">
-                    <!-- Process conditions table will be dynamically loaded here -->
-                </div>
+                    </div>
             </div>
 
             <div class="box mt-5">
@@ -263,8 +265,7 @@
                         <div class="control">
                             <div class="select is-multiple is-fullwidth">
                                 <select id="line-stream-name" multiple required size="5">
-                                    <option value="">Cargando Corrientes...</option>
-                                </select>
+                                    </select>
                             </div>
                         </div>
                     </div>
@@ -273,8 +274,7 @@
                         <div class="control">
                             <div class="select is-fullwidth">
                                 <select id="line-diameter-id" required>
-                                    <option value="">Cargando Diámetros...</option>
-                                </select>
+                                    </select>
                             </div>
                         </div>
                     </div>
@@ -301,8 +301,7 @@
                     </div>
                 </div>
                 <div id="lines-display" class="table-container">
-                    <!-- Line definitions table will be dynamically loaded here -->
-                </div>
+                    </div>
             </div>
 
 
@@ -378,12 +377,11 @@
         </div>
     </section>
 
-    <!-- jsPDF library for PDF generation -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <!-- jspdf-autotable for easier table generation in PDF -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js" defer></script>
     
-    <!-- Your custom JavaScript -->
     <script src="../js/script.js"></script>
+    
 </body>
 </html>

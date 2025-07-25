@@ -1,4 +1,26 @@
 // js/script.js
+// --- Lógica para activar el enlace de navegación actual ---
+document.addEventListener('DOMContentLoaded', () => {
+    const currentPageUrl = window.location.href;
+    const navLinks = document.querySelectorAll('.navbar-item');
+
+    navLinks.forEach(link => {
+        // Compara el href del enlace con la URL actual
+        if (link.href === currentPageUrl) {
+            link.classList.add('is-active');
+
+            // Si el enlace está en un dropdown, activa también el menú principal
+            const dropdown = link.closest('.has-dropdown');
+            if (dropdown) {
+                const parentLink = dropdown.querySelector('.navbar-link');
+                parentLink.classList.add('is-active');
+            }
+        }
+    });
+
+    // ... (El resto del código de script.js que ya tenías)
+    // ... (Se mantiene igual desde la línea 'const constants = ...' en adelante)
+});
 
 // --- Global Constants ---
 const constants = {
@@ -18,9 +40,10 @@ const constants = {
     KGFCM2_TO_BAR: 0.980665
 };
 
-// --- LOGO BASE64 (SVG convertido a PNG Base64 para compatibilidad con jsPDF) ---
+// --- LOGO BASE64 (PNG Base64 para compatibilidad con jsPDF) ---
 // Este es el Base64 de tu logo SVG, convertido a PNG para que jsPDF lo maneje mejor.
-const myLogoBase64 = "data:image/png;base64,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";
+// Si el logo original es SVG, la conversión a PNG Base64 es la forma más fiable para jsPDF.
+const myLogoBase64 = "data:image/png;base64,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";
 
 let designCriteria = {
     // Flow Criteria
@@ -50,7 +73,7 @@ let currentProcessConditions = {
         "MW": 20.0, "Z_Factor": 0.95, "Gamma": 1.3, "Viscosity_cP": 0.012,
         "Light_Liquid_Flow_m3_D": 2.0, "Light_Liquid_Density_kg_m3": 650.0,
         "Heavy_Liquid_Flow_m3_D": 2.0, "Heavy_Liquid_Density_kg_m3": 1000.0,
-        "Fluid_Type": "Multiphase" // Added Fluid_Type
+        "Fluid_Type": "Multiphase"
     },
     "1_disch_hot_gas": {
         "Gas_Flow_Sm3_D": 180000.0, "Pressure_kgf_cm2g": 100.0, "Temperature_C": 135.0,
@@ -228,7 +251,20 @@ function performCalculations() {
     // Sort diameters for optimization suggestions (create a fresh filtered list)
     const filteredDiametersForOptimization = Object.entries(diametersData)
         .filter(([tag, info]) => !["1 1/2", "5"].includes(info.DN)) // Exclude DN 1 1/2" and 5"
-        .sort((a, b) => a[1].DI_mm - b[1].DI_mm);
+        .sort((a, b) => {
+            // Defensive check: Ensure a[1] and b[1] exist and DI_mm is a number
+            const diA = a[1] && typeof a[1].DI_mm === 'number' ? a[1].DI_mm : -Infinity;
+            const diB = b[1] && typeof b[1].DI_mm === 'number' ? b[1].DI_mm : -Infinity;
+
+            if (diA !== diB) {
+                return diA - diB;
+            }
+            // Fallback to string comparison if DI_mm is the same or invalid
+            // Ensure a[0] and b[0] are strings before calling localeCompare
+            const keyA = String(a[0]);
+            const keyB = String(b[0]);
+            return keyA.localeCompare(keyB);
+        });
 
     for (const lineTag in currentLinesData) {
         const lineInfo = currentLinesData[lineTag];
@@ -300,7 +336,7 @@ function performCalculations() {
         for (const streamName of Stream_Names) {
             const streamInfo = currentProcessConditions[streamName];
             if (!streamInfo) {
-                consoleOutput += `  --- WARNING: Stream '${streamName}' not found for line '${lineTag}'. Skipping flow check for this stream. ---\n`;
+                consoleOutput += `  --- WARNING: Corriente '${streamName}' no encontrada para línea '${lineTag}'. Saltando verificación de flujo para esta corriente. ---\n`;
                 continue;
             }
 
@@ -403,19 +439,25 @@ function performCalculations() {
                         const streamInfo = currentProcessConditions[streamName];
                         if (!streamInfo) { allStreamsVerify = false; break; }
 
-                        const actualGasFlow = streamInfo.Actual_Gas_Flow_m3_s;
-                        const actualLLFlow = streamInfo.Actual_Light_Liquid_Flow_m3_s;
-                        const actualHLFlow = streamInfo.Actual_Heavy_Liquid_Flow_m3_s;
-                        const totalActualFlow = actualGasFlow + actualLLFlow + actualHLFlow;
+                        const actualGasFlow = streamInfo.Gas_Flow_Sm3_D; // Use original Sm3/D for checkSingleDiameter
+                        const actualLLFlow = streamInfo.Light_Liquid_Flow_m3_D;
+                        const actualHLFlow = streamInfo.Heavy_Liquid_Flow_m3_D;
                         
                         const pressure_pa_abs = (streamInfo.Pressure_kgf_cm2g + constants.P_STANDARD_KGF_CM2A) * constants.KGFCMA_TO_PA;
                         const temperature_k = streamInfo.Temperature_C + constants.CELSIUS_TO_KELVIN;
                         const gas_density_at_cond = calculateGasDensity(pressure_pa_abs, temperature_k, streamInfo.MW, streamInfo.Z_Factor);
-                        const { mixture_density } = calculateMixtureProperties(actualGasFlow, gas_density_at_cond, actualLLFlow, streamInfo.Light_Liquid_Density_kg_m3, actualHLFlow, streamInfo.Heavy_Liquid_Density_kg_m3);
-                        const mw_kg_mol = streamInfo.MW / 1000;
+                        const { total_volume_flow: check_total_volume_flow, mixture_density: check_mixture_density } = calculateMixtureProperties(
+                            calculateActualFlowRateGas(actualGasFlow, streamInfo.Pressure_kgf_cm2g, streamInfo.Temperature_C, streamInfo.Z_Factor),
+                            gas_density_at_cond,
+                            calculateActualFlowRateLiquid(actualLLFlow),
+                            streamInfo.Light_Liquid_Density_kg_m3,
+                            calculateActualFlowRateLiquid(actualHLFlow),
+                            streamInfo.Heavy_Liquid_Density_kg_m3
+                        );
+                        const mw_kg_mol_check = streamInfo.MW / 1000;
 
-                        if (!checkSingleDiameter(candidate_di_mm_opt, Type, totalActualFlow, mixture_density,
-                                                gas_density_at_cond, streamInfo.Gamma, temperature_k, mw_kg_mol, designCriteria)) {
+                        if (!checkSingleDiameter(candidate_di_mm_opt, Type, check_total_volume_flow, check_mixture_density,
+                                                gas_density_at_cond, streamInfo.Gamma, temperature_k, mw_kg_mol_check, designCriteria)) {
                             allStreamsVerify = false;
                             break;
                         }
@@ -445,19 +487,25 @@ function performCalculations() {
                         const streamInfo = currentProcessConditions[streamName];
                         if (!streamInfo) { allStreamsVerify = false; break; }
 
-                        const actualGasFlow = streamInfo.Actual_Gas_Flow_m3_s;
-                        const actualLLFlow = streamInfo.Actual_Light_Liquid_Flow_m3_s;
-                        const actualHLFlow = streamInfo.Actual_Heavy_Liquid_Flow_m3_s;
-                        const totalActualFlow = actualGasFlow + actualLLFlow + actualHLFlow;
+                        const actualGasFlow = streamInfo.Gas_Flow_Sm3_D; // Use original Sm3/D for checkSingleDiameter
+                        const actualLLFlow = streamInfo.Light_Liquid_Flow_m3_D;
+                        const actualHLFlow = streamInfo.Heavy_Liquid_Flow_m3_D;
                         
                         const pressure_pa_abs = (streamInfo.Pressure_kgf_cm2g + constants.P_STANDARD_KGF_CM2A) * constants.KGFCMA_TO_PA;
                         const temperature_k = streamInfo.Temperature_C + constants.CELSIUS_TO_KELVIN;
                         const gas_density_at_cond = calculateGasDensity(pressure_pa_abs, temperature_k, streamInfo.MW, streamInfo.Z_Factor);
-                        const { mixture_density } = calculateMixtureProperties(actualGasFlow, gas_density_at_cond, actualLLFlow, streamInfo.Light_Liquid_Density_kg_m3, actualHLFlow, streamInfo.Heavy_Liquid_Density_kg_m3);
-                        const mw_kg_mol = streamInfo.MW / 1000;
+                        const { total_volume_flow: check_total_volume_flow, mixture_density: check_mixture_density } = calculateMixtureProperties(
+                            calculateActualFlowRateGas(actualGasFlow, streamInfo.Pressure_kgf_cm2g, streamInfo.Temperature_C, streamInfo.Z_Factor),
+                            gas_density_at_cond,
+                            calculateActualFlowRateLiquid(actualLLFlow),
+                            streamInfo.Light_Liquid_Density_kg_m3,
+                            calculateActualFlowRateLiquid(actualHLFlow),
+                            streamInfo.Heavy_Liquid_Density_kg_m3
+                        );
+                        const mw_kg_mol_check = streamInfo.MW / 1000;
 
-                        if (!checkSingleDiameter(candidate_di_mm_opt, Type, totalActualFlow, mixture_density,
-                                                gas_density_at_cond, streamInfo.Gamma, temperature_k, mw_kg_mol, designCriteria)) {
+                        if (!checkSingleDiameter(candidate_di_mm_opt, Type, check_total_volume_flow, check_mixture_density,
+                                                gas_density_at_cond, streamInfo.Gamma, temperature_k, mw_kg_mol_check, designCriteria)) {
                             allStreamsVerify = false;
                             break;
                         }
@@ -826,12 +874,19 @@ function populateDiameterDropdown() {
     select.innerHTML = '<option value="">Seleccione Diámetro</option>'; // Clear existing options
     
     // Create a sorted list of diameters for the dropdown
-    const sortedDiameters = Object.entries(diametersData).sort(([, a], [, b]) => {
-        // Sort by DI_mm first, then by tag for consistency
-        if (a.DI_mm !== b.DI_mm) {
-            return a.DI_mm - b.DI_mm;
+    const sortedDiameters = Object.entries(diametersData).sort((a, b) => {
+        // Defensive check: Ensure a[1] and b[1] exist and DI_mm is a number
+        const diA = a[1] && typeof a[1].DI_mm === 'number' ? a[1].DI_mm : -Infinity;
+        const diB = b[1] && typeof b[1].DI_mm === 'number' ? b[1].DI_mm : -Infinity;
+
+        if (diA !== diB) {
+            return diA - diB;
         }
-        return a[0].localeCompare(b[0]);
+        // Fallback to string comparison if DI_mm is the same or invalid
+        // Ensure a[0] and b[0] are strings before calling localeCompare
+        const keyA = String(a[0]);
+        const keyB = String(b[0]);
+        return keyA.localeCompare(keyB);
     });
 
     for (const [diameterId, info] of sortedDiameters) {
@@ -978,30 +1033,31 @@ function downloadPDF() {
     const margin = 40;
     let finalY = 0;
     let pageNumber = 1;
-    const appUrl = "https://chemworks.github.io/LineCalculation/"; // URL de tu aplicación
+    // URL de la página principal de ChemWorks
+    const chemWorksMainUrl = "https://chemworks.github.io/"; 
 
     const logoWidth = 50;
     const logoHeight = 50;
 
     const addHeaderFooter = () => {
-        // Logo
+        // Logo en la esquina superior derecha
         try {
             doc.addImage(myLogoBase64, 'PNG', pageWidth - margin - logoWidth, 20, logoWidth, logoHeight);
         } catch (e) {
             console.error("No se pudo añadir el logo al encabezado del PDF:", e);
         }
         
-        // Título principal
+        // Título principal del documento
         doc.setFontSize(12);
         doc.setFont('helvetica', 'bold');
         doc.text("MEMORIA DE CÁLCULO DE LÍNEAS", pageWidth / 2, 40, { align: 'center' });
         
-        // Información de página y URL
+        // Pie de página: URL de ChemWorks, número de página y fecha
         doc.setFontSize(8);
         doc.setFont('helvetica', 'normal');
         
         doc.setTextColor(0, 0, 255); // Color azul para el enlace
-        doc.textWithLink("Versión Online: " + appUrl, margin, pageHeight - 20, { url: appUrl });
+        doc.textWithLink("ChemWorks: " + chemWorksMainUrl, margin, pageHeight - 20, { url: chemWorksMainUrl });
         doc.setTextColor(0, 0, 0); // Volver a color negro
 
         doc.text(`Página ${pageNumber}`, pageWidth - margin, pageHeight - 20, { align: 'right' });
@@ -1564,8 +1620,13 @@ function suggestPipeDiameter() {
         const actualHLFlow = calculateActualFlowRateLiquid(streamInfo.Heavy_Liquid_Flow_m3_D);
         const totalActualFlow = actualGasFlow + actualLLFlow + actualHLFlow;
 
-        if (totalActualFlow === 0) continue; // Skip if no flow
-
+        if (totalActualFlow === 0) {
+            // If there's no flow, no diameter is "required" by flow criteria.
+            // This might mean the line is NNF or VL, but for sizing, it's not limiting.
+            // We'll just continue to the next stream or finish if this is the only one.
+            continue; 
+        }
+        
         const tempLineInfoForFluidType = { Stream_Names: [streamName] }; // Create a temp object to get fluid type
         const streamFluidType = getLineFluidType(tempLineInfoForFluidType);
 

@@ -1,76 +1,75 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gas Water Saturation</title>
     <link rel="stylesheet" href="../styles/styles.css" />
-    <script type="text/javascript" src="./watersat.js" defer></script>
+    <script src="../js/script.js" defer></script>
+    <script type="text/javascript" src="../js/watersat.js" defer></script>
   </head>
   <body>
-    <div class="content">
-      <div class="tabs">
-        <ul>
-          <li class="is-active">
-            <a href="https://chemworks.github.io/">Home</a>
-          </li>
-          <li>
-            <a href="./gascalculation_watersat.html">Gas Water Sat</a>
-          </li>
-          <li>
-            <a href="./gascalculation_cv.html">Gas Cv Calc</a>
-          </li>
-          <!--HOLD
-          <li>
-            <a>Orifice Flow</a>
-          </li>
--->
-        </ul>
+    <section class="section">
+      <div class="container">
+        <div class="has-text-centered">
+            <img src="data:image/svg+xml;base64,..." alt="Chem Works Logo" style="height: 80px; margin-bottom: 1rem;">
+        </div>
+
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div id="navbarBasicExample" class="navbar-menu is-active">
+              <div class="navbar-start">
+                <a href="../index.html" class="navbar-item">Home</a>
+                <div class="navbar-item has-dropdown is-hoverable">
+                  <a href="./gascalculation.html" class="navbar-link">Gas</a>
+                  <div class="navbar-dropdown">
+                    <a href="./gascalculation_watersat.html" class="navbar-item">Water Saturation</a>
+                    <a href="./gascalculation_cv.html" class="navbar-item">Cv Calculation</a>
+                  </div>
+                </div>
+                <div class="navbar-item has-dropdown is-hoverable">
+                  <a href="./liquidcalculation.html" class="navbar-link">Liquid</a>
+                  <div class="navbar-dropdown">
+                    <a href="./liquidcalculation_cv.html" class="navbar-item">Cv Calculation</a>
+                  </div>
+                </div>
+                <a href="./linecalculation.html" class="navbar-item">Line Calculation</a>
+              </div>
+            </div>
+        </nav>
+
+        <h1 class="title is-2 has-text-centered">Gas Water Saturation</h1>
+        <div class="box">
+          <div class="columns">
+            <div class="column is-one-quarter">
+              <p class="label">Gas Temperature (°C)</p>
+            </div>
+            <div class="column is-one-quarter">
+              <input id="GasTemp" class="input is-rounded" type="number" placeholder="45"/>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column is-one-quarter">
+              <p class="label">Pressure (kgf/cm²g)</p>
+            </div>
+            <div class="column is-one-quarter">
+              <input id="GasPres" class="input is-rounded" type="number" placeholder="70"/>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column is-one-quarter">
+              <button id="btncalc" class="button is-rounded is-primary is-fullwidth">Calc</button>
+            </div>
+            <div class="column is-one-quarter">
+              <button id="btnclear" class="button is-rounded is-warning is-fullwidth">Clear</button>
+            </div>
+          </div>
+          <section class="hero is-info is-half mt-5">
+            <div class="hero-body column is-half">
+              <p id="result" class="title is-4"></p>
+            </div>
+          </section>
+        </div>
       </div>
-      <h1>Gas Water Saturation</h1>
-      <div class="columns">
-        <div class="column is-one-quarter">
-          <p>Gas Temperature in C</p>
-        </div>
-        <div class="column is-one-quarter">
-          <p>
-            <input
-              id="GasTemp"
-              class="input is-rounded"
-              type="text"
-              placeholder="45"
-            />
-          </p>
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column is-one-quarter">
-          <p>Pressure in kgf/cm2(g)</p>
-        </div>
-        <div class="column is-one-quarter">
-          <p>
-            <input
-              id="GasPres"
-              class="input is-rounded"
-              type="text"
-              placeholder="70"
-            />
-          </p>
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column is-one-quarter">
-          <p><button id="btncalc" class="button is-rounded is-success is-fullwidth">Calc</button></p>
-        </div>
-        <div class="column is-one-quarter">
-          <p>
-            <button id="btnclear" class="button is-rounded is-warning is-fullwidth">Clear</button>
-          </p>
-        </div>
-      </div>
-      <section class="hero is-success is-half">
-      <div class="hero-body column is-half">
-        <p id="result"></p>
-      </div>
-      </section>
-    </div>
+    </section>
   </body>
 </html>

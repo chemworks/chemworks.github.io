@@ -1,202 +1,136 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gas Cv Calculation</title>
     <link rel="stylesheet" href="../styles/styles.css" />
-    <script type="text/javascript" src="./cvcalc.js" defer></script>
+    <script src="../js/script.js" defer></script>
+    <script type="text/javascript" src="../js/cvcalc.js" defer></script>
   </head>
   <body>
-    <div class="content">
-      <div class="tabs">
-        <ul>
-          <li class="is-active">
-            <a href="https://chemworks.github.io/">Home</a>
-          </li>
-          <li>
-            <a href="./gascalculation_watersat.html">Gas Water Sat</a>
-          </li>
-
-          <li>
-            <a href="./gascalculation_cv.html">Gas Cv Calc</a>
-          </li>
-          <!--HOLD
-          <li>
-            <a>Orifice Flow</a>
-          </li>
--->
-        </ul>
-      </div>
-      <h1>Gas Cv Calculation</h1>
-      <div class="columns">
-        <div class="column is-one-quarter">
-          <p>Calculation for:</p>
+    <section class="section">
+      <div class="container">
+        <div class="has-text-centered">
+            <img src="data:image/svg+xml;base64,..." alt="Chem Works Logo" style="height: 80px; margin-bottom: 1rem;">
         </div>
 
-        <div class="control column is-one-quarter">
-          <label id="calcmode" class="radio">
-            <input type="radio" id="cvmode" name="select" value="cvmode" checked />
-            CV
-          </label>
-          <label class="radio">
-            <input type="radio" id="flow" name="select" value="flow" />
-            Flow
-          </label>
-        </div>
-      </div>
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div id="navbarBasicExample" class="navbar-menu is-active">
+              <div class="navbar-start">
+                <a href="../index.html" class="navbar-item">Home</a>
+                <div class="navbar-item has-dropdown is-hoverable">
+                  <a href="./gascalculation.html" class="navbar-link">Gas</a>
+                  <div class="navbar-dropdown">
+                    <a href="./gascalculation_watersat.html" class="navbar-item">Water Saturation</a>
+                    <a href="./gascalculation_cv.html" class="navbar-item">Cv Calculation</a>
+                  </div>
+                </div>
+                <div class="navbar-item has-dropdown is-hoverable">
+                  <a href="./liquidcalculation.html" class="navbar-link">Liquid</a>
+                  <div class="navbar-dropdown">
+                    <a href="./liquidcalculation_cv.html" class="navbar-item">Cv Calculation</a>
+                  </div>
+                </div>
+                <a href="./linecalculation.html" class="navbar-item">Line Calculation</a>
+              </div>
+            </div>
+        </nav>
 
-      <div id="classFlow" class="columns not-hidden">
-        <div id="GasFlowText" class="column is-one-quarter">
-          <p>Gas Flow Sm3/h</p>
-        </div>
-        <div class="column is-one-quarter">
-          <p>
-            <input
-              id="GasFlow"
-              class="input is-rounded"
-              type="text"
-              placeholder="50"
-            />
-          </p>
-        </div>
-      </div>
+        <h1 class="title is-2 has-text-centered">Gas Cv Calculation</h1>
+        <div class="box">
+          <div class="columns is-vcentered">
+            <div class="column is-one-quarter">
+              <p class="label">Calculation for:</p>
+            </div>
+            <div class="control column is-one-quarter">
+              <label class="radio">
+                <input type="radio" id="cvmode" name="select" value="cvmode" checked />
+                CV
+              </label>
+              <label class="radio">
+                <input type="radio" id="flow" name="select" value="flow" />
+                Flow
+              </label>
+            </div>
+          </div>
 
-      <div id="classCV" class="columns is-hidden">
-        <div id="CVtext" class="column is-one-quarter">
-          <p>Cv</p>
-        </div>
-        <div class="column is-one-quarter">
-          <p>
-            <input
-              id="CV"
-              class="input is-rounded"
-              type="text"
-              placeholder="10"
-            />
-          </p>
-        </div>
-      </div>
+          <div id="classFlow" class="columns not-hidden">
+            <div class="column is-one-quarter">
+              <p class="label">Gas Flow (Sm³/h)</p>
+            </div>
+            <div class="column is-one-quarter">
+              <input id="GasFlow" class="input is-rounded" type="number" placeholder="10000"/>
+            </div>
+          </div>
 
-      <div class="columns">
-        <div class="column is-one-quarter">
-          <p>Gas Temperature in C</p>
-        </div>
-        <div class="column is-one-quarter">
-          <p>
-            <input
-              id="GasTemp"
-              class="input is-rounded"
-              type="text"
-              placeholder="50"
-            />
-          </p>
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column is-one-quarter">
-          <p>Pressure inlet kgf/cm2(g)</p>
-        </div>
-        <div class="column is-one-quarter">
-          <p>
-            <input
-              id="GasPresIn"
-              class="input is-rounded"
-              type="text"
-              placeholder="70"
-            />
-          </p>
-        </div>
-      </div>
+          <div id="classCV" class="columns is-hidden">
+            <div class="column is-one-quarter">
+              <p class="label">Cv</p>
+            </div>
+            <div class="column is-one-quarter">
+              <input id="CV" class="input is-rounded" type="number" placeholder="20"/>
+            </div>
+          </div>
 
-      <div class="columns">
-        <div class="column is-one-quarter">
-          <p>Pressure Outlet kgf/cm2(g)</p>
-        </div>
-        <div class="column is-one-quarter">
-          <p>
-            <input
-              id="GasPresOut"
-              class="input is-rounded"
-              type="text"
-              placeholder="3.5"
-            />
-          </p>
-        </div>
-      </div>
+          <div class="columns">
+            <div class="column is-one-quarter">
+              <p class="label">Gas Temperature (°C)</p>
+            </div>
+            <div class="column is-one-quarter">
+              <input id="GasTemp" class="input is-rounded" type="number" placeholder="60"/>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column is-one-quarter">
+              <p class="label">Pressure inlet (kgf/cm²g)</p>
+            </div>
+            <div class="column is-one-quarter">
+              <input id="GasPresIn" class="input is-rounded" type="number" placeholder="50"/>
+            </div>
+          </div>
 
-      <div class="columns">
-        <div class="column is-one-quarter">
-          <p>sg</p>
-        </div>
-        <div class="column is-one-quarter">
-          <p>
-            <input
-              id="sg"
-              class="input is-rounded"
-              type="text"
-              placeholder="1.4"
-            />
-          </p>
-        </div>
-      </div>
-      <div class="columns">
-        <div class="column is-one-quarter">
-          <p>k</p>
-        </div>
-        <div class="column is-one-quarter">
-          <p>
-            <input
-              id="k"
-              class="input is-rounded"
-              type="text"
-              placeholder="1.4"
-            />
-          </p>
-        </div>
-      </div>
+          <div class="columns">
+            <div class="column is-one-quarter">
+              <p class="label">Pressure Outlet (kgf/cm²g)</p>
+            </div>
+            <div class="column is-one-quarter">
+              <input id="GasPresOut" class="input is-rounded" type="number" placeholder="40"/>
+            </div>
+          </div>
 
-      </div>
-      <div class="columns">
-        <div class="column is-one-quarter">
-          <p>Differential Pressure kgf/cm2</p>
-        </div>
-        <div class="column is-one-quarter">
-          <p>
-            <input
-              id="DiffPress"
-              class="input is-rounded"
-              type="text"
-              placeholder="6.5"
-            />
-          </p>
-        </div>
-      </div>
+          <div class="columns">
+            <div class="column is-one-quarter">
+              <p class="label">Specific Gravity (sg)</p>
+            </div>
+            <div class="column is-one-quarter">
+              <input id="sg" class="input is-rounded" type="number" placeholder="0.6"/>
+            </div>
+          </div>
+          <div class="columns">
+            <div class="column is-one-quarter">
+              <p class="label">k (Cp/Cv)</p>
+            </div>
+            <div class="column is-one-quarter">
+              <input id="k" class="input is-rounded" type="number" placeholder="1.3"/>
+            </div>
+          </div>
 
-      <div class="columns">
-        <div class="column is-one-quarter">
-          <p>
-            <button
-              id="btncalc"
-              class="button is-rounded is-success is-fullwidth"
-            >
-              Calc
-            </button>
-          </p>
-        </div>
-        <div class="column is-one-quarter">
-          <p>
-            <button
-              id="btnclear"
-              class="button is-rounded is-warning is-fullwidth"
-            >
-              Clear
-            </button>
-          </p>
+          <div class="columns">
+            <div class="column is-one-quarter">
+              <button id="btncalc" class="button is-rounded is-primary is-fullwidth">Calc</button>
+            </div>
+            <div class="column is-one-quarter">
+              <button id="btnclear" class="button is-rounded is-warning is-fullwidth">Clear</button>
+            </div>
+          </div>
+          <section class="hero is-info is-half mt-5">
+            <div class="hero-body column is-half">
+              <p id="result" class="title is-4"></p>
+            </div>
+          </section>
         </div>
       </div>
-      <section class="hero is-success is-half">
-      <div class="hero-body column is-half">
-        <p id="result"></p>
-      </section>
-    </div>
+    </section>
   </body>
 </html>

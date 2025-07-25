@@ -1,32 +1,46 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chem Works Gas Calculations</title>
     <link rel="stylesheet" href="../styles/styles.css" />
+    <script src="../js/script.js" defer></script>
   </head>
   <body>
-    <div class="content">
-      <div class="tabs">
-        <ul>
-          <li class="is-active">
-            <a href="https://chemworks.github.io/">Home</a>
-          </li>
-          <li>
-            <a href="./gascalculation_watersat.html">Gas Water Sat</a>
-          </li>
+    <section class="section">
+      <div class="container">
+        <div class="has-text-centered">
+            <img src="data:image/svg+xml;base64,..." alt="Chem Works Logo" style="height: 80px; margin-bottom: 1rem;">
+        </div>
 
-          <li>
-            <a href="./gascalculation_cv.html">Gas Cv Calc</a>
-          </li>
-          <!--HOLD
-        <li>
-          <a>Orifice Flow</a>
-        </li>
--->
-        </ul>
+        <nav class="navbar" role="navigation" aria-label="main navigation">
+            <div id="navbarBasicExample" class="navbar-menu is-active">
+              <div class="navbar-start">
+                <a href="../index.html" class="navbar-item">Home</a>
+                <div class="navbar-item has-dropdown is-hoverable">
+                  <a href="./gascalculation.html" class="navbar-link">Gas</a>
+                  <div class="navbar-dropdown">
+                    <a href="./gascalculation_watersat.html" class="navbar-item">Water Saturation</a>
+                    <a href="./gascalculation_cv.html" class="navbar-item">Cv Calculation</a>
+                  </div>
+                </div>
+                <div class="navbar-item has-dropdown is-hoverable">
+                  <a href="./liquidcalculation.html" class="navbar-link">Liquid</a>
+                  <div class="navbar-dropdown">
+                    <a href="./liquidcalculation_cv.html" class="navbar-item">Cv Calculation</a>
+                  </div>
+                </div>
+                <a href="./linecalculation.html" class="navbar-item">Line Calculation</a>
+              </div>
+            </div>
+        </nav>
+
+        <div class="has-text-centered">
+            <h1 class="title is-2">Chem Works Gas Calculation</h1>
+            <p class="subtitle is-5">Seleccione una herramienta del submenú para comenzar.</p>
+        </div>
       </div>
-      <h1>Chem Works Gas Calculation</h1>
-      <p>This is a simple web page to do some Chem Eng calculation</p>
-    </div>
+    </section>
   </body>
 </html>

@@ -1,38 +1,47 @@
 <!DOCTYPE html>
 <html>
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ChemWorks</title>
-  <!-- Usaremos el styles.css principal que ahora incluirá los estilos de LineCalculation -->
-  <link rel="stylesheet" href="./styles/styles.css">
-  <!-- Font Awesome para iconos (usado en LineCalculation) -->
+  <link rel="stylesheet" href="styles/styles.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <script src="js/script.js" defer></script>
 </head>
 <body>
-  <div class="content">
-    <div class="tabs">
-      <ul>
-        <li class="is-active">
-          <a href="https://chemworks.github.io/">Home</a>
-        </li>
-        <li>
-          <a href="./pages/gascalculation.html">Gas</a>
-        </li>
-        <li>
-          <a href="./pages/liquidcalculation.html">Liquid</a>
-        </li>
-        <!-- NUEVO TAB PARA LINE CALCULATION -->
-        <li>
-          <a href="./pages/linecalculation.html">Line Calculation</a>
-        </li>
-      </ul>
+  <section class="section">
+    <div class="container">
+      <div class="has-text-centered">
+          <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZm9udC1mYW1pbHk9Ik1vbnRzZXJyYXQsIHNhbnMtc2VyaWYiPg0KICA8IS0tIA0KICAgIExvZ28gcGFyYSBDaGVtIFdvcmtzDQogICAgVmVyc2nDs246IE1vbGVjdWxhciBjb24gaW5pY2lhbGVzIENXDQogICAgRXN0ZSBhcmNoaXZvIFNWRyBlcyBlc2NhbGFibGUgYSBjdWFscXVpZXIgdGFtYcOxbyBzaW4gcGVyZGVyIGNhbGxpZGFkYS4NCiAgLS0+DQoNCiAgPCEtLSBHcnVwbyBwcmluY2lwYWwgcXVlIGNvbnRpZW5lIHRvZG9zIGxvcyBlbGVtZW50b3MgZGVsIGxvZ28gLS0+DQogIDxnPg0KICAgIDwhLS0gQW5pbGxvIGRlIGJlbmNlbm8gKGhleMOhZ29ubykgLS0+DQogICAgPGcgc3Ryb2tlPSIjNEE5MEUyIiBzdHJva2Utd2lkdGg9IjEyIiBmaWxsPSJub25lIj4NCiAgICAgIDxwYXRoIGQ9Ik0xMDAgMjUgTDE3NSA2Mi41IFYxMzcuNSBMMTAwIDE3NSBMMjUgMTM3LjUgVjYyLjUgTDEwMCAyNVoiIC8+DQogICAgICANCiAgICAgIDwhLS0gQyByY3Vsb2MgaW50ZXJpb3IgcGFyYSBhbG9qYXIgbGFzIGxldHJhcyAtLT4NCiAgICAgIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iMzUiIGZpbGw9IiM0QTkwRTIiIHN0cm9rZT0ibm9uZSIvPg0KICAgIDwvZz4NCiAgICANCiAgICA8IS0tIExldHJhcyAnQycgeSAnVycg0KICAgIDx0ZXh0IHg9IjYyIiB5PSIxMTMiIGZvbnQtc2l6ZT0iNDUiIGZpbGw9IndoaXRlIiBmb250LXdlaWdodD0iYm9sZCI+QzwvdGV4dD4NCiAgICA8dGV4dCB4PSI5MiIgeT0iMTEzIiBmb250LXNpemU9IjQ1IiBmaWxsPSJ3aGl0ZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlc8L3RleHRB" alt="Chem Works Logo" class="chemworks-logo">
+      </div>
+
+      <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div id="navbarBasicExample" class="navbar-menu is-active">
+          <div class="navbar-start">
+            <a href="index.html" class="navbar-item">Home</a>
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a href="pages/gascalculation.html" class="navbar-link">Gas</a>
+              <div class="navbar-dropdown">
+                <a href="pages/gascalculation_watersat.html" class="navbar-item">Water Saturation</a>
+                <a href="pages/gascalculation_cv.html" class="navbar-item">Cv Calculation</a>
+              </div>
+            </div>
+            <div class="navbar-item has-dropdown is-hoverable">
+              <a href="pages/liquidcalculation.html" class="navbar-link">Liquid</a>
+              <div class="navbar-dropdown">
+                <a href="pages/liquidcalculation_cv.html" class="navbar-item">Cv Calculation</a>
+              </div>
+            </div>
+            <a href="pages/linecalculation.html" class="navbar-item">Line Calculation</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="content has-text-centered">
+        <h1 class="title is-1">ChemWorks</h1>
+        <p class="subtitle is-4">Herramientas de cálculo para Ingeniería Química</p>
+      </div>
     </div>
-    <!-- Logo de ChemWorks -->
-    <div class="has-text-centered">
-        <!-- El logo SVG incrustado directamente para evitar problemas de rutas -->
-        <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZm9udC1mYW1pbHk9Ik1vbnRzZXJyYXQsIHNhbnMtc2VyaWYiPg0KICA8IS0tIA0KICAgIExvZ28gcGFyYSBDaGVtIFdvcmtzDQogICAgVmVyc2nDs246IE1vbGVjdWxhciBjb24gaW5pY2lhbGVzIENXDQogICAgRXN0ZSBhcmNoaXZvIFNWRyBlcyBlc2NhbGFibGUgYSBjdWFscXVpZXIgdGFtYcOxbyBzaW4gcGVyZGVyIGNhbGlkYWQuDQogIC0tPg0KDQogIDwhLS0gR3J1cG8gcHJpbmNpcGFsIHF1ZSBjb250aWVuZSB0b2RvcyBsb3MgZWxlbWVudG9zIGRlbCBsb2dvIC0tPg0KICA8Zz4NCiAgICA8IS0tIEFuaWxsbyBkZSBiZW5jZW5vIChoZXjDoWdvbm8pIC0tPg0KICAgIDxnIHN0cm9rZT0iIzRBOTBFMiIgc3Ryb2tlLXdpZHRoPSIxMiIgZmlsbD0ibm9uZSI+DQogICAgICA8cGF0aCBkPSJNMTAwIDI1IEwxNzUgNjIuNSBWMTM3LjUgTDEwMCAxNzUgTDI1IDEzNy41IFY2Mi41IEwxMDAgMjVaIiAvPg0KICAgICAgDQogICAgICA8IS0tIEMgcmN1bG8gaW50ZXJpb3IgcGFyYSBhbG9qYXIgbGFzIGxldHJhcyAtLT4NCiAgICAgIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iMzUiIGZpbGw9IiM0QTkwRTIiIHN0cm9rZT0ibm9uZSIvPg0KICAgIDwvZz4NCiAgICANCiAgICA8IS0tIExldHJhcyAnQycgeSAnVycg0KICAgIDx0ZXh0IHg9IjYyIiB5PSIxMTMiIGZvbnQtc2l6ZT0iNDUiIGZpbGw9IndoaXRlIiBmb250LXdlaWdodD0iYm9sZCI+QzwvdGV4dD4NCiAgICA8dGV4dCB4PSI5MiIgeT0iMTEzIiBmb250LXNpemU9IjQ1IiBmaWxsPSJ3aGl0ZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlc8L3RleHRB" alt="Chem Works Logo" style="height: 80px; margin-bottom: 1rem;">
-    </div>
-    <h1>Chem Works</h1>
-    <p>This is a simple web page to do some Chem Eng calculation</p>
-  </div>
+  </section>
 </body>
 </html>
