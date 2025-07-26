@@ -1701,3 +1701,23 @@ function suggestPipeDiameter() {
         suggestionEl.textContent = 'El caudal es demasiado grande para los diámetros disponibles.';
     }
 }
+document.addEventListener('DOMContentLoaded', () => {
+    // Función para manejar secciones desplegables (collapsible cards)
+    const allCollapsibleHeaders = document.querySelectorAll('.card-header.is-clickable');
+
+    allCollapsibleHeaders.forEach(header => {
+        header.addEventListener('click', () => {
+            const cardContent = header.nextElementSibling;
+            const icon = header.querySelector('.icon i');
+
+            if (cardContent) {
+                cardContent.classList.toggle('is-hidden');
+            }
+
+            if (icon) {
+                icon.classList.toggle('fa-angle-down');
+                icon.classList.toggle('fa-angle-up');
+            }
+        });
+    });
+});

@@ -1,180 +1,112 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gas Cv Calculation</title>
     <link rel="stylesheet" href="../styles/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../js/script.js" defer></script>
     <script type="text/javascript" src="../js/cvcalculator.js" defer></script>
-  </head>
-  <body>
+</head>
+<body>
     <section class="section">
-      <div class="container">
-        <div class="has-text-centered">
-            <img src="data:image/svg+xml;base64,..." alt="Chem Works Logo" style="height: 80px; margin-bottom: 1rem;">
+        <div class="container">
+            <div class="has-text-centered">
+                <img src="data:image/svg+xml;base64,..." alt="Chem Works Logo" style="height: 80px; margin-bottom: 1rem;">
+            </div>
+
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div id="navbarBasicExample" class="navbar-menu is-active">
+                  <div class="navbar-start">
+                    <a href="../index.html" class="navbar-item">Home</a>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                      <a href="./gascalculation.html" class="navbar-link">Gas</a>
+                      <div class="navbar-dropdown">
+                        <a href="./gascalculation_watersat.html" class="navbar-item">Water Saturation</a>
+                        <a href="./gascalculation_cv.html" class="navbar-item">Cv Calculation</a>
+                      </div>
+                    </div>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                      <a href="./liquidcalculation.html" class="navbar-link">Liquid</a>
+                      <div class="navbar-dropdown">
+                        <a href="./liquidcalculation_cv.html" class="navbar-item">Cv Calculation</a>
+                      </div>
+                    </div>
+                    <a href="./linecalculation.html" class="navbar-item">Line Calculation</a>
+                  </div>
+                </div>
+            </nav>
+
+            <h1 class="title is-2 has-text-centered">Gas Cv Calculation</h1>
+            
+            <div class="card mb-5">
+                <header class="card-header is-clickable">
+                    <p class="card-header-title">Project Information</p>
+                    <button class="card-header-icon" aria-label="more options"><span class="icon"><i class="fas fa-angle-down" aria-hidden="true"></i></span></button>
+                </header>
+                <div class="card-content is-hidden">
+                    <form id="project-info-form" class="box">
+                        <div class="field"><label class="label">Project Name</label><div class="control"><input class="input" type="text" id="project-name" placeholder="e.g., Gas Network Project"></div></div>
+                        <div class="field"><label class="label">Prepared by</label><div class="control"><input class="input" type="text" id="prepared-by" placeholder="e.g., Your Name"></div></div>
+                        <button type="submit" class="button is-link">Save</button>
+                    </form>
+                    <div id="project-info-display" class="content mt-4"></div>
+                </div>
+            </div>
+
+            <div class="box">
+                <div class="columns is-vcentered">
+                    <div class="column is-one-quarter"><label class="label">Calculation for:</label></div>
+                    <div class="control column is-one-quarter"><label class="radio"><input type="radio" id="cvmode" name="select" value="cvmode" checked> Cv</label><label class="radio"><input type="radio" id="flow" name="select" value="flow"> Flow</label></div>
+                </div>
+                <div id="classFlow" class="not-hidden">
+                    <div class="field"><label class="label">Input Flow Type</label><div class="control"><label class="radio"><input type="radio" id="unit_vol" name="flow_unit_gas" value="vol" checked> Volumetric</label><label class="radio"><input type="radio" id="unit_mass" name="flow_unit_gas" value="mass"> Mass</label></div></div>
+                    <div class="columns"><div class="column is-one-quarter"><label class="label" id="GasFlowLabel">Gas Flow (Sm³/D)</label></div><div class="column is-one-quarter"><div class="control"><input id="GasFlow" class="input" type="number" placeholder="240000"/></div></div></div>
+                </div>
+                <div id="classCV" class="columns is-hidden"><div class="column is-one-quarter"><label class="label">Cv</label></div><div class="column is-one-quarter"><div class="control"><input id="CV" class="input" type="number" placeholder="20"/></div></div></div>
+                <div class="columns"><div class="column is-one-quarter"><label class="label">Gas Temperature (°C)</label></div><div class="column is-one-quarter"><div class="control"><input id="GasTemp" class="input" type="number" placeholder="60"/></div></div></div>
+                <div class="columns"><div class="column is-one-quarter"><label class="label">Pressure inlet (kgf/cm²g)</label></div><div class="column is-one-quarter"><div class="control"><input id="GasPresIn" class="input" type="number" placeholder="50"/></div></div></div>
+                <div class="columns"><div class="column is-one-quarter"><label class="label">Pressure Outlet (kgf/cm²g)</label></div><div class="column is-one-quarter"><div class="control"><input id="GasPresOut" class="input" type="number" placeholder="40"/></div></div></div>
+                <div class="columns"><div class="column is-one-quarter"><label class="label">Specific Gravity (sg)</label></div><div class="column is-one-quarter"><div class="control"><input id="sg" class="input" type="number" placeholder="0.6"/></div></div></div>
+                <div class="columns"><div class="column is-one-quarter"><label class="label">k (Cp/Cv)</label></div><div class="column is-one-quarter"><div class="control"><input id="k" class="input" type="number" placeholder="1.3"/></div></div></div>
+                
+                <div class="field is-grouped">
+                    <div class="control">
+                        <button id="btncalc" class="button is-primary is-medium"><span class="icon is-small"><i class="fas fa-calculator"></i></span><span>Calculate</span></button>
+                    </div>
+                    <div class="control">
+                        <button id="btnclear" class="button is-danger is-outlined is-medium"><span class="icon is-small"><i class="fas fa-undo"></i></span><span>Clear</span></button>
+                    </div>
+                </div>
+
+                <section class="hero is-info is-half mt-5"><div class="hero-body column is-half"><p id="result" class="title is-4"></p><p id="secondaryResult" class="subtitle is-5 mt-2"></p></div></section>
+                
+                <div id="diameter-section" class="box mt-5 is-hidden">
+                    <h2 class="title is-4">Trim Diameter Estimation</h2>
+                    <div class="columns"><div class="column is-one-quarter"><label class="label">Discharge Coeff. (Cd)</label></div><div class="column is-one-quarter"><div class="control"><input id="dischargeCoeff" class="input" type="number" value="0.75" placeholder="0.75"/></div></div></div>
+                    <div class="field">
+                        <div class="control">
+                            <button id="btnCalcDiameter" class="button is-primary is-medium">
+                                <span class="icon is-small"><i class="fas fa-calculator"></i></span>
+                                <span>Calculate Diameter</span>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="diameterResult" class="mt-4 content"></div>
+                </div>
+            </div>
+
+            <div class="card mt-5">
+                <header class="card-header is-clickable">
+                    <p class="card-header-title">Formulas & Design Criteria</p>
+                    <button class="card-header-icon" aria-label="more options"><span class="icon"><i class="fas fa-angle-down" aria-hidden="true"></i></span></button>
+                </header>
+                <div class="card-content is-hidden"><div class="content"><h4 class="title is-5">Gas Cv (Sub-critical)</h4><p>$$ C_v = \frac{Q}{962} \sqrt{\frac{SG \cdot T}{P_1^2 - P_2^2}} $$</p><h4 class="title is-5">Gas Cv (Critical)</h4><p>$$ C_v = \frac{Q}{816 \cdot P_1} \sqrt{SG \cdot T} $$</p></div></div>
+            </div>
         </div>
-
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-            <div id="navbarBasicExample" class="navbar-menu is-active">
-              <div class="navbar-start">
-                <a href="../index.html" class="navbar-item">Home</a>
-                <div class="navbar-item has-dropdown is-hoverable">
-                  <a href="./gascalculation.html" class="navbar-link">Gas</a>
-                  <div class="navbar-dropdown">
-                    <a href="./gascalculation_watersat.html" class="navbar-item">Water Saturation</a>
-                    <a href="./gascalculation_cv.html" class="navbar-item">Cv Calculation</a>
-                  </div>
-                </div>
-                <div class="navbar-item has-dropdown is-hoverable">
-                  <a href="./liquidcalculation.html" class="navbar-link">Liquid</a>
-                  <div class="navbar-dropdown">
-                    <a href="./liquidcalculation_cv.html" class="navbar-item">Cv Calculation</a>
-                  </div>
-                </div>
-                <a href="./linecalculation.html" class="navbar-item">Line Calculation</a>
-              </div>
-            </div>
-        </nav>
-
-        <h1 class="title is-2 has-text-centered">Gas Cv Calculation</h1>
-        <div class="box">
-          <div class="columns is-vcentered">
-            <div class="column is-one-quarter">
-              <label class="label">Calculation for:</label>
-            </div>
-            <div class="control column is-one-quarter">
-              <label class="radio">
-                <input type="radio" id="cvmode" name="select" value="cvmode" checked />
-                CV
-              </label>
-              <label class="radio">
-                <input type="radio" id="flow" name="select" value="flow" />
-                Flow
-              </label>
-            </div>
-          </div>
-
-          <div id="classFlow" class="not-hidden">
-            <div class="field">
-                <label class="label">Tipo de Flujo de Entrada</label>
-                <div class="control">
-                    <label class="radio">
-                        <input type="radio" id="unit_vol" name="flow_unit_gas" value="vol" checked> Volumétrico
-                    </label>
-                    <label class="radio">
-                        <input type="radio" id="unit_mass" name="flow_unit_gas" value="mass"> Másico
-                    </label>
-                </div>
-            </div>
-            <div class="columns">
-              <div class="column is-one-quarter">
-                <label class="label" id="GasFlowLabel">Gas Flow (Sm³/D)</label>
-              </div>
-              <div class="column is-one-quarter">
-                  <div class="control">
-                      <input id="GasFlow" class="input" type="number" placeholder="240000"/>
-                  </div>
-              </div>
-            </div>
-          </div>
-
-          <div id="classCV" class="columns is-hidden">
-            <div class="column is-one-quarter">
-              <label class="label">Cv</label>
-            </div>
-            <div class="column is-one-quarter">
-              <div class="control">
-                <input id="CV" class="input" type="number" placeholder="20"/>
-              </div>
-            </div>
-          </div>
-
-          <div class="columns">
-            <div class="column is-one-quarter">
-              <label class="label">Gas Temperature (°C)</label>
-            </div>
-            <div class="column is-one-quarter">
-                <div class="control">
-                    <input id="GasTemp" class="input" type="number" placeholder="60"/>
-                </div>
-            </div>
-          </div>
-          <div class="columns">
-            <div class="column is-one-quarter">
-              <label class="label">Pressure inlet (kgf/cm²g)</label>
-            </div>
-            <div class="column is-one-quarter">
-                <div class="control">
-                    <input id="GasPresIn" class="input" type="number" placeholder="50"/>
-                </div>
-            </div>
-          </div>
-          <div class="columns">
-            <div class="column is-one-quarter">
-              <label class="label">Pressure Outlet (kgf/cm²g)</label>
-            </div>
-            <div class="column is-one-quarter">
-                <div class="control">
-                    <input id="GasPresOut" class="input" type="number" placeholder="40"/>
-                </div>
-            </div>
-          </div>
-          <div class="columns">
-            <div class="column is-one-quarter">
-              <label class="label">Specific Gravity (sg)</label>
-            </div>
-            <div class="column is-one-quarter">
-                <div class="control">
-                    <input id="sg" class="input" type="number" placeholder="0.6"/>
-                </div>
-            </div>
-          </div>
-          <div class="columns">
-            <div class="column is-one-quarter">
-              <label class="label">k (Cp/Cv)</label>
-            </div>
-            <div class="column is-one-quarter">
-              <div class="control">
-                <input id="k" class="input" type="number" placeholder="1.3"/>
-              </div>
-            </div>
-          </div>
-
-          <div class="field is-grouped">
-            <div class="control">
-              <button id="btncalc" class="button is-link">Calc</button>
-            </div>
-            <div class="control">
-              <button id="btnclear" class="button is-link is-light">Clear</button>
-            </div>
-          </div>
-          <section class="hero is-info is-half mt-5">
-            <div class="hero-body column is-half">
-              <p id="result" class="title is-4"></p>
-            </div>
-          </section>
-
-          <div id="diameter-section" class="box mt-5 is-hidden">
-            <h2 class="title is-4">Estimación del Diámetro del Trim</h2>
-            <div class="columns">
-              <div class="column is-one-quarter">
-                <label class="label">Coeficiente de Descarga (Cd)</label>
-              </div>
-              <div class="column is-one-quarter">
-                <div class="control">
-                  <input id="dischargeCoeff" class="input" type="number" value="0.75" placeholder="0.75"/>
-                </div>
-              </div>
-            </div>
-            <div class="field">
-              <div class="control">
-                <button id="btnCalcDiameter" class="button is-primary">Calcular Diámetro</button>
-              </div>
-            </div>
-            <div id="diameterResult" class="mt-4 content"></div>
-          </div>
-        </div>
-      </div>
     </section>
-  </body>
+</body>
 </html>

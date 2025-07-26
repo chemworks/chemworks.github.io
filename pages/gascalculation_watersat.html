@@ -1,79 +1,50 @@
 <!DOCTYPE html>
-<html>
-  <head>
+<html lang="en">
+<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gas Water Saturation</title>
     <link rel="stylesheet" href="../styles/styles.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../js/script.js" defer></script>
     <script type="text/javascript" src="../js/watersat.js" defer></script>
-  </head>
-  <body>
+</head>
+<body>
     <section class="section">
-      <div class="container">
-        <div class="has-text-centered">
-            <img src="data:image/svg+xml;base64,..." alt="Chem Works Logo" style="height: 80px; margin-bottom: 1rem;">
-        </div>
+        <div class="container">
+            <div class="has-text-centered"><img src="data:image/svg+xml;base64,..." alt="Chem Works Logo" style="height: 80px; margin-bottom: 1rem;"></div>
+            <nav class="navbar" role="navigation" aria-label="main navigation"></nav>
+            <h1 class="title is-2 has-text-centered">Gas Water Saturation</h1>
 
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-            <div id="navbarBasicExample" class="navbar-menu is-active">
-              <div class="navbar-start">
-                <a href="../index.html" class="navbar-item">Home</a>
-                <div class="navbar-item has-dropdown is-hoverable">
-                  <a href="./gascalculation.html" class="navbar-link">Gas</a>
-                  <div class="navbar-dropdown">
-                    <a href="./gascalculation_watersat.html" class="navbar-item">Water Saturation</a>
-                    <a href="./gascalculation_cv.html" class="navbar-item">Cv Calculation</a>
-                  </div>
+            <div class="card mb-5">
+                <header class="card-header is-clickable">
+                    <p class="card-header-title">Project Information</p>
+                    <button class="card-header-icon" aria-label="more options"><span class="icon"><i class="fas fa-angle-down" aria-hidden="true"></i></span></button>
+                </header>
+                <div class="card-content is-hidden">
+                    <form class="box"><div class="field"><label class="label">Project Name</label><div class="control"><input class="input" type="text" placeholder="e.g., Gas Dehydration Unit"></div></div></form>
                 </div>
-                <div class="navbar-item has-dropdown is-hoverable">
-                  <a href="./liquidcalculation.html" class="navbar-link">Liquid</a>
-                  <div class="navbar-dropdown">
-                    <a href="./liquidcalculation_cv.html" class="navbar-item">Cv Calculation</a>
-                  </div>
-                </div>
-                <a href="./linecalculation.html" class="navbar-item">Line Calculation</a>
-              </div>
             </div>
-        </nav>
 
-        <h1 class="title is-2 has-text-centered">Gas Water Saturation</h1>
-        <div class="box">
-          <div class="columns">
-            <div class="column is-one-quarter">
-              <label class="label">Gas Temperature (°C)</label>
+            <div class="box">
+                <div class="columns"><div class="column is-one-quarter"><p class="label">Gas Temperature (°C)</p></div><div class="column is-one-quarter"><input id="GasTemp" class="input is-rounded" type="number" placeholder="45"/></div></div>
+                <div class="columns"><div class="column is-one-quarter"><p class="label">Pressure (kgf/cm²g)</p></div><div class="column is-one-quarter"><input id="GasPres" class="input is-rounded" type="number" placeholder="70"/></div></div>
+                <div class="columns"><div class="column is-one-quarter"><button id="btncalc" class="button is-rounded is-primary is-fullwidth">Calc</button></div><div class="column is-one-quarter"><button id="btnclear" class="button is-rounded is-warning is-fullwidth">Clear</button></div></div>
+                <section class="hero is-info is-half mt-5"><div class="hero-body column is-half"><p id="result" class="title is-4"></p></div></section>
             </div>
-            <div class="column is-one-quarter">
-              <div class="control">
-                <input id="GasTemp" class="input" type="number" placeholder="45"/>
-              </div>
+
+            <div class="card mt-5">
+                <header class="card-header is-clickable">
+                    <p class="card-header-title">Formulas & Design Criteria</p>
+                    <button class="card-header-icon" aria-label="more options"><span class="icon"><i class="fas fa-angle-down" aria-hidden="true"></i></span></button>
+                </header>
+                <div class="card-content is-hidden">
+                    <div class="content"><h4 class="title is-5">Bukacek Correlation (Simplified)</h4><p>$$ W = \frac{A(T)}{P} + B(T) $$</p><p>Where W is water content, P is pressure, and A(T), B(T) are temperature-dependent coefficients from empirical data.</p></div>
+                </div>
             </div>
-          </div>
-          <div class="columns">
-            <div class="column is-one-quarter">
-              <label class="label">Pressure (kgf/cm²g)</label>
-            </div>
-            <div class="column is-one-quarter">
-              <div class="control">
-                <input id="GasPres" class="input" type="number" placeholder="70"/>
-              </div>
-            </div>
-          </div>
-          <div class="field is-grouped">
-            <div class="control">
-              <button id="btncalc" class="button is-link">Calc</button>
-            </div>
-            <div class="control">
-              <button id="btnclear" class="button is-link is-light">Clear</button>
-            </div>
-          </div>
-          <section class="hero is-info is-half mt-5">
-            <div class="hero-body column is-half">
-              <p id="result" class="title is-4"></p>
-            </div>
-          </section>
         </div>
-      </div>
     </section>
-  </body>
+</body>
 </html>
