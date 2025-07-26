@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Memoria de Cálculo de Líneas</title>
+    <title>Line Calculation Sheet</title>
     <link rel="stylesheet" href="../styles/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
@@ -36,13 +36,13 @@
                 </div>
             </nav>
 
-            <h1 class="title is-2 has-text-centered">Memoria de Cálculo de Líneas</h1>
-            <p class="subtitle is-5 has-text-centered">Herramienta de dimensionamiento y verificación</p>
+            <h1 class="title is-2 has-text-centered">Line Calculation Sheet</h1>
+            <p class="subtitle is-5 has-text-centered">Sizing and Verification Tool</p>
 
             <div class="card mb-5">
                 <header class="card-header is-clickable">
                     <p class="card-header-title">
-                        Información del Proyecto y Criterios de Diseño
+                        Project Information & Design Criteria
                     </p>
                     <button class="card-header-icon" aria-label="more options">
                         <span class="icon">
@@ -52,48 +52,48 @@
                 </header>
                 <div class="card-content is-hidden">
                     <div class="content">
-                        <h2 class="title is-4">Información del Proyecto</h2>
+                        <h2 class="title is-4">Project Information</h2>
                         <form id="project-info-form" class="box">
                             <div class="field">
-                                <label class="label">Nombre del Proyecto</label>
+                                <label class="label">Project Name</label>
                                 <div class="control">
-                                    <input class="input" type="text" id="project-name" placeholder="Ej: Proyecto de Red de Gas" required>
+                                    <input class="input" type="text" id="project-name" placeholder="e.g., Gas Network Project" required>
                                 </div>
                             </div>
                             <div class="field">
-                                <label class="label">Número de Proyecto</label>
+                                <label class="label">Project Number</label>
                                 <div class="control">
-                                    <input class="input" type="text" id="project-number" placeholder="Ej: PRJ-2025-001" required>
+                                    <input class="input" type="text" id="project-number" placeholder="e.g., PRJ-2025-001" required>
                                 </div>
                             </div>
                             <div class="field">
-                                <label class="label">Cliente</label>
+                                <label class="label">Client</label>
                                 <div class="control">
-                                    <input class="input" type="text" id="client" placeholder="Ej: Energía del Futuro S.A." required>
+                                    <input class="input" type="text" id="client" placeholder="e.g., Future Energy Inc." required>
                                 </div>
                             </div>
                             <div class="field">
-                                <label class="label">Preparado por</label>
+                                <label class="label">Prepared by</label>
                                 <div class="control">
-                                    <input class="input" type="text" id="prepared-by" placeholder="Ej: Tu Nombre / Depto. Ingeniería" required>
+                                    <input class="input" type="text" id="prepared-by" placeholder="e.g., Your Name / Engineering Dept." required>
                                 </div>
                             </div>
                             <div class="field">
-                                <label class="label">Revisado por</label>
+                                <label class="label">Reviewed by</label>
                                 <div class="control">
-                                    <input class="input" type="text" id="reviewed-by" placeholder="Ej: Nombre del Revisor" required>
+                                    <input class="input" type="text" id="reviewed-by" placeholder="e.g., Reviewer's Name" required>
                                 </div>
                             </div>
                             <div class="field is-grouped">
                                 <div class="control">
-                                    <button type="submit" class="button is-link">Guardar Información</button>
+                                    <button type="submit" class="button is-link">Save Information</button>
                                 </div>
                             </div>
                         </form>
                         <div id="project-info-display" class="content mt-4">
                             </div>
 
-                        <h2 class="title is-4 mt-5">Criterios de Diseño</h2>
+                        <h2 class="title is-4 mt-5">Design Criteria</h2>
                         <div id="design-criteria-display" class="content">
                             </div>
                     </div>
@@ -101,19 +101,19 @@
             </div>
 
             <div class="box mt-5">
-                <h2 class="title is-4">Gestión de Condiciones de Proceso</h2>
+                <h2 class="title is-4">Process Conditions Management</h2>
                 <form id="process-condition-form" class="box">
-                    <h3 class="title is-5">Añadir/Editar Corriente</h3>
+                    <h3 class="title is-5">Add/Edit Stream</h3>
                     <div class="field">
-                        <label class="label">Nombre de Corriente</label>
+                        <label class="label">Stream Name</label>
                         <div class="control">
-                            <input class="input" type="text" id="pc-stream-name" placeholder="Ej: Stream A" required>
+                            <input class="input" type="text" id="pc-stream-name" placeholder="e.g., Stream A" required>
                         </div>
                     </div>
                     <div class="columns is-multiline">
                         <div class="column is-one-third">
                             <div class="field">
-                                <label class="label">Caudal Gas (Sm³/D)</label>
+                                <label class="label">Gas Flow (Sm³/D)</label>
                                 <div class="control">
                                     <input class="input" type="number" step="any" id="pc-gas-flow" value="0">
                                 </div>
@@ -121,7 +121,7 @@
                         </div>
                         <div class="column is-one-third">
                             <div class="field">
-                                <label class="label">Presión (kgf/cm²g)</label>
+                                <label class="label">Pressure (kgf/cm²g)</label>
                                 <div class="control">
                                     <input class="input" type="number" step="any" id="pc-pressure" value="0" required>
                                 </div>
@@ -129,7 +129,7 @@
                         </div>
                         <div class="column is-one-third">
                             <div class="field">
-                                <label class="label">Temperatura (°C)</label>
+                                <label class="label">Temperature (°C)</label>
                                 <div class="control">
                                     <input class="input" type="number" step="any" id="pc-temperature" value="0" required>
                                 </div>
@@ -137,7 +137,7 @@
                         </div>
                         <div class="column is-one-third">
                             <div class="field">
-                                <label class="label">Peso Molecular (MW)</label>
+                                <label class="label">Molecular Weight (MW)</label>
                                 <div class="control">
                                     <input class="input" type="number" step="any" id="pc-mw" value="0">
                                 </div>
@@ -145,7 +145,7 @@
                         </div>
                         <div class="column is-one-third">
                             <div class="field">
-                                <label class="label">Factor Z</label>
+                                <label class="label">Z Factor</label>
                                 <div class="control">
                                     <input class="input" type="number" step="any" id="pc-z-factor" value="1" required>
                                 </div>
@@ -161,7 +161,7 @@
                         </div>
                          <div class="column is-one-third">
                             <div class="field">
-                                <label class="label">Viscosidad (cP)</label>
+                                <label class="label">Viscosity (cP)</label>
                                 <div class="control">
                                     <input class="input" type="number" step="any" id="pc-viscosity" value="0.012">
                                 </div>
@@ -169,7 +169,7 @@
                         </div>
                         <div class="column is-one-third">
                             <div class="field">
-                                <label class="label">Caudal Líq. Liviano (m³/D)</label>
+                                <label class="label">Light Liq. Flow (m³/D)</label>
                                 <div class="control">
                                     <input class="input" type="number" step="any" id="pc-light-liq-flow" value="0">
                                 </div>
@@ -177,7 +177,7 @@
                         </div>
                         <div class="column is-one-third">
                             <div class="field">
-                                <label class="label">Densidad Líq. Liviano (kg/m³)</label>
+                                <label class="label">Light Liq. Density (kg/m³)</label>
                                 <div class="control">
                                     <input class="input" type="number" step="any" id="pc-light-liq-density" value="0">
                                 </div>
@@ -185,7 +185,7 @@
                         </div>
                         <div class="column is-one-third">
                             <div class="field">
-                                <label class="label">Caudal Líq. Pesado (m³/D)</label>
+                                <label class="label">Heavy Liq. Flow (m³/D)</label>
                                 <div class="control">
                                     <input class="input" type="number" step="any" id="pc-heavy-liq-flow" value="0">
                                 </div>
@@ -193,7 +193,7 @@
                         </div>
                         <div class="column is-one-third">
                             <div class="field">
-                                <label class="label">Densidad Líq. Pesado (kg/m³)</label>
+                                <label class="label">Heavy Liq. Density (kg/m³)</label>
                                 <div class="control">
                                     <input class="input" type="number" step="any" id="pc-heavy-liq-density" value="0">
                                 </div>
@@ -202,22 +202,22 @@
                     </div>
                     <div class="field is-grouped">
                         <div class="control">
-                            <button type="submit" class="button is-link">Guardar Corriente</button>
+                            <button type="submit" class="button is-link">Save Stream</button>
                         </div>
                         <div class="control">
-                            <button type="button" id="pc-clear-form-btn" class="button is-link is-light">Limpiar Formulario</button>
+                            <button type="button" id="pc-clear-form-btn" class="button is-link is-light">Clear Form</button>
                         </div>
                     </div>
                 </form>
 
                 <div class="level mt-5">
                     <div class="level-left">
-                        <h3 class="title is-5">Corrientes de Proceso Actuales</h3>
+                        <h3 class="title is-5">Current Process Streams</h3>
                     </div>
                     <div class="level-right">
                         <button id="delete-all-streams-btn" class="button is-danger is-small">
                             <span class="icon is-small"><i class="fas fa-trash"></i></span>
-                            <span>Eliminar Todas las Corrientes</span>
+                            <span>Delete All Streams</span>
                         </button>
                     </div>
                 </div>
@@ -226,33 +226,33 @@
             </div>
 
             <div class="box mt-5">
-                <h2 class="title is-4">Gestión de Líneas</h2>
+                <h2 class="title is-4">Line Management</h2>
                 <form id="line-form" class="box">
-                    <h3 class="title is-5">Añadir/Editar Línea</h3>
+                    <h3 class="title is-5">Add/Edit Line</h3>
                     <div class="columns">
                         <div class="column">
                             <div class="field">
-                                <label class="label">TAG de Línea</label>
+                                <label class="label">Line TAG</label>
                                 <div class="control">
-                                    <input class="input" type="text" id="line-tag" placeholder="Ej: 10-GH-001-CA11" required>
+                                    <input class="input" type="text" id="line-tag" placeholder="e.g., 10-GH-001-CA11" required>
                                 </div>
                             </div>
                         </div>
                         <div class="column">
                             <div class="field">
-                                <label class="label">Presión de Diseño (kgf/cm²g)</label>
+                                <label class="label">Design Pressure (kgf/cm²g)</label>
                                 <div class="control">
-                                    <input class="input" type="number" step="any" id="line-design-pressure" placeholder="Ej: 100" required>
+                                    <input class="input" type="number" step="any" id="line-design-pressure" placeholder="e.g., 100" required>
                                 </div>
                             </div>
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label">Tipo de Línea</label>
+                        <label class="label">Line Type</label>
                         <div class="control">
                             <div class="select is-fullwidth">
                                 <select id="line-type" required>
-                                    <option value="">Seleccione Tipo</option>
+                                    <option value="">Select Type</option>
                                     <option value="CF">CF (Continuous Flow)</option>
                                     <option value="NNF">NNF (Normally No Flow)</option>
                                     <option value="VL">VL (Vent Line)</option>
@@ -261,7 +261,7 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label">Corriente(s) Asociada(s)</label>
+                        <label class="label">Associated Stream(s)</label>
                         <div class="control">
                             <div class="select is-multiple is-fullwidth">
                                 <select id="line-stream-name" multiple required size="5">
@@ -270,7 +270,7 @@
                         </div>
                     </div>
                     <div class="field">
-                        <label class="label">Diámetro Seleccionado (ID)</label>
+                        <label class="label">Selected Diameter (ID)</label>
                         <div class="control">
                             <div class="select is-fullwidth">
                                 <select id="line-diameter-id" required>
@@ -280,10 +280,10 @@
                     </div>
                     <div class="field is-grouped">
                         <div class="control">
-                            <button type="submit" class="button is-link">Guardar Línea</button>
+                            <button type="submit" class="button is-link">Save Line</button>
                         </div>
                         <div class="control">
-                            <button type="button" id="line-clear-form-btn" class="button is-link is-light">Limpiar Formulario</button>
+                            <button type="button" id="line-clear-form-btn" class="button is-link is-light">Clear Form</button>
                         </div>
                     </div>
                     <p class="help" id="line-suggestion-display"></p>
@@ -291,12 +291,12 @@
 
                 <div class="level mt-5">
                      <div class="level-left">
-                        <h3 class="title is-5">Líneas Actuales</h3>
+                        <h3 class="title is-5">Current Lines</h3>
                     </div>
                     <div class="level-right">
                          <button id="delete-all-lines-btn" class="button is-danger is-small">
                             <span class="icon is-small"><i class="fas fa-trash"></i></span>
-                            <span>Eliminar Todas las Líneas</span>
+                            <span>Delete All Lines</span>
                         </button>
                     </div>
                 </div>
@@ -309,56 +309,56 @@
                 <p class="control">
                     <button id="calculate-btn" class="button is-primary is-medium">
                         <span class="icon is-small"><i class="fas fa-calculator"></i></span>
-                        <span>Calcular</span>
+                        <span>Calculate</span>
                     </button>
                 </p>
                 <p class="control">
                     <button id="save-project-btn" class="button is-success is-medium">
                         <span class="icon is-small"><i class="fas fa-save"></i></span>
-                        <span>Guardar Proyecto</span>
+                        <span>Save Project</span>
                     </button>
                 </p>
                 <p class="control">
                     <input type="file" id="load-project-file-input" style="display:none;" accept=".json">
                     <button id="load-project-btn" class="button is-info is-medium">
                         <span class="icon is-small"><i class="fas fa-upload"></i></span>
-                        <span>Cargar Proyecto</span>
+                        <span>Load Project</span>
                     </button>
                 </p>
                 <p class="control">
                     <button id="download-csv-btn" class="button is-link is-medium" disabled>
                         <span class="icon is-small"><i class="fas fa-file-csv"></i></span>
-                        <span>Descargar CSV</span>
+                        <span>Download CSV</span>
                     </button>
                 </p>
                 <p class="control">
                     <button id="download-pdf-btn" class="button is-danger is-medium" disabled>
                          <span class="icon is-small"><i class="fas fa-file-pdf"></i></span>
-                        <span>Descargar PDF</span>
+                        <span>Download PDF</span>
                     </button>
                 </p>
                  <p class="control">
                     <button id="download-all-btn" class="button is-dark is-medium" disabled>
                          <span class="icon is-small"><i class="fas fa-download"></i></span>
-                        <span>Descargar Todo</span>
+                        <span>Download All</span>
                     </button>
                 </p>
                  <p class="control">
                     <button id="reset-data-btn" class="button is-danger is-outlined is-medium">
                         <span class="icon is-small"><i class="fas fa-undo"></i></span>
-                        <span>Reiniciar</span>
+                        <span>Reset</span>
                     </button>
                 </p>
             </div>
 
             <div class="box mt-5" id="results-section" style="display:none;">
-                <h2 class="title is-4">Listado de Ingeniería (Tabla de Resultados)</h2>
+                <h2 class="title is-4">Engineering List (Results Table)</h2>
                 <div id="engineering-list-table" class="table-container"></div>
                 
                 <div class="card mt-5">
                     <header class="card-header is-clickable">
                         <p class="card-header-title">
-                            Resultados Detallados (Consola de Cálculo)
+                            Detailed Results (Calculation Console)
                         </p>
                         <button class="card-header-icon" aria-label="more options">
                             <span class="icon">
