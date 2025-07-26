@@ -5,8 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gas Cv Calculation</title>
     <link rel="stylesheet" href="../styles/styles.css" />
-    <script src="../js/script.js" defer></script>
-    <script type="text/javascript" src="../js/cvcalc.js" defer></script>
+    <script type="text/javascript" src="../js/cvcalculator.js" defer></script>
   </head>
   <body>
     <section class="section">
@@ -55,14 +54,27 @@
             </div>
           </div>
 
-          <div id="classFlow" class="columns not-hidden">
-            <div class="column is-one-quarter">
-              <label class="label">Gas Flow (Sm³/h)</label>
-            </div>
-            <div class="column is-one-quarter">
+          <div id="classFlow" class="not-hidden">
+            <div class="field">
+                <label class="label">Tipo de Flujo de Entrada</label>
                 <div class="control">
-                    <input id="GasFlow" class="input" type="number" placeholder="10000"/>
+                    <label class="radio">
+                        <input type="radio" id="unit_vol" name="flow_unit_gas" value="vol" checked> Volumétrico
+                    </label>
+                    <label class="radio">
+                        <input type="radio" id="unit_mass" name="flow_unit_gas" value="mass"> Másico
+                    </label>
                 </div>
+            </div>
+            <div class="columns">
+              <div class="column is-one-quarter">
+                <label class="label" id="GasFlowLabel">Gas Flow (Sm³/D)</label>
+              </div>
+              <div class="column is-one-quarter">
+                  <div class="control">
+                      <input id="GasFlow" class="input" type="number" placeholder="240000"/>
+                  </div>
+              </div>
             </div>
           </div>
 
@@ -97,7 +109,6 @@
                 </div>
             </div>
           </div>
-
           <div class="columns">
             <div class="column is-one-quarter">
               <label class="label">Pressure Outlet (kgf/cm²g)</label>
@@ -108,7 +119,6 @@
                 </div>
             </div>
           </div>
-
           <div class="columns">
             <div class="column is-one-quarter">
               <label class="label">Specific Gravity (sg)</label>
@@ -143,6 +153,26 @@
               <p id="result" class="title is-4"></p>
             </div>
           </section>
+
+          <div id="diameter-section" class="box mt-5 is-hidden">
+            <h2 class="title is-4">Estimación del Diámetro del Trim</h2>
+            <div class="columns">
+              <div class="column is-one-quarter">
+                <label class="label">Coeficiente de Descarga (Cd)</label>
+              </div>
+              <div class="column is-one-quarter">
+                <div class="control">
+                  <input id="dischargeCoeff" class="input" type="number" value="0.75" placeholder="0.75"/>
+                </div>
+              </div>
+            </div>
+            <div class="field">
+              <div class="control">
+                <button id="btnCalcDiameter" class="button is-primary">Calcular Diámetro</button>
+              </div>
+            </div>
+            <div id="diameterResult" class="mt-4 content"></div>
+          </div>
         </div>
       </div>
     </section>
