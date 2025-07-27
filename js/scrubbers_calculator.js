@@ -339,7 +339,7 @@ function calculateScrubbers() {
 
             allResults.push({
                 caseName: conditionCase.name, stageName, params,
-                q_g_actual, q_l_total_actual, rho_g, rho_l, v_max, area_req,
+                q_g_actual, q_l_total_actual, rho_g, rho_l, rho_m_inlet, v_max, area_req,
                 requiredDiameterIn: diameter_req_m * M_TO_IN, requiredDiameterMm: diameter_req_m * 1000,
                 inletNozzleIn: Math.sqrt(4 * inlet_area / Math.PI) * M_TO_IN, inletNozzleMm: Math.sqrt(4 * inlet_area / Math.PI) * 1000,
                 gasOutletNozzleIn: Math.sqrt(4 * gas_outlet_area / Math.PI) * M_TO_IN, gasOutletNozzleMm: Math.sqrt(4 * gas_outlet_area / Math.PI) * 1000,
@@ -415,16 +415,7 @@ function renderResultsTable(results) {
         });
     });
 
-    const fullTableHtml = `
-        <h3 class="title is-5">Sizing Summary</h3>
-        <p class="subtitle is-6">The controlling case for each parameter is marked in <strong>bold</strong>. All diameters are internal.</p>
-        <div class="table-container">
-            <table class="table is-fullwidth is-bordered is-striped is-hoverable">
-                <thead><tr>${headerHtml}</tr></thead>
-                <tbody>${bodyHtml}</tbody>
-            </table>
-        </div>`;
-    
+    const fullTableHtml = `<h3 class="title is-5">Sizing Summary</h3><p class="subtitle is-6">The controlling case for each parameter is marked in <strong>bold</strong>. All diameters are internal.</p><div class="table-container"><table class="table is-fullwidth is-bordered is-striped is-hoverable"><thead><tr>${headerHtml}</tr></thead><tbody>${bodyHtml}</tbody></table></div>`;
     container.innerHTML = fullTableHtml;
     section.style.display = 'block';
     section.scrollIntoView({ behavior: 'smooth' });
@@ -440,22 +431,30 @@ function renderCalculationMemo(results) {
         memoHtml += `
             <div class="box mb-4">
                 <h4 class="title is-6">Case: ${res.caseName} - Equipment: ${res.stageName}</h4>
-                <ul>
-                    <li>Actual Gas Flow (q_g): ${res.q_g_actual.toFixed(4)} m³/s</li>
-                    <li>Actual Liquid Flow (q_l): ${res.q_l_total_actual.toFixed(5)} m³/s</li>
-                    <li>Gas Density (ρ_g): ${res.rho_g.toFixed(3)} kg/m³</li>
-                    <li>Liquid Density (ρ_l): ${res.rho_l.toFixed(3)} kg/m³</li>
-                    <li>Max. Gas Velocity (v_max): ${res.v_max.toFixed(3)} m/s</li>
-                    <li>Required Area (A_gas): ${res.area_req.toFixed(4)} m²</li>
-                    <li><strong>Required Vessel ID: ${res.requiredDiameterIn.toFixed(2)} in (${res.requiredDiameterMm.toFixed(2)} mm)</strong></li>
-                </ul>
+                <div class="table-container">
+                    <table class="table is-fullwidth is-bordered is-narrow">
+                        <tbody>
+                            <tr><td>Actual Gas Flow (q_g)</td><td>${res.q_g_actual.toFixed(4)} m³/s</td></tr>
+                            <tr><td>Actual Liquid Flow (q_l)</td><td>${res.q_l_total_actual.toFixed(5)} m³/s</td></tr>
+                            <tr><td>Gas Density (ρ_g)</td><td>${res.rho_g.toFixed(3)} kg/m³</td></tr>
+                            <tr><td>Liquid Density (ρ_l)</td><td>${res.rho_l.toFixed(3)} kg/m³</td></tr>
+                            <tr><td>Mixture Inlet Density (ρ_m)</td><td>${res.rho_m_inlet.toFixed(3)} kg/m³</td></tr>
+                            <tr><td>Max. Gas Velocity (v_max)</td><td>${res.v_max.toFixed(3)} m/s</td></tr>
+                            <tr><td>Required Vessel Area (A_gas)</td><td>${res.area_req.toFixed(4)} m²</td></tr>
+                            <tr><td class="has-text-weight-bold">Required Vessel ID</td><td class="has-text-weight-bold">${res.requiredDiameterIn.toFixed(2)} in (${res.requiredDiameterMm.toFixed(2)} mm)</td></tr>
+                            <tr><td>Required Inlet Nozzle ID</td><td>${res.inletNozzleIn.toFixed(2)} in (${res.inletNozzleMm.toFixed(2)} mm)</td></tr>
+                            <tr><td>Required Gas Outlet Nozzle ID</td><td>${res.gasOutletNozzleIn.toFixed(2)} in (${res.gasOutletNozzleMm.toFixed(2)} mm)</td></tr>
+                            <tr><td>Required Liquid Outlet ID</td><td>${res.liquidOutletNozzleIn.toFixed(2)} in (${res.liquidOutletNozzleMm.toFixed(2)} mm)</td></tr>
+                            <tr><td>Required NLL</td><td>${res.nllIn.toFixed(2)} in (${res.nllMm.toFixed(2)} mm)</td></tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>`;
     });
 
     container.innerHTML = memoHtml;
     section.style.display = 'block';
 }
-
 
 // --- Project Data Functions ---
 function getFormattedFileName(extension) {
