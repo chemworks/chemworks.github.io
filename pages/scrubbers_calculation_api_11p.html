@@ -6,6 +6,8 @@
     <title>Scrubbers Calculation s/API 11P</title>
     <link rel="stylesheet" href="../styles/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js" defer></script>
 </head>
@@ -13,40 +15,41 @@
     <section class="section">
         <div class="container">
             <div class="has-text-centered">
-                 <img src="data:image/svg+xml;base64,...(logo)..." alt="Chem Works Logo" class="chemworks-logo">
+                 <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZm9udC1mYW1pbHk9Ik1vbnRzZXJyYXQsIHNhbnMtc2VyaWYiPg0KICA8IS0tIA0KICAgIExvZ28gcGFyYSBDaGVtIFdvcmtzDQogICAgVmVyc2nDs246IE1vbGVjdWxhciBjb24gaW5pY2lhbGVzIENXDQogICAgRXN0ZSBhcmNoaXZvIFNWRyBlcyBlc2NhbGFibGUgYSBjdWFscXVpZXIgdGFtYcOxbyBzaW4gcGVyZGVyIGNhbGxpZGFkYS4NCiAgLS0+DQoNCiAgPCEtLSBHcnVwbyBwcmluY2lwYWwgcXVlIGNvbnRpZW5lIHRvZG9zIGxvcyBlbGVtZW50b3MgZGVsIGxvZ28gLS0+DQogIDxnPg0KICAgIDwhLS0gQW5pbGxvIGRlIGJlbmNlbm8gKGhleMOhZ29ubykgLS0+DQogICAgPGcgc3Ryb2tlPSIjNEE5MEUyIiBzdHJva2Utd2lkdGg9IjEyIiBmaWxsPSJub25lIj4NCiAgICAgIDxwYXRoIGQ9Ik0xMDAgMjUgTDE3NSA2Mi41IFYxMzcuNSBMMTAwIDE3NSBMMjUgMTM3LjUgVjYyLjUgTDEwMCAyNVoiIC8+DQogICAgICANCiAgICAgIDwhLS0gQyByY3Vsb2MgaW50ZXJpb3IgcGFyYSBhbG9qYXIgbGFzIGxldHJhcyAtLT4NCiAgICAgIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iMzUiIGZpbGw9IiM0QTkwRTIiIHN0cm9rZT0ibm9uZSIvPg0KICAgIDwvZz4NCiAgICANCiAgICA8IS0tIExldHJhcyAnQycgeSAnVycg0KICAgIDx0ZXh0IHg9IjYyIiB5PSIxMTMiIGZvbnQtc2l6ZT0iNDUiIGZpbGw9IndoaXRlIiBmb250LXdlaWdodD0iYm9sZCI+QzwvdGV4dD4NCiAgICA8dGV4dCB4PSI5MiIgeT0iMTEzIiBmb250LXNpemU9IjQ1IiBmaWxsPSJ3aGl0ZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlc8L3RleHQ+PC9zdmc+" alt="Chem Works Logo" class="chemworks-logo">
             </div>
+
             <nav class="navbar" role="navigation" aria-label="main navigation">
-                 <div id="navbarBasicExample" class="navbar-menu is-active">
-                  <div class="navbar-start">
-                    <a href="../index.html" class="navbar-item">Home</a>
-                    <div class="navbar-item has-dropdown is-hoverable">
-                      <a href="./gascalculation.html" class="navbar-link">Gas</a>
-                      <div class="navbar-dropdown">
-                        <a href="./gascalculation_watersat.html" class="navbar-item">Water Saturation</a>
-                        <a href="./gascalculation_cv.html" class="navbar-item">Cv Calculation</a>
-                      </div>
+            <div id="navbarBasicExample" class="navbar-menu is-active">
+                <div class="navbar-start">
+                <a href="../index.html" class="navbar-item">Home</a>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a href="./gascalculation.html" class="navbar-link">Gas</a>
+                    <div class="navbar-dropdown">
+                    <a href="./gascalculation_watersat.html" class="navbar-item">Water Saturation</a>
+                    <a href="./gascalculation_cv.html" class="navbar-item">Cv Calculation</a>
                     </div>
-                    <div class="navbar-item has-dropdown is-hoverable">
-                      <a href="./liquidcalculation.html" class="navbar-link">Liquid</a>
-                      <div class="navbar-dropdown">
-                        <a href="./liquidcalculation_cv.html" class="navbar-item">Cv Calculation</a>
-                      </div>
-                    </div>
-                    <a href="./linecalculation.html" class="navbar-item">Line Calculation</a>
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a href="#" class="navbar-link">Vents & Blowdown</a>
-                        <div class="navbar-dropdown">
-                            <a href="./depressurization_calculation.html" class="navbar-item">Depressurization Calculation</a>
-                        </div>
-                    </div>
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a href="#" class="navbar-link">Compression</a>
-                        <div class="navbar-dropdown">
-                            <a href="./scrubbers_calculation_api_11p.html" class="navbar-item">Scrubbers Calculation s/API 11P</a>
-                        </div>
-                    </div>
-                  </div>
                 </div>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a href="./liquidcalculation.html" class="navbar-link">Liquid</a>
+                    <div class="navbar-dropdown">
+                    <a href="./liquidcalculation_cv.html" class="navbar-item">Cv Calculation</a>
+                    </div>
+                </div>
+                <a href="./linecalculation.html" class="navbar-item">Line Calculation</a>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a href="#" class="navbar-link">Vents & Blowdown</a>
+                    <div class="navbar-dropdown">
+                        <a href="./depressurization_calculation.html" class="navbar-item">Depressurization Calculation</a>
+                    </div>
+                </div>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a href="#" class="navbar-link">Compression</a>
+                    <div class="navbar-dropdown">
+                        <a href="./scrubbers_calculation_api_11p.html" class="navbar-item">Scrubbers Calculation s/API 11P</a>
+                    </div>
+                </div>
+                </div>
+            </div>
             </nav>
 
             <h1 class="title is-2 has-text-centered">Scrubbers Calculation</h1>
@@ -58,7 +61,6 @@
                 <form id="condition-form" class="box mb-5">
                     <h3 class="title is-5" id="condition-form-title">Add New Condition Case</h3>
                     <input type="hidden" id="edit-index" value="-1">
-
                     <div class="columns">
                         <div class="column">
                             <div class="field">
@@ -84,9 +86,7 @@
                             </div>
                         </div>
                     </div>
-
                     <div id="dynamic-scrubber-inputs" class="mt-4"></div>
-
                     <div class="field is-grouped mt-4">
                         <div class="control">
                             <button type="submit" class="button is-link">Save Condition Case</button>
@@ -101,6 +101,36 @@
                 <div id="conditions-table-container" class="table-container"></div>
             </div>
 
+            <div id="resultsSection" class="box mt-5" style="display:none;">
+                <h2 class="title is-4">Calculation Results</h2>
+                <div id="resultsDisplay" class="content"></div>
+            </div>
+            
+            <div class="card mt-5">
+                <header class="card-header is-clickable">
+                    <p class="card-header-title">Formulas & Explanation</p>
+                    <button class="card-header-icon" aria-label="more options"><span class="icon"><i class="fas fa-angle-down" aria-hidden="true"></i></span></button>
+                </header>
+                <div class="card-content is-hidden">
+                    <div class="content">
+                        <h4 class="title is-5">Vertical Separator Sizing (API 11P / ISO 13631)</h4>
+                        <p>El diámetro del separador se calcula a partir de la velocidad máxima permisible del gas, que evita el arrastre de gotas de líquido. La fórmula, basada en la sección <strong>10.2.6</strong> de la norma, es:</p>
+                        <p>$$ v = K \cdot \sqrt{\frac{\rho_l - \rho_g}{\rho_g}} $$</p>
+                        <p>Donde:</p>
+                        <ul>
+                            <li><b>v</b>: Velocidad máxima permisible del gas (m/s)</li>
+                            <li><b>K</b>: Coeficiente empírico de diseño (ft/s). El valor se convierte internamente a m/s.</li>
+                            <li><b>ρ_l</b>: Densidad del líquido en condiciones de operación (kg/m³)</li>
+                            <li><b>ρ_g</b>: Densidad del gas en condiciones de operación (kg/m³)</li>
+                        </ul>
+                        <p>Una vez calculada la velocidad máxima, el área de flujo requerida (A) se determina con el caudal actual de gas (Qg):</p>
+                        <p>$$ A = \frac{Q_g}{v} $$</p>
+                        <p>Finalmente, el diámetro interno requerido (D) del separador es:</p>
+                        <p>$$ D = \sqrt{\frac{4 \cdot A}{\pi}} $$</p>
+                    </div>
+                </div>
+            </div>
+
             <div class="field is-grouped is-grouped-centered mt-5">
                 <p class="control">
                     <button id="calculateBtn" class="button is-primary is-medium">
@@ -108,12 +138,43 @@
                         <span>Calculate</span>
                     </button>
                 </p>
-            </div>
-
-            <div id="resultsSection" class="box mt-5" style="display:none;">
-                <h2 class="title is-4">Calculation Results</h2>
-                <div id="resultsDisplay" class="content">
-                    </div>
+                <p class="control">
+                    <button id="save-project-btn" class="button is-success is-medium">
+                        <span class="icon is-small"><i class="fas fa-save"></i></span>
+                        <span>Save Project</span>
+                    </button>
+                </p>
+                <p class="control">
+                    <input type="file" id="load-project-file-input" style="display:none;" accept=".json">
+                    <button id="load-project-btn" class="button is-info is-medium">
+                        <span class="icon is-small"><i class="fas fa-upload"></i></span>
+                        <span>Load Project</span>
+                    </button>
+                </p>
+                <p class="control">
+                    <button id="download-csv-btn" class="button is-link is-medium" disabled>
+                        <span class="icon is-small"><i class="fas fa-file-csv"></i></span>
+                        <span>Download CSV</span>
+                    </button>
+                </p>
+                <p class="control">
+                    <button id="download-pdf-btn" class="button is-danger is-medium" disabled>
+                         <span class="icon is-small"><i class="fas fa-file-pdf"></i></span>
+                        <span>Download PDF</span>
+                    </button>
+                </p>
+                 <p class="control">
+                    <button id="download-all-btn" class="button is-dark is-medium" disabled>
+                         <span class="icon is-small"><i class="fas fa-download"></i></span>
+                        <span>Download All</span>
+                    </button>
+                </p>
+                 <p class="control">
+                    <button id="reset-data-btn" class="button is-danger is-outlined is-medium">
+                        <span class="icon is-small"><i class="fas fa-undo"></i></span>
+                        <span>Reset</span>
+                    </button>
+                </p>
             </div>
 
         </div>

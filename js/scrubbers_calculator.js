@@ -1,6 +1,14 @@
 // --- Global Data Store ---
-let projectInfo = { "Project Name": "Scrubber Sizing Study", "Date": "" };
+let projectInfo = {
+    "Project Name": "Scrubber Sizing Study",
+    "Project Number": "SCB-2025-001",
+    "Client": "Acme Inc.",
+    "Prepared by": "Engineering Dept.",
+    "Reviewed by": "Reviewer's Name",
+    "Date": new Date().toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' })
+};
 let conditions = []; // Array to store all condition cases
+const originalConditions = []; // To store initial state for reset
 
 // --- Constants ---
 const K_VALUE_PRESETS = { "C": 0.18, "B": 0.25, "A": 0.35 };
@@ -12,50 +20,61 @@ const R_UNIVERSAL_J_MOLK = 8.31446;
 const P_STANDARD_KGF_CM2A = 1.03323;
 const T_STANDARD_K = 273.15;
 const FT_PER_S_TO_M_PER_S = 0.3048;
+const M_TO_IN = 39.3701;
 
 // --- DOMContentLoaded: Initial Setup ---
 window.addEventListener('DOMContentLoaded', () => {
+    // Initial UI Rendering
     renderConditionsTable();
     renderDynamicInputs();
 
+    // --- Event Listeners ---
     document.getElementById('numStages').addEventListener('change', renderDynamicInputs);
     document.getElementById('condition-form').addEventListener('submit', handleFormSubmit);
     document.getElementById('clear-form-btn').addEventListener('click', clearForm);
+
+    // Collapsible Card Headers
+    document.querySelectorAll('.card-header.is-clickable').forEach(header => {
+        header.addEventListener('click', () => {
+            const content = header.closest('.card').querySelector('.card-content');
+            if (content) content.classList.toggle('is-hidden');
+            const icon = header.querySelector('.icon .fas');
+            if (icon) {
+                icon.classList.toggle('fa-angle-down');
+                icon.classList.toggle('fa-angle-up');
+            }
+        });
+    });
+
+    // Main Action Buttons
     document.getElementById('calculateBtn').addEventListener('click', calculateScrubbers);
+    document.getElementById('save-project-btn').addEventListener('click', saveProjectData);
+    document.getElementById('load-project-btn').addEventListener('click', () => document.getElementById('load-project-file-input').click());
+    document.getElementById('load-project-file-input').addEventListener('change', loadProjectData);
+    document.getElementById('reset-data-btn').addEventListener('click', resetData);
+
+    // Note: Download buttons are enabled after calculation in their respective functions
 });
 
-/**
- * Sets up the interactive logic for a K-value selector group.
- */
+// --- UI Rendering Functions ---
+
 function setupKValueControlsForStage(stageIdPrefix) {
     const optionsSelect = document.getElementById(`${stageIdPrefix}-k-options`);
     const valueInput = document.getElementById(`${stageIdPrefix}-k-input`);
-
     if (!optionsSelect || !valueInput) return;
 
     optionsSelect.addEventListener('change', () => {
-        if (optionsSelect.value === 'custom') {
-            valueInput.disabled = false;
-            valueInput.value = '';
-            valueInput.focus();
-        } else {
-            valueInput.disabled = true;
-            valueInput.value = optionsSelect.value;
-        }
+        valueInput.disabled = optionsSelect.value !== 'custom';
+        valueInput.value = optionsSelect.value === 'custom' ? '' : optionsSelect.value;
+        if (optionsSelect.value === 'custom') valueInput.focus();
     });
-    if (optionsSelect.value !== 'custom') {
-        valueInput.value = optionsSelect.value;
-    }
+    optionsSelect.dispatchEvent(new Event('change'));
 }
 
-/**
- * Renders the input fields for each scrubber stage and the discharge stage.
- */
 function renderDynamicInputs() {
     const numStages = parseInt(document.getElementById('numStages').value);
     const container = document.getElementById('dynamic-scrubber-inputs');
     container.innerHTML = '';
-
     const totalSections = numStages + 1;
 
     for (let i = 1; i <= totalSections; i++) {
@@ -108,9 +127,49 @@ function renderDynamicInputs() {
     }
 }
 
-/**
- * Handles the submission of the main condition form.
- */
+function renderConditionsTable() {
+    const container = document.getElementById('conditions-table-container');
+    if (!container) return;
+    if (conditions.length === 0) {
+        container.innerHTML = '<p class="has-text-grey">No condition cases have been added yet.</p>';
+        return;
+    }
+
+    let maxStages = 0;
+    conditions.forEach(c => { if (c.stages > maxStages) maxStages = c.stages; });
+
+    let headerHtml = '<th>Actions</th><th>Case Name</th>';
+    for (let i = 1; i <= maxStages; i++) {
+        headerHtml += `<th>SC-${i} K-Val</th><th>SC-${i} P (kgf/cm²g)</th>`;
+    }
+    headerHtml += '<th>Discharge K-Val</th><th>Discharge P</th>';
+
+    let bodyHtml = '';
+    conditions.forEach((cond, index) => {
+        let rowHtml = `
+            <td class="action-buttons">
+                <button class="button is-small is-info" onclick="loadCaseForEdit(${index})" title="Edit"><i class="fas fa-edit"></i></button>
+                <button class="button is-small is-link" onclick="copyCase(${index})" title="Copy"><i class="fas fa-copy"></i></button>
+                <button class="button is-small is-danger" onclick="deleteCase(${index})" title="Delete"><i class="fas fa-trash"></i></button>
+            </td>
+            <td><strong>${cond.name}</strong></td>`;
+
+        for (let i = 0; i < maxStages; i++) {
+            const params = cond.parameters[i];
+            rowHtml += `<td>${params && params.kValue ? params.kValue.toFixed(2) : '-'}</td>`;
+            rowHtml += `<td>${params ? params.opPress.toFixed(2) : '-'}</td>`;
+        }
+        
+        const dischargeData = cond.parameters[cond.stages];
+        rowHtml += `<td>${dischargeData && dischargeData.kValue ? dischargeData.kValue.toFixed(2) : '-'}</td>`;
+        rowHtml += `<td>${dischargeData ? dischargeData.opPress.toFixed(2) : '-'}</td>`;
+        
+        bodyHtml += `<tr>${rowHtml}</tr>`;
+    });
+
+    container.innerHTML = `<table class="table is-fullwidth is-bordered is-striped is-narrow is-hoverable"><thead><tr>${headerHtml}</tr></thead><tbody>${bodyHtml}</tbody></table>`;
+}
+
 function handleFormSubmit(event) {
     event.preventDefault();
     const conditionName = document.getElementById('condition-name').value.trim();
@@ -160,55 +219,6 @@ function handleFormSubmit(event) {
     clearForm();
 }
 
-/**
- * Renders the table of saved condition cases.
- */
-function renderConditionsTable() {
-    const container = document.getElementById('conditions-table-container');
-    if (!container) return;
-    if (conditions.length === 0) {
-        container.innerHTML = '<p class="has-text-grey">No condition cases have been added yet.</p>';
-        return;
-    }
-
-    let maxStages = 0;
-    conditions.forEach(c => { if (c.stages > maxStages) maxStages = c.stages; });
-
-    let headerHtml = '<th>Actions</th><th>Case Name</th>';
-    for (let i = 1; i <= maxStages; i++) {
-        headerHtml += `<th>SC-${i} K-Val</th><th>SC-${i} P (kgf/cm²g)</th>`;
-    }
-    headerHtml += '<th>Discharge K-Val</th><th>Discharge P</th>';
-
-    let bodyHtml = '';
-    conditions.forEach((cond, index) => {
-        let rowHtml = `
-            <td class="action-buttons">
-                <button class="button is-small is-info" onclick="loadCaseForEdit(${index})" title="Edit"><i class="fas fa-edit"></i></button>
-                <button class="button is-small is-link" onclick="copyCase(${index})" title="Copy"><i class="fas fa-copy"></i></button>
-                <button class="button is-small is-danger" onclick="deleteCase(${index})" title="Delete"><i class="fas fa-trash"></i></button>
-            </td>
-            <td><strong>${cond.name}</strong></td>`;
-
-        for (let i = 0; i < maxStages; i++) {
-            const params = cond.parameters[i];
-            rowHtml += `<td>${params && params.kValue ? params.kValue.toFixed(2) : '-'}</td>`;
-            rowHtml += `<td>${params ? params.opPress.toFixed(2) : '-'}</td>`;
-        }
-        
-        const dischargeData = cond.parameters[cond.stages];
-        rowHtml += `<td>${dischargeData && dischargeData.kValue ? dischargeData.kValue.toFixed(2) : '-'}</td>`;
-        rowHtml += `<td>${dischargeData ? dischargeData.opPress.toFixed(2) : '-'}</td>`;
-        
-        bodyHtml += `<tr>${rowHtml}</tr>`;
-    });
-
-    container.innerHTML = `<table class="table is-fullwidth is-bordered is-striped is-narrow is-hoverable"><thead><tr>${headerHtml}</tr></thead><tbody>${bodyHtml}</tbody></table>`;
-}
-
-/**
- * Loads a case into the form for editing.
- */
 function loadCaseForEdit(index) {
     const conditionCase = conditions[index];
     if (!conditionCase) return;
@@ -248,9 +258,6 @@ function loadCaseForEdit(index) {
     }, 100);
 }
 
-/**
- * Duplicates a case and loads it into the form.
- */
 function copyCase(index) {
     const originalCase = conditions[index];
     if (!originalCase) return;
@@ -267,9 +274,6 @@ function copyCase(index) {
     loadCaseForEdit(conditions.length - 1);
 }
 
-/**
- * Deletes a case.
- */
 function deleteCase(index) {
     if (confirm(`Are you sure you want to delete the "${conditions[index].name}" case?`)) {
         conditions.splice(index, 1);
@@ -278,9 +282,6 @@ function deleteCase(index) {
     }
 }
 
-/**
- * Clears the form.
- */
 function clearForm() {
     document.getElementById('condition-form').reset();
     document.getElementById('edit-index').value = -1;
@@ -288,16 +289,10 @@ function clearForm() {
     renderDynamicInputs();
 }
 
-/**
- * Checks if a stage's data is empty.
- */
 function isStageDataEmpty(stageData) {
     if (!stageData) return true;
-    const { gasFlow, lightLiqFlow, heavyLiqFlow, opPress } = stageData;
-    return (gasFlow === 0 || !gasFlow) &&
-           (lightLiqFlow === 0 || !lightLiqFlow) &&
-           (heavyLiqFlow === 0 || !heavyLiqFlow) &&
-           (opPress === 0 || !opPress);
+    const { gasFlow, opPress } = stageData;
+    return (gasFlow === 0 || !gasFlow) && (opPress === 0 || !opPress);
 }
 
 // --- CALCULATION LOGIC ---
@@ -306,8 +301,7 @@ function calculateActualGasFlow(sm3d, pres_g, temp_c) {
     if (sm3d === 0) return 0;
     const P_abs_kgf_cm2a = pres_g + P_STANDARD_KGF_CM2A;
     const T_kelvin = temp_c + CELSIUS_TO_KELVIN;
-    const V_actual_m3_per_day = (sm3d * (P_STANDARD_KGF_CM2A / P_abs_kgf_cm2a) * (T_kelvin / T_STANDARD_K));
-    return V_actual_m3_per_day / (24 * 3600);
+    return (sm3d * (P_STANDARD_KGF_CM2A / P_abs_kgf_cm2a) * (T_kelvin / T_STANDARD_K)) / (24 * 3600);
 }
 
 function calculateGasDensity(pres_g, temp_c, sg) {
@@ -321,9 +315,8 @@ function calculateGasDensity(pres_g, temp_c, sg) {
 
 function calculateMeanLiquidDensity(params) {
     const total_flow = params.lightLiqFlow + params.heavyLiqFlow;
-    if (total_flow === 0) return (params.lightLiqDens > 0) ? params.lightLiqDens : (params.heavyLiqDens > 0) ? params.heavyLiqDens : 0;
-    const weighted_density = (params.lightLiqFlow * params.lightLiqDens + params.heavyLiqFlow * params.heavyLiqDens) / total_flow;
-    return weighted_density;
+    if (total_flow === 0) return (params.lightLiqDens || params.heavyLiqDens || 1000);
+    return (params.lightLiqFlow * params.lightLiqDens + params.heavyLiqFlow * params.heavyLiqDens) / total_flow;
 }
 
 function calculateMaxVelocity(k_fts, rho_l, rho_g) {
@@ -334,7 +327,7 @@ function calculateMaxVelocity(k_fts, rho_l, rho_g) {
 
 function calculateScrubbers() {
     if (conditions.length === 0) {
-        alert("No conditions to calculate. Please add at least one condition case.");
+        alert("No conditions to calculate.");
         return;
     }
 
@@ -352,21 +345,16 @@ function calculateScrubbers() {
             const q_total = q_g_actual + q_l_total_actual;
             const rho_g = calculateGasDensity(params.opPress, params.opTemp, params.gasSg);
             let rho_l = calculateMeanLiquidDensity(params);
-            
-            // Handle cases with gas but no liquid (common)
-            if (rho_l === 0 && q_g_actual > 0) {
-                rho_l = 1000; // Use a default liquid density (e.g., water) for the formula's stability
-            }
 
             const v_max = calculateMaxVelocity(params.kValue, rho_l, rho_g);
-            const area_req = (v_max > 0 && v_max !== Infinity) ? q_total / v_max : 0;
+            const area_req = (v_max > 0 && v_max !== Infinity) ? q_g_actual / v_max : 0; // Area based on gas velocity
             const diameter_req_m = (area_req > 0) ? Math.sqrt(4 * area_req / Math.PI) : 0;
-            const diameter_req_mm = diameter_req_m * 1000;
-
+            
             results.push({
                 caseName: conditionCase.name,
                 stageName: stageName,
-                requiredDiameter: diameter_req_mm
+                requiredDiameterIn: diameter_req_m * M_TO_IN,
+                requiredDiameterMm: diameter_req_m * 1000
             });
         }
     });
@@ -374,46 +362,90 @@ function calculateScrubbers() {
     renderResultsTable(results);
 }
 
-/**
- * Renders the final results table in the UI.
- */
 function renderResultsTable(results) {
     const container = document.getElementById('resultsDisplay');
     const section = document.getElementById('resultsSection');
-
-    if (!container || !section) {
-        console.error("Results container not found!");
-        return;
-    }
+    if (!container || !section) return;
 
     if (results.length === 0) {
         container.innerHTML = '<p class="has-text-grey">No valid results to display. Check input data.</p>';
-        section.style.display = 'block';
-        return;
-    }
-
-    let tableHtml = `
-        <table class="table is-fullwidth is-bordered is-striped is-hoverable">
-            <thead>
+    } else {
+        let tableHtml = `
+            <h3 class="title is-5">Required Scrubber Diameters</h3>
+            <table class="table is-fullwidth is-bordered is-striped is-hoverable">
+                <thead>
+                    <tr>
+                        <th>Condition Case</th>
+                        <th>Equipment</th>
+                        <th>Required Internal Diameter</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+        
+        results.forEach(res => {
+            tableHtml += `
                 <tr>
-                    <th>Condition Case</th>
-                    <th>Equipment</th>
-                    <th>Required Diameter (mm)</th>
-                </tr>
-            </thead>
-            <tbody>`;
-    
-    results.forEach(res => {
-        tableHtml += `
-            <tr>
-                <td>${res.caseName}</td>
-                <td>${res.stageName}</td>
-                <td><strong>${res.requiredDiameter.toFixed(2)}</strong></td>
-            </tr>`;
-    });
+                    <td>${res.caseName}</td>
+                    <td>${res.stageName}</td>
+                    <td><strong>${res.requiredDiameterIn.toFixed(2)} in (${res.requiredDiameterMm.toFixed(2)} mm)</strong></td>
+                </tr>`;
+        });
 
-    tableHtml += `</tbody></table>`;
-    container.innerHTML = tableHtml;
+        tableHtml += `</tbody></table>`;
+        container.innerHTML = tableHtml;
+    }
+    
     section.style.display = 'block';
     section.scrollIntoView({ behavior: 'smooth' });
+}
+
+// --- Project Data Functions ---
+
+function getFormattedFileName(extension) {
+    const now = new Date();
+    const dateStr = `${String(now.getDate()).padStart(2, '0')}_${String(now.getMonth() + 1).padStart(2, '0')}_${now.getFullYear()}`;
+    const projectName = (projectInfo["Project Name"] || "Project").replace(/[^a-z0-9]/gi, '_');
+    return `${projectName}_${dateStr}.${extension}`;
+}
+
+function saveProjectData() {
+    const projectData = { projectInfo, conditions };
+    const dataStr = JSON.stringify(projectData, null, 2);
+    const blob = new Blob([dataStr], { type: 'application/json' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = getFormattedFileName('json');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
+function loadProjectData(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        try {
+            const loadedData = JSON.parse(e.target.result);
+            projectInfo = loadedData.projectInfo || projectInfo;
+            conditions = loadedData.conditions || [];
+            renderConditionsTable();
+            clearForm();
+            alert("Project loaded successfully.");
+        } catch (error) {
+            alert(`Error loading JSON file: ${error.message}`);
+        }
+    };
+    reader.readAsText(file);
+    event.target.value = '';
+}
+
+function resetData() {
+    if (confirm("Are you sure you want to reset all data?")) {
+        conditions = [];
+        renderConditionsTable();
+        clearForm();
+        document.getElementById('resultsSection').style.display = 'none';
+        alert("Data has been reset.");
+    }
 }
