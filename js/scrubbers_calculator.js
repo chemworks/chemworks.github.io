@@ -115,38 +115,8 @@ function renderDynamicInputs() {
         const stageIdPrefix = `sc-${i}`;
         const defaultKValue = (i === 1) ? K_VALUE_PRESETS.C : K_VALUE_PRESETS.B;
 
-        const kValueSection = `
-            <div class="field">
-                <label class="label">Sizing Coefficient (K-value)</label>
-                <div class="field has-addons">
-                    <div class="control"><div class="select">
-                        <select id="${stageIdPrefix}-k-options">
-                            <option value="0.18" ${defaultKValue === 0.18 ? 'selected' : ''}>Class C (0.18 ft/s)</option>
-                            <option value="0.25" ${defaultKValue === 0.25 ? 'selected' : ''}>Class B (0.25 ft/s)</option>
-                            <option value="0.35">Class A (0.35 ft/s)</option>
-                            <option value="custom">Custom</option>
-                        </select>
-                    </div></div>
-                    <div class="control is-expanded"><input class="input" type="number" step="any" id="${stageIdPrefix}-k-input" placeholder="Custom ft/s" disabled></div>
-                </div>
-            </div>`;
-
-        const stageHtml = `
-            <div class="box mt-4">
-                <h4 class="title is-6">${stageName} Parameters</h4>
-                ${kValueSection}
-                <div class="columns is-multiline mt-2">
-                    <div class="column is-one-third"><div class="field"><label class="label">Gas Flow (Sm³/D)</label><div class="control"><input class="input" type="number" step="any" id="${stageIdPrefix}-gasFlow"></div></div></div>
-                    <div class="column is-one-third"><div class="field"><label class="label">Gas SG (-)</label><div class="control"><input class="input" type="number" step="any" id="${stageIdPrefix}-gasSg"></div></div></div>
-                    <div class="column is-one-third"><div class="field"><label class="label">Temperature (°C)</label><div class="control"><input class="input" type="number" step="any" id="${stageIdPrefix}-opTemp"></div></div></div>
-                    <div class="column is-one-third"><div class="field"><label class="label">Light Liquid (L/min)</label><div class="control"><input class="input" type="number" step="any" id="${stageIdPrefix}-lightLiqFlow"></div></div></div>
-                    <div class="column is-one-third"><div class="field"><label class="label">Heavy Liquid (L/min)</label><div class="control"><input class="input" type="number" step="any" id="${stageIdPrefix}-heavyLiqFlow"></div></div></div>
-                    <div class="column is-one-third"><div class="field"><label class="label">Operative P (kgf/cm²g)</label><div class="control"><input class="input" type="number" step="any" id="${stageIdPrefix}-opPress"></div></div></div>
-                    <div class="column is-one-third"><div class="field"><label class="label">Light Liq Density (kg/m³)</label><div class="control"><input class="input" type="number" step="any" id="${stageIdPrefix}-lightLiqDens"></div></div></div>
-                    <div class="column is-one-third"><div class="field"><label class="label">Heavy Liq Density (kg/m³)</label><div class="control"><input class="input" type="number" step="any" id="${stageIdPrefix}-heavyLiqDens"></div></div></div>
-                    <div class="column is-one-third"><div class="field"><label class="label">MAWP (kgf/cm²g)</label><div class="control"><input class="input" type="number" step="any" id="${stageIdPrefix}-mawp"></div></div></div>
-                </div>
-            </div>`;
+        const kValueSection = `<div class="field"><label class="label">Sizing Coefficient (K-value)</label><div class="field has-addons"><div class="control"><div class="select"><select id="${stageIdPrefix}-k-options"><option value="0.18" ${defaultKValue === 0.18 ? 'selected' : ''}>Class C (0.18 ft/s)</option><option value="0.25" ${defaultKValue === 0.25 ? 'selected' : ''}>Class B (0.25 ft/s)</option><option value="0.35">Class A (0.35 ft/s)</option><option value="custom">Custom</option></select></div></div><div class="control is-expanded"><input class="input" type="number" step="any" id="${stageIdPrefix}-k-input" placeholder="Custom ft/s" disabled></div></div></div>`;
+        const stageHtml = `<div class="box mt-4"><h4 class="title is-6">${stageName} Parameters</h4>${kValueSection}<div class="columns is-multiline mt-2"><div class="column is-one-third"><div class="field"><label class="label">Gas Flow (Sm³/D)</label><div class="control"><input class="input" type="number" step="any" id="${stageIdPrefix}-gasFlow"></div></div></div><div class="column is-one-third"><div class="field"><label class="label">Gas SG (-)</label><div class="control"><input class="input" type="number" step="any" id="${stageIdPrefix}-gasSg"></div></div></div><div class="column is-one-third"><div class="field"><label class="label">Temperature (°C)</label><div class="control"><input class="input" type="number" step="any" id="${stageIdPrefix}-opTemp"></div></div></div><div class="column is-one-third"><div class="field"><label class="label">Light Liquid (L/min)</label><div class="control"><input class="input" type="number" step="any" id="${stageIdPrefix}-lightLiqFlow"></div></div></div><div class="column is-one-third"><div class="field"><label class="label">Heavy Liquid (L/min)</label><div class="control"><input class="input" type="number" step="any" id="${stageIdPrefix}-heavyLiqFlow"></div></div></div><div class="column is-one-third"><div class="field"><label class="label">Operative P (kgf/cm²g)</label><div class="control"><input class="input" type="number" step="any" id="${stageIdPrefix}-opPress"></div></div></div><div class="column is-one-third"><div class="field"><label class="label">Light Liq Density (kg/m³)</label><div class="control"><input class="input" type="number" step="any" id="${stageIdPrefix}-lightLiqDens"></div></div></div><div class="column is-one-third"><div class="field"><label class="label">Heavy Liq Density (kg/m³)</label><div class="control"><input class="input" type="number" step="any" id="${stageIdPrefix}-heavyLiqDens"></div></div></div><div class="column is-one-third"><div class="field"><label class="label">MAWP (kgf/cm²g)</label><div class="control"><input class="input" type="number" step="any" id="${stageIdPrefix}-mawp"></div></div></div></div></div>`;
         container.innerHTML += stageHtml;
     }
 
@@ -221,13 +191,7 @@ function renderConditionsTable() {
 
     let bodyHtml = '';
     conditions.forEach((cond, index) => {
-        let rowHtml = `
-            <td class="action-buttons">
-                <button class="button is-small is-info" onclick="loadCaseForEdit(${index})" title="Edit"><i class="fas fa-edit"></i></button>
-                <button class="button is-small is-link" onclick="copyCase(${index})" title="Copy"><i class="fas fa-copy"></i></button>
-                <button class="button is-small is-danger" onclick="deleteCase(${index})" title="Delete"><i class="fas fa-trash"></i></button>
-            </td>
-            <td><strong>${cond.name}</strong></td>`;
+        let rowHtml = `<td class="action-buttons"><button class="button is-small is-info" onclick="loadCaseForEdit(${index})" title="Edit"><i class="fas fa-edit"></i></button><button class="button is-small is-link" onclick="copyCase(${index})" title="Copy"><i class="fas fa-copy"></i></button><button class="button is-small is-danger" onclick="deleteCase(${index})" title="Delete"><i class="fas fa-trash"></i></button></td><td><strong>${cond.name}</strong></td>`;
         for (let i = 0; i < maxStages; i++) {
             const params = cond.parameters[i];
             rowHtml += `<td>${params && params.kValue ? params.kValue.toFixed(2) : '-'}</td><td>${params ? params.opPress.toFixed(2) : '-'}</td>`;
@@ -343,7 +307,7 @@ function calculateScrubbers() {
         return;
     }
 
-    let results = [];
+    let allResults = [];
     conditions.forEach(conditionCase => {
         for (let i = 0; i < conditionCase.parameters.length; i++) {
             const params = conditionCase.parameters[i];
@@ -373,8 +337,9 @@ function calculateScrubbers() {
             let nll_m = (area_req > 0) ? liquid_volume / area_req : 0;
             nll_m = Math.max(nll_m, designCriteria.minNllMm / 1000);
 
-            results.push({
-                caseName: conditionCase.name, stageName: stageName,
+            allResults.push({
+                caseName: conditionCase.name, stageName, params,
+                q_g_actual, q_l_total_actual, rho_g, rho_l, v_max, area_req,
                 requiredDiameterIn: diameter_req_m * M_TO_IN, requiredDiameterMm: diameter_req_m * 1000,
                 inletNozzleIn: Math.sqrt(4 * inlet_area / Math.PI) * M_TO_IN, inletNozzleMm: Math.sqrt(4 * inlet_area / Math.PI) * 1000,
                 gasOutletNozzleIn: Math.sqrt(4 * gas_outlet_area / Math.PI) * M_TO_IN, gasOutletNozzleMm: Math.sqrt(4 * gas_outlet_area / Math.PI) * 1000,
@@ -383,7 +348,8 @@ function calculateScrubbers() {
             });
         }
     });
-    renderResultsTable(results);
+    renderResultsTable(allResults);
+    renderCalculationMemo(allResults);
 }
 
 function renderResultsTable(results) {
@@ -464,6 +430,33 @@ function renderResultsTable(results) {
     section.scrollIntoView({ behavior: 'smooth' });
 }
 
+function renderCalculationMemo(results) {
+    const container = document.getElementById('memoDisplay');
+    const section = document.getElementById('memoSection');
+    if (!container || !section) return;
+
+    let memoHtml = '';
+    results.forEach(res => {
+        memoHtml += `
+            <div class="box mb-4">
+                <h4 class="title is-6">Case: ${res.caseName} - Equipment: ${res.stageName}</h4>
+                <ul>
+                    <li>Actual Gas Flow (q_g): ${res.q_g_actual.toFixed(4)} m³/s</li>
+                    <li>Actual Liquid Flow (q_l): ${res.q_l_total_actual.toFixed(5)} m³/s</li>
+                    <li>Gas Density (ρ_g): ${res.rho_g.toFixed(3)} kg/m³</li>
+                    <li>Liquid Density (ρ_l): ${res.rho_l.toFixed(3)} kg/m³</li>
+                    <li>Max. Gas Velocity (v_max): ${res.v_max.toFixed(3)} m/s</li>
+                    <li>Required Area (A_gas): ${res.area_req.toFixed(4)} m²</li>
+                    <li><strong>Required Vessel ID: ${res.requiredDiameterIn.toFixed(2)} in (${res.requiredDiameterMm.toFixed(2)} mm)</strong></li>
+                </ul>
+            </div>`;
+    });
+
+    container.innerHTML = memoHtml;
+    section.style.display = 'block';
+}
+
+
 // --- Project Data Functions ---
 function getFormattedFileName(extension) {
     const now = new Date();
@@ -515,6 +508,7 @@ function resetData() {
         renderConditionsTable();
         clearForm();
         document.getElementById('resultsSection').style.display = 'none';
+        document.getElementById('memoSection').style.display = 'none';
         alert("Data has been reset.");
     }
 }
