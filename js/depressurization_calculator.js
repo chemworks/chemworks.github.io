@@ -20,6 +20,13 @@ let simulationData = {
     outletMachNumbers: []
 };
 
+// --- Project Information variables ---
+let projectInfo = {
+    "Project Name": "Depressurization Study", // Default value
+    "Prepared by": "Your Name", // Default value
+    "Date": "" // Will be set on save
+};
+
 /**
  * Universal Gas Constant (Ru) in J/(mol·K)
  * @type {number}
@@ -238,6 +245,22 @@ function getValueAtClosestTime(times, values, targetTime) {
     return values[closestIndex] ? values[closestIndex].toFixed(2) : '--';
 }
 
+/**
+ * Renders the project information from the projectInfo object to the display area.
+ */
+function renderProjectInfo() {
+    const container = document.getElementById('project-info-display');
+    if (!container) return; // Defensive check
+
+    let html = '<ul>';
+    html += `<li><strong>Project Name:</strong> ${projectInfo["Project Name"]}</li>`;
+    html += `<li><strong>Prepared by:</strong> ${projectInfo["Prepared by"]}</li>`;
+    if (projectInfo["Date"]) { // Only display date if it exists
+        html += `<li><strong>Date:</strong> ${projectInfo["Date"]}</li>`;
+    }
+    html += '</ul>';
+    container.innerHTML = html;
+}
 
 /**
  * Calculates the depressurization process and plots the results.
@@ -1026,6 +1049,23 @@ window.onload = function() {
             icon.classList.toggle('fa-angle-up');
         });
     });
+
+    // --- Project Info Form Submission ---
+    // Populate Project Info Form with initial data on load
+    document.getElementById('project-name').value = projectInfo["Project Name"];
+    document.getElementById('prepared-by').value = projectInfo["Prepared by"];
+    renderProjectInfo(); // Initial render of project info
+
+    document.getElementById('project-info-form').addEventListener('submit', function(event) {
+        event.preventDefault();
+        projectInfo["Project Name"] = document.getElementById('project-name').value.trim();
+        projectInfo["Prepared by"] = document.getElementById('prepared-by').value.trim();
+        // Set date to current date when saved
+        projectInfo["Date"] = new Date().toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' });
+        renderProjectInfo();
+        alert("Project information saved.");
+    });
+
 
     // Initial calculation on page load for default values
     calculateDepressurization();
