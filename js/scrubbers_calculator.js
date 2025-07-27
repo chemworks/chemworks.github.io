@@ -360,7 +360,7 @@ function calculateScrubbers() {
             const v_max = calculateMaxVelocity(params.kValue, rho_l, rho_g);
             const area_req = (v_max > 0 && v_max !== Infinity) ? q_g_actual / v_max : 0;
             const diameter_req_m = (area_req > 0) ? Math.sqrt(4 * area_req / Math.PI) : 0;
-
+            
             const rho_m_inlet = (rho_g * q_g_actual + rho_l * q_l_total_actual) / (q_g_actual + q_l_total_actual || 1);
             const inlet_area = (q_g_actual + q_l_total_actual) * Math.sqrt(rho_m_inlet / INLET_MOMENTUM_LIMIT);
             const gas_outlet_area = q_g_actual / GAS_OUTLET_VELOCITY_LIMIT;
