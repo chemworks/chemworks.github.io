@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gas Depressurization Calculator</title>
+    <link rel="stylesheet" href="../styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-annotation@1.4.0"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@1.2.1"></script>
+    <script type="text/javascript" id="MathJax-script" async
+        src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
+    </script>
+</head>
+<body>
+    <section class="section">
+        <div class="container">
+            <div class="has-text-centered">
+                <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZm9udC1mYW1pbHk9Ik1vbnRzZXJyYXQsIHNhbnMtc2VyaWYiPg0KICA8IS0tIA0KICAgIExvZ28gcGFyYSBDaGVtIFdvcmtzDQogICAgVmVyc2nDs246IE1vbGVjdWxhciBjb24gaW5pY2lhbGVzIENXDQogICAgRXN0ZSBhcmNoaXZvIFNWRyBlcyBlc2NhbGFibGUgYSBjdWFscXVpZXIgdGFtYcOxbyBzaW4gcGVyZGVyIGNhbGxpZGFkYS4NCiAgLS0+DQoNCiAgPCEtLSBHcnVwbyBwcmluY2lwYWwgcXVlIGNvbnRpZW5lIHRvZG9zIGxvcyBlbGVtZW50b3MgZGVsIGxvZ28gLS0+DQogIDxnPg0KICAgIDwhLS0gQW5pbGxvIGRlIGJlbmNlbm8gKGhleMOhZ29ubykgLS0+DQogICAgPGcgc3Ryb2tlPSIjNEE5MEUyIiBzdHJva2Utd2lkdGg9IjEyIiBmaWxsPSJub25lIj4NCiAgICAgIDxwYXRoIGQ9Ik0xMDAgMjUgTDE3NSA2Mi41IFYxMzcuNSBMMTAwIDE3NSBMMjUgMTM3LjUgVjYyLjUgTDEwMCAyNVoiIC8+DQogICAgICANCiAgICAgIDwhLS0gQyByY3Vsb2MgaW50ZXJpb3IgcGFyYSBhbG9qYXIgbGFzIGxldHJhcyAtLT4NCiAgICAgIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iMzUiIGZpbGw9IiM0QTkwRTIiIHN0cm9rZT0ibm9uZSIvPg0KICAgIDwvZz4NCiAgICANCiAgICA8IS0tIExldHJhcyAnQycgeSAnVycg0KICAgIDx0ZXh0IHg9IjYyIiB5PSIxMTMiIGZvbnQtc2l6ZT0iNDUiIGZpbGw9IndoaXRlIiBmb250LXdlaWdodD0iYm9sZCI+QzwvdGV4dD4NCiAgICA8dGV4dCB4PSI5MiIgeT0iMTEzIiBmb250LXNpemU9IjQ1IiBmaWxsPSJ3aGl0ZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlc8L3RleHRB" alt="Chem Works Logo" class="chemworks-logo">
+            </div>
+
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div id="navbarBasicExample" class="navbar-menu is-active">
+                  <div class="navbar-start">
+                    <a href="../index.html" class="navbar-item">Home</a>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                      <a href="./gascalculation.html" class="navbar-link">Gas</a>
+                      <div class="navbar-dropdown">
+                        <a href="./gascalculation_watersat.html" class="navbar-item">Water Saturation</a>
+                        <a href="./gascalculation_cv.html" class="navbar-item">Cv Calculation</a>
+                      </div>
+                    </div>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                      <a href="./liquidcalculation.html" class="navbar-link">Liquid</a>
+                      <div class="navbar-dropdown">
+                        <a href="./liquidcalculation_cv.html" class="navbar-item">Cv Calculation</a>
+                      </div>
+                    </div>
+                    <a href="./linecalculation.html" class="navbar-item">Line Calculation</a>
+                    <div class="navbar-item has-dropdown is-hoverable">
+                        <a href="#" class="navbar-link">Vents & Blowdown</a>
+                        <div class="navbar-dropdown">
+                            <a href="./depressurization_calculation.html" class="navbar-item">Depressurization Calculation</a>
+                        </div>
+                    </div>
+                  </div>
+                </div>
+            </nav>
+
+            <h1 class="title is-2 has-text-centered">Gas Depressurization Calculator</h1>
+            <p class="subtitle is-5 has-text-centered">Simulate Gas Depressurization Through an Orifice</p>
+
+            <div class="card mb-5">
+                <header class="card-header is-clickable">
+                    <p class="card-header-title">Project Information</p>
+                    <button class="card-header-icon" aria-label="more options"><span class="icon"><i class="fas fa-angle-down" aria-hidden="true"></i></span></button>
+                </header>
+                <div class="card-content is-hidden">
+                    <form id="project-info-form" class="box">
+                        <div class="field"><label class="label">Project Name</label><div class="control"><input class="input" id="project-name" type="text" placeholder="e.g., Depressurization Study"></div></div>
+                        <div class="field"><label class="label">Prepared by</label><div class="control"><input class="input" id="prepared-by" type="text" placeholder="e.g., Your Name"></div></div>
+                        <button type="submit" class="button is-link">Save</button>
+                    </form>
+                    <div id="project-info-display" class="content mt-4"></div>
+                </div>
+            </div>
+
+            <div class="box">
+                <h2 class="title is-4">Input Parameters</h2>
+                <div class="field">
+                    <label class="label">Initial Input Method:</label>
+                    <div class="control">
+                        <label class="radio"><input type="radio" name="initialMethod" value="volume" checked> By Volume & Pressure</label>
+                        <label class="radio"><input type="radio" name="initialMethod" value="mass"> By Mass & Pressure</label>
+                    </div>
+                </div>
+
+                <div class="columns is-multiline">
+                    <div class="column is-half">
+                        <div class="field" id="volumeInputGroup">
+                            <label class="label" for="volume">Vessel Volume (m³):</label>
+                            <div class="control"><input class="input" type="number" step="any" id="volume" value="2.5"></div>
+                        </div>
+                        <div class="field is-hidden" id="massInputGroup">
+                            <label class="label" for="initialMass">Initial Mass (kg):</label>
+                            <div class="control"><input class="input" type="number" step="any" id="initialMass" value="43.5" disabled></div>
+                        </div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label" for="initialPressure">Initial Pressure (kgf/cm²g):</label>
+                            <div class="control"><input class="input" type="number" step="any" id="initialPressure" value="20"></div>
+                        </div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label" for="initialTemperature">Initial Temperature (°C):</label>
+                            <div class="control"><input class="input" type="number" step="any" id="initialTemperature" value="50"></div>
+                        </div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label" for="gamma">Specific Heat Ratio ($\gamma$):</label>
+                            <div class="control"><input class="input" type="number" step="any" id="gamma" value="1.4"></div>
+                        </div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label" for="molecularWeight">Molecular Weight (kg/kmol):</label>
+                            <div class="control"><input class="input" type="number" step="any" id="molecularWeight" value="18"></div>
+                        </div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label" for="orificeDiameter">Orifice Diameter (mm):</label>
+                            <div class="control"><input class="input" type="number" step="any" id="orificeDiameter" value="9.7"></div>
+                        </div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label" for="dischargeCoefficient">Discharge Coefficient ($C_d$):</label>
+                            <div class="control"><input class="input" type="number" step="any" id="dischargeCoefficient" value="0.9"></div>
+                        </div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label" for="inletPipeDiameter">Inlet Pipe Diameter (mm):</label>
+                            <div class="control"><input class="input" type="number" step="any" id="inletPipeDiameter" value="25.4"></div>
+                        </div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label" for="outletPipeDiameter">Outlet Pipe Diameter (mm):</label>
+                            <div class="control"><input class="input" type="number" step="any" id="outletPipeDiameter" value="50"></div>
+                        </div>
+                    </div>
+                     <div class="column is-half">
+                        <div class="field">
+                            <label class="label" for="backPressure">Backpressure (kgf/cm²g):</label>
+                            <div class="control"><input class="input" type="number" step="any" id="backPressure" value="1.033"></div>
+                        </div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label" for="timeStep">Time Step (dt in s):</label>
+                            <div class="control"><input class="input" type="number" step="any" id="timeStep" value="1"></div>
+                        </div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="field">
+                            <label class="label" for="maxSimulationTime">Max Simulation Time (s):</label>
+                            <div class="control"><input class="input" type="number" step="any" id="maxSimulationTime" value="1200"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field mt-4">
+                    <label class="checkbox">
+                        <input type="checkbox" id="enableHeatExchange" checked>
+                        Include Heat Exchange
+                    </label>
+                </div>
+
+                <div id="heatExchangeInputs" class="box mt-4">
+                    <h3 class="title is-5">Heat Exchange Parameters</h3>
+                    <div class="field">
+                        <label class="label">U Calculation Method:</label>
+                        <div class="control">
+                            <label class="radio"><input type="radio" name="uMethod" value="global" checked> Global Coefficient (U*A)</label>
+                            <label class="radio"><input type="radio" name="uMethod" value="detailed"> By Coefficient & Area</label>
+                        </div>
+                    </div>
+                    <div class="field" id="uGlobalGroup">
+                        <label class="label" for="heatTransferCoefficientTotal">Global Heat Transfer Coefficient (U*A) (W/K):</label>
+                        <div class="control"><input class="input" type="number" step="any" id="heatTransferCoefficientTotal" value="250"></div>
+                    </div>
+                    <div id="uDetailedGroup" class="is-hidden">
+                        <div class="field">
+                            <label class="label" for="heatTransferCoefficient">Heat Transfer Coefficient (U) (W/m²K):</label>
+                            <div class="control"><input class="input" type="number" step="any" id="heatTransferCoefficient" value="30"></div>
+                        </div>
+                        <div class="field">
+                            <label class="label" for="heatTransferArea">Heat Transfer Area (m²):</label>
+                            <div class="control"><input class="input" type="number" step="any" id="heatTransferArea" value="10"></div>
+                        </div>
+                    </div>
+                    <div class="field">
+                        <label class="label" for="ambientTemperature">Ambient Temperature (°C):</label>
+                        <div class="control"><input class="input" type="number" step="any" id="ambientTemperature" value="25"></div>
+                    </div>
+                </div>
+
+                <div class="field is-grouped is-grouped-centered mt-5">
+                    <div class="control">
+                        <button class="button is-primary is-medium" onclick="calculateDepressurization()">
+                            <span class="icon is-small"><i class="fas fa-calculator"></i></span>
+                            <span>Calculate Depressurization</span>
+                        </button>
+                    </div>
+                    <div class="control">
+                        <button class="button is-info is-medium" onclick="exportToCSV()">
+                            <span class="icon is-small"><i class="fas fa-file-csv"></i></span>
+                            <span>Export to CSV</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="progress-container mt-4">
+                    <progress id="calculationProgress" class="progress is-primary is-small" value="0" max="100">0%</progress>
+                </div>
+            </div>
+
+            <div class="box mt-5">
+                <h2 class="title is-4">Results</h2>
+                <div class="content results-output">
+                    <p>Total Depressurization Time: <strong id="depressurizationTime">--</strong></p>
+                    <p>Final Pressure Reached: <strong id="finalPressure">--</strong></p>
+                    <p>Final Temperature Reached: <strong id="finalTemperature">--</strong></p>
+                    <p>Minimum Temperature Reached: <strong id="minTemperature">--</strong></p>
+                    <p>Initial Outlet Mass Flow Rate: <strong id="initialMassFlowRate">--</strong></p>
+                    <p>Initial Gas Flow at Standard Conditions: <strong id="initialStandardFlowRate">--</strong></p>
+                </div>
+            </div>
+
+            <div class="box mt-5">
+                <h2 class="title is-4">Depressurization Curves</h2>
+                <div class="field mb-4">
+                    <h3 class="title is-6">Visualization Options</h3>
+                    <div class="columns is-vcentered">
+                        <div class="column is-half">
+                            <label class="label">Markers on Charts:</label>
+                            <label class="checkbox mr-4"><input type="checkbox" id="showTransition" checked> Flow Transition</label>
+                            <label class="checkbox mr-4"><input type="checkbox" id="show7Min" checked> 7 Minutes</label>
+                            <label class="checkbox"><input type="checkbox" id="show15Min" checked> 15 Minutes</label>
+                        </div>
+                        <div class="column is-half">
+                            <label for="chartHeightSlider" class="label">Chart Height (px):</label>
+                            <input id="chartHeightSlider" type="range" min="250" max="600" value="350" class="slider is-fullwidth" step="10">
+                        </div>
+                    </div>
+                </div>
+                <div class="columns is-multiline">
+                    <div class="column is-half">
+                        <div class="chart-wrapper"><h3>Mass in Vessel</h3><div class="chart-container"><canvas id="massChart"></canvas></div></div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="chart-wrapper"><h3>Temperature in Vessel (°C)</h3><div class="chart-container"><canvas id="temperatureChart"></canvas></div></div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="chart-wrapper"><h3>Pressure in Vessel (kgf/cm²)</h3><div class="chart-container"><canvas id="pressureChart"></canvas></div></div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="chart-wrapper"><h3>Outlet Mass Flow (kg/s)</h3><div class="chart-container"><canvas id="massFlowChart"></canvas></div></div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="chart-wrapper"><h3>Gas Flow at Standard Conditions (Sm³/D)</h3><div class="chart-container"><canvas id="standardFlowChart"></canvas></div></div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="chart-wrapper"><h3>Outlet Temperature (°C)</h3><div class="chart-container"><canvas id="outletTemperatureChart"></canvas></div></div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="chart-wrapper"><h3>Inlet Pipe Velocity</h3><div class="chart-container"><canvas id="inletVelocityChart"></canvas></div></div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="chart-wrapper"><h3>Inlet Pipe Mach Number</h3><div class="chart-container"><canvas id="inletMachChart"></canvas></div></div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="chart-wrapper"><h3>Outlet Orifice Velocity</h3><div class="chart-container"><canvas id="outletVelocityChart"></canvas></div></div>
+                    </div>
+                    <div class="column is-half">
+                        <div class="chart-wrapper"><h3>Outlet Orifice Mach Number</h3><div class="chart-container"><canvas id="outletMachChart"></canvas></div></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-5">
+                <header class="card-header is-clickable">
+                    <p class="card-header-title">Formulas & Explanation</p>
+                    <button class="card-header-icon" aria-label="more options"><span class="icon"><i class="fas fa-angle-down" aria-hidden="true"></i></span></button>
+                </header>
+                <div class="card-content is-hidden">
+                    <div class="content">
+                        <h2 class="title is-4">Depressurization Calculation Details</h2>
+                        <p>This application simulates the depressurization of a gas vessel through an orifice plate using a mass and energy balance approach, solving the resulting differential equations with the 4th-order Runge-Kutta method.</p>
+
+                        <h3>Fundamental Equations Solved by 4th-Order Runge-Kutta Method</h3>
+                        <p>The 4th-order Runge-Kutta (RK4) method is applied to solve a system of coupled ordinary differential equations (ODEs) describing the dynamics of mass and temperature within the vessel during depressurization. This system is derived from the principles of mass and energy conservation for a control volume.</p>
+
+                        <h4>1. Differential Equation for Mass (Material Balance):</h4>
+                        <p>The rate of change of gas mass ($M$) inside the vessel with respect to time ($t$) is equal to the negative of the outlet mass flow rate ($\dot{m}$). This reflects the principle of mass conservation, where mass leaving the vessel reduces the mass contained within it.</p>
+                        <div class="math-equation">
+                            $$ \frac{dM}{dt} = -\dot{m} $$
+                        </div>
+
+                        <h4>2. Differential Equation for Temperature (Energy Balance):</h4>
+                        <p>The rate of change of the gas temperature ($T$) in the vessel with respect to time ($t$) is derived from an energy balance. This model considers two scenarios:</p>
+                        <ul>
+                            <li>**Adiabatic Process (no heat exchange):** In this case, the equation relates the outlet mass flow rate, current temperature, contained mass, and specific heat ratio ($\gamma$).
+                                <div class="math-equation">
+                                    $$ \left(\frac{dT}{dt}\right)_{adiabatic} = \frac{\dot{m} T (1 - \gamma)}{M} $$
+                                </div>
+                            </li>
+                            <li>**Process with Heat Exchange:** If heat transfer with the surroundings is considered, a heat term is added to the energy balance. The complete equation is:
+                                <div class="math-equation">
+                                    $$ \frac{dT}{dt} = \frac{\dot{m} T (1 - \gamma)}{M} + \frac{U (T_{amb} - T)}{M c_v} $$
+                                </div>
+                                Where:
+                                <ul>
+                                    <li>$U$: Global heat transfer coefficient (W/K).</li>
+                                    <li>$T_{amb}$: Ambient temperature (K).</li>
+                                    <li>$c_v$: Specific heat at constant volume ($c_v = R_s / (\gamma - 1)$).</li>
+                                </ul>
+                            </li>
+                        </ul>
+                        <p>Where $\gamma$ is the specific heat ratio of the gas.</p>
+
+                        <h3>Mass Flow Equation Through an Orifice (Choked and Unchoked Flow):</h3>
+                        <p>The mass flow rate ($\dot{m}$) through the orifice is calculated considering whether the flow is choked or not. Flow becomes choked when the downstream to upstream pressure ratio drops below a critical value. In this case, the velocity at the orifice throat reaches the speed of sound.</p>
+                        <p>The critical pressure ratio ($P_{critical}/P_r$) is defined as:</p>
+                        <div class="math-equation">
+                            $$ \frac{P_{critical}}{P_r} = \left( \frac{2}{\gamma + 1} \right)^{\frac{\gamma}{\gamma - 1}} $$
+                        </div>
+                        <p>If the outlet pressure ($P_s$) is less than or equal to the critical pressure ($P_{critical}$), the flow is choked and the mass flow rate is calculated as:</p>
+                        <div class="math-equation">
+                            $$ \dot{m}_{choked} = C_d A_o P_r \sqrt{\frac{\gamma}{R_s T_r}} \left( \frac{2}{\gamma + 1} \right)^{\frac{\gamma + 1}{2(\gamma - 1)}} $$
+                        </div>
+                        <p>If the outlet pressure ($P_s$) is greater than the critical pressure ($P_{critical}$), the flow is unchoked (subsonic isentropic) and the mass flow rate is calculated as:</p>
+                        <div class="math-equation">
+                            $$ \dot{m}_{unchoked} = C_d A_o P_r \sqrt{\frac{2\gamma}{R_s T_r(\gamma - 1)}} \sqrt{\left( \frac{P_s}{P_r} \right)^{\frac{2}{\gamma}} - \left( \frac{P_s}{P_r} \right)^{\frac{\gamma + 1}{\gamma}}} $$
+                        </div>
+
+                        <h3>Estimation of Total Heat Transfer Coefficient (U*A)</h3>
+                        <p>The "U*A" value that the application requests in **W/K** (Watts per Kelvin) represents the **total heat transfer rate capacity** between the gas inside the equipment and the external environment. It is not the coefficient per unit area (W/m²K), but rather the coefficient already multiplied by the total heat transfer area of the system (`U * A`).</p>
+                        <p>Calculating an exact value is complex, but we can make a very good estimation by analyzing the heat resistance mechanisms:</p>
+                        <ul>
+                            <li><strong>Internal Convection (Gas -> Wall):</strong> For moving gases, the coefficient (`h_internal`) is typically in the range of **20 - 100 W/(m²·K)**.</li>
+                            <li><strong>Conduction (Steel Wall):</strong> The resistance of carbon steel is very low and generally negligible.</li>
+                            <li><strong>External Convection (Wall -> Air):</strong> This is the dominant factor. For still air, the coefficient (`h_external`) is low (**5 - 25 W/(m²·K)**), but with wind (forced convection) it increases to **30 - 100 W/(m²·K)**.</li>
+                        </ul>
+                        <h4>Key Factor: The Air Cooler</h4>
+                        <p>An air cooler is designed to maximize heat transfer and has an extremely high `U * A` coefficient, often in the range of **10,000 to 50,000 W/K** or more.</p>
+                        <h4>Conclusion of the Estimation</h4>
+                        <p>The default value of `10 W/K` is too low for an industrial system. A more realistic value for a surface equipment with piping, vessels, and an air cooler would be in the range of **150 to 1500 W/K**. For the simulation, a reasonable starting point is **250 W/K**, which is the new default value in the calculator.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script type="text/javascript" src="../js/depressurization_calculator.js" defer></script>
+</body>
+</html>
