@@ -54,33 +54,36 @@
             <h1 class="title is-2 has-text-centered">Scrubbers Calculation</h1>
             <p class="subtitle is-5 has-text-centered">Sizing according to API 11P & GPSA</p>
 
+            <div class="card mb-5">
+                <header class="card-header is-clickable">
+                    <p class="card-header-title">Project Information</p>
+                    <button class="card-header-icon" aria-label="more options"><span class="icon"><i class="fas fa-angle-down" aria-hidden="true"></i></span></button>
+                </header>
+                <div class="card-content is-hidden">
+                    <form id="project-info-form" class="box">
+                        <div class="field"><label class="label">Project Name</label><div class="control"><input class="input" type="text" id="project-name" placeholder="e.g., Scrubber Sizing Study" required></div></div>
+                        <div class="field"><label class="label">Project Number</label><div class="control"><input class="input" type="text" id="project-number" placeholder="e.g., SCB-2025-001" required></div></div>
+                        <div class="field"><label class="label">Client</label><div class="control"><input class="input" type="text" id="client" placeholder="e.g., Acme Inc." required></div></div>
+                        <div class="field"><label class="label">Prepared by</label><div class="control"><input class="input" type="text" id="prepared-by" placeholder="e.g., Your Name / Engineering Dept." required></div></div>
+                        <div class="field"><label class="label">Reviewed by</label><div class="control"><input class="input" type="text" id="reviewed-by" placeholder="e.g., Reviewer's Name" required></div></div>
+                        <div class="field is-grouped"><div class="control"><button type="submit" class="button is-link">Save Information</button></div></div>
+                    </form>
+                    <div id="project-info-display" class="content mt-4"></div>
+                </div>
+            </div>
+
             <div class="box">
                 <h2 class="title is-4">Operating Conditions Management</h2>
                 <form id="condition-form" class="box mb-5">
                     <h3 class="title is-5" id="condition-form-title">Add New Condition Case</h3>
                     <input type="hidden" id="edit-index" value="-1">
                     <div class="columns">
-                        <div class="column">
-                            <div class="field">
-                                <label class="label">Condition Case Name</label>
-                                <div class="control"><input class="input" type="text" id="condition-name" placeholder="e.g., Design Case" required></div>
-                            </div>
-                        </div>
-                        <div class="column">
-                            <div class="field">
-                                <label class="label">Number of Scrubber Stages</label>
-                                <div class="control">
-                                    <div class="select">
-                                        <select id="numStages">
-                                            <option value="1">1 Stage</option>
-                                            <option value="2">2 Stages</option>
-                                            <option value="3">3 Stages</option>
-                                            <option value="4">4 Stages</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div class="column"><div class="field"><label class="label">Condition Case Name</label><div class="control"><input class="input" type="text" id="condition-name" placeholder="e.g., Design Case" required></div></div></div>
+                        <div class="column"><div class="field"><label class="label">Number of Scrubber Stages</label><div class="control"><div class="select">
+                            <select id="numStages">
+                                <option value="1">1 Stage</option><option value="2">2 Stages</option><option value="3">3 Stages</option><option value="4">4 Stages</option>
+                            </select>
+                        </div></div></div></div>
                     </div>
                     <div id="dynamic-scrubber-inputs" class="mt-4"></div>
                     <div class="field is-grouped mt-4">
@@ -88,7 +91,6 @@
                         <div class="control"><button type="button" id="clear-form-btn" class="button is-link is-light">Clear Form</button></div>
                     </div>
                 </form>
-
                 <h3 class="title is-5 mt-5">Saved Condition Cases</h3>
                 <div id="conditions-table-container" class="table-container"></div>
             </div>
@@ -105,18 +107,20 @@
                 </header>
                 <div class="card-content is-hidden">
                     <div class="content">
-                        <h4 class="title is-5">Vertical Separator Sizing (API 11P / ISO 13631 / GPSA)</h4>
-                        <p>El diámetro del separador se basa en la velocidad máxima permisible del gas para evitar el arrastre de líquido (Sección 10.2.6 de ISO 13631).</p>
+                        <h4 class="title is-5">Vertical Separator Sizing (API 11P / ISO 13631)</h4>
+                        <p>El diámetro del recipiente (Vessel ID) se calcula a partir de la velocidad máxima de gas permisible que evita el arrastre de gotas de líquido. La fórmula se basa en la sección <strong>10.2.6 de ISO 13631</strong>.</p>
                         <p>$$ v_{max} = K \cdot \sqrt{\frac{\rho_l - \rho_g}{\rho_g}} \quad \Rightarrow \quad A_{gas} = \frac{Q_g}{v_{max}} \quad \Rightarrow \quad D_{vessel} = \sqrt{\frac{4 \cdot A_{gas}}{\pi}} $$</p>
-                        <h4 class="title is-5 mt-4">Sizing de Conexiones (GPSA)</h4>
-                        <p>Las conexiones se dimensionan para no exceder límites de momentum o velocidad.</p>
+                        
+                        <h4 class="title is-5 mt-4">Sizing de Conexiones (GPSA Criteria)</h4>
+                        <p>Las conexiones se dimensionan para no exceder los límites de momentum o velocidad recomendados para evitar erosión, vibraciones y re-arrastre.</p>
                         <ul>
-                            <li><b>Entrada (sin diverter):</b> Se limita el momentum. \( \rho_m v^2 \le 1488 \text{ kg/(m·s²)} \)</li>
-                            <li><b>Salida de Gas:</b> Se limita la velocidad. \( v \le 20 \text{ m/s} \)</li>
-                            <li><b>Salida de Líquido:</b> Se limita la velocidad. \( v \le 1 \text{ m/s} \)</li>
+                            <li><b>Entrada (sin diverter):</b> Se limita el momentum de la mezcla. $$ \rho_m v^2 \le 1488 \frac{kg}{m \cdot s^2} $$</li>
+                            <li><b>Salida de Gas:</b> Se limita la velocidad del gas. $$ v_{gas} \le 20 \frac{m}{s} $$</li>
+                            <li><b>Salida de Líquido:</b> Se limita la velocidad del líquido. $$ v_{liquid} \le 1 \frac{m}{s} $$</li>
                         </ul>
-                         <h4 class="title is-5 mt-4">Tiempo de Residencia y Nivel de Líquido (GPSA)</h4>
-                         <p>El volumen de líquido se calcula para un tiempo de residencia (t) de 5 minutos, y con este volumen se determina la altura del nivel normal (NLL).</p>
+                         
+                        <h4 class="title is-5 mt-4">Tiempo de Residencia y Nivel de Líquido (GPSA)</h4>
+                         <p>El volumen de líquido se calcula para un tiempo de residencia (t) de **5 minutos**, lo cual permite una adecuada separación de las fases y la estabilización del control de nivel. Con este volumen y el área del recipiente, se determina la altura del nivel normal (NLL).</p>
                          <p>$$ V_{liquid} = Q_l \cdot t \quad \Rightarrow \quad NLL = \frac{V_{liquid}}{A_{vessel}} $$</p>
                     </div>
                 </div>

@@ -8,7 +8,7 @@ let projectInfo = {
     "Date": new Date().toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' })
 };
 let conditions = []; // Array to store all condition cases
-const originalConditions = []; // To store initial state for reset
+const originalConditions = []; 
 
 // --- Constants (Self-contained) ---
 const K_VALUE_PRESETS = { "C": 0.18, "B": 0.25, "A": 0.35 };
@@ -20,18 +20,18 @@ const M_TO_IN = 39.3701;
 const KGFCMA_TO_PA = 98066.5;
 const R_UNIVERSAL_J_MOLK = 8.31446;
 const CELSIUS_TO_KELVIN = 273.15;
-
-// Design Criteria Constants (GPSA)
-const INLET_MOMENTUM_LIMIT = 1488; // kg/(m·s²)
-const GAS_OUTLET_VELOCITY_LIMIT = 20; // m/s
-const LIQUID_OUTLET_VELOCITY_LIMIT = 1; // m/s
-const LIQUID_RESIDENCE_TIME_S = 5 * 60; // 5 minutes in seconds
+const INLET_MOMENTUM_LIMIT = 1488; 
+const GAS_OUTLET_VELOCITY_LIMIT = 20; 
+const LIQUID_OUTLET_VELOCITY_LIMIT = 1; 
+const LIQUID_RESIDENCE_TIME_S = 5 * 60; 
 
 // --- DOMContentLoaded: Initial Setup ---
 window.addEventListener('DOMContentLoaded', () => {
+    renderProjectInfo();
     renderConditionsTable();
     renderDynamicInputs();
     
+    document.getElementById('project-info-form').addEventListener('submit', handleProjectInfoSubmit);
     document.getElementById('numStages').addEventListener('change', renderDynamicInputs);
     document.getElementById('condition-form').addEventListener('submit', handleFormSubmit);
     document.getElementById('clear-form-btn').addEventListener('click', clearForm);
@@ -56,7 +56,39 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('reset-data-btn').addEventListener('click', resetData);
 });
 
-// --- UI and Data Handling Functions ---
+function handleProjectInfoSubmit(event) {
+    event.preventDefault();
+    projectInfo["Project Name"] = document.getElementById('project-name').value;
+    projectInfo["Project Number"] = document.getElementById('project-number').value;
+    projectInfo["Client"] = document.getElementById('client').value;
+    projectInfo["Prepared by"] = document.getElementById('prepared-by').value;
+    projectInfo["Reviewed by"] = document.getElementById('reviewed-by').value;
+    projectInfo["Date"] = new Date().toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' });
+    renderProjectInfo();
+    alert("Project information saved.");
+}
+
+function renderProjectInfo() {
+    const container = document.getElementById('project-info-display');
+    if (!container) return;
+    let html = '<ul>';
+    for (const key in projectInfo) {
+        html += `<li><strong>${key}:</strong> ${projectInfo[key]}</li>`;
+    }
+    html += '</ul>';
+    container.innerHTML = html;
+
+    // Populate form fields
+    document.getElementById('project-name').value = projectInfo["Project Name"];
+    document.getElementById('project-number').value = projectInfo["Project Number"];
+    document.getElementById('client').value = projectInfo["Client"];
+    document.getElementById('prepared-by').value = projectInfo["Prepared by"];
+    document.getElementById('reviewed-by').value = projectInfo["Reviewed by"];
+}
+
+
+// --- Rest of the JavaScript functions (unchanged) ---
+
 function setupKValueControlsForStage(stageIdPrefix) {
     const optionsSelect = document.getElementById(`${stageIdPrefix}-k-options`);
     const valueInput = document.getElementById(`${stageIdPrefix}-k-input`);
@@ -122,43 +154,6 @@ function renderDynamicInputs() {
     }
 }
 
-function renderConditionsTable() {
-    const container = document.getElementById('conditions-table-container');
-    if (!container) return;
-    if (conditions.length === 0) {
-        container.innerHTML = '<p class="has-text-grey">No condition cases have been added yet.</p>';
-        return;
-    }
-
-    let maxStages = 0;
-    conditions.forEach(c => { if (c.stages > maxStages) maxStages = c.stages; });
-
-    let headerHtml = '<th>Actions</th><th>Case Name</th>';
-    for (let i = 1; i <= maxStages; i++) {
-        headerHtml += `<th>SC-${i} K-Val</th><th>SC-${i} P (kgf/cm²g)</th>`;
-    }
-    headerHtml += '<th>Discharge K-Val</th><th>Discharge P</th>';
-
-    let bodyHtml = '';
-    conditions.forEach((cond, index) => {
-        let rowHtml = `
-            <td class="action-buttons">
-                <button class="button is-small is-info" onclick="loadCaseForEdit(${index})" title="Edit"><i class="fas fa-edit"></i></button>
-                <button class="button is-small is-link" onclick="copyCase(${index})" title="Copy"><i class="fas fa-copy"></i></button>
-                <button class="button is-small is-danger" onclick="deleteCase(${index})" title="Delete"><i class="fas fa-trash"></i></button>
-            </td>
-            <td><strong>${cond.name}</strong></td>`;
-        for (let i = 0; i < maxStages; i++) {
-            const params = cond.parameters[i];
-            rowHtml += `<td>${params && params.kValue ? params.kValue.toFixed(2) : '-'}</td><td>${params ? params.opPress.toFixed(2) : '-'}</td>`;
-        }
-        const dischargeData = cond.parameters[cond.stages];
-        rowHtml += `<td>${dischargeData && dischargeData.kValue ? dischargeData.kValue.toFixed(2) : '-'}</td><td>${dischargeData ? dischargeData.opPress.toFixed(2) : '-'}</td>`;
-        bodyHtml += `<tr>${rowHtml}</tr>`;
-    });
-    container.innerHTML = `<table class="table is-fullwidth is-bordered is-striped is-narrow is-hoverable"><thead><tr>${headerHtml}</tr></thead><tbody>${bodyHtml}</tbody></table>`;
-}
-
 function handleFormSubmit(event) {
     event.preventDefault();
     const conditionName = document.getElementById('condition-name').value.trim();
@@ -206,6 +201,43 @@ function handleFormSubmit(event) {
     clearForm();
 }
 
+function renderConditionsTable() {
+    const container = document.getElementById('conditions-table-container');
+    if (!container) return;
+    if (conditions.length === 0) {
+        container.innerHTML = '<p class="has-text-grey">No condition cases have been added yet.</p>';
+        return;
+    }
+
+    let maxStages = 0;
+    conditions.forEach(c => { if (c.stages > maxStages) maxStages = c.stages; });
+
+    let headerHtml = '<th>Actions</th><th>Case Name</th>';
+    for (let i = 1; i <= maxStages; i++) {
+        headerHtml += `<th>SC-${i} K-Val</th><th>SC-${i} P (kgf/cm²g)</th>`;
+    }
+    headerHtml += '<th>Discharge K-Val</th><th>Discharge P</th>';
+
+    let bodyHtml = '';
+    conditions.forEach((cond, index) => {
+        let rowHtml = `
+            <td class="action-buttons">
+                <button class="button is-small is-info" onclick="loadCaseForEdit(${index})" title="Edit"><i class="fas fa-edit"></i></button>
+                <button class="button is-small is-link" onclick="copyCase(${index})" title="Copy"><i class="fas fa-copy"></i></button>
+                <button class="button is-small is-danger" onclick="deleteCase(${index})" title="Delete"><i class="fas fa-trash"></i></button>
+            </td>
+            <td><strong>${cond.name}</strong></td>`;
+        for (let i = 0; i < maxStages; i++) {
+            const params = cond.parameters[i];
+            rowHtml += `<td>${params && params.kValue ? params.kValue.toFixed(2) : '-'}</td><td>${params ? params.opPress.toFixed(2) : '-'}</td>`;
+        }
+        const dischargeData = cond.parameters[cond.stages];
+        rowHtml += `<td>${dischargeData && dischargeData.kValue ? dischargeData.kValue.toFixed(2) : '-'}</td><td>${dischargeData ? dischargeData.opPress.toFixed(2) : '-'}</td>`;
+        bodyHtml += `<tr>${rowHtml}</tr>`;
+    });
+    container.innerHTML = `<table class="table is-fullwidth is-bordered is-striped is-narrow is-hoverable"><thead><tr>${headerHtml}</tr></thead><tbody>${bodyHtml}</tbody></table>`;
+}
+
 function loadCaseForEdit(index) {
     const conditionCase = conditions[index];
     if (!conditionCase) return;
@@ -229,7 +261,7 @@ function loadCaseForEdit(index) {
             optionsSelect.dispatchEvent(new Event('change'));
             
             for (const key in params) {
-                const input = document.getElementById(`${stageIdPrefix}-${key}`);
+                const input = document.getElementById(`${stageIdPrefix}-${key.replace(/_/g, '')}`);
                 if (input) input.value = params[key];
             }
         }
@@ -324,18 +356,15 @@ function calculateScrubbers() {
             const rho_g = calculateGasDensity(params.opPress, params.opTemp, params.gasSg);
             let rho_l = calculateMeanLiquidDensity(params);
             
-            // Vessel Diameter
             const v_max = calculateMaxVelocity(params.kValue, rho_l, rho_g);
             const area_req = (v_max > 0 && v_max !== Infinity) ? q_g_actual / v_max : 0;
             const diameter_req_m = (area_req > 0) ? Math.sqrt(4 * area_req / Math.PI) : 0;
             
-            // Nozzle Sizing
             const rho_m_inlet = (rho_g * q_g_actual + rho_l * q_l_total_actual) / (q_g_actual + q_l_total_actual || 1);
             const inlet_area = (q_g_actual + q_l_total_actual) * Math.sqrt(rho_m_inlet / INLET_MOMENTUM_LIMIT);
             const gas_outlet_area = q_g_actual / GAS_OUTLET_VELOCITY_LIMIT;
             const liquid_outlet_area = q_l_total_actual / LIQUID_OUTLET_VELOCITY_LIMIT;
-
-            // Liquid Level
+            
             const liquid_volume = q_l_total_actual * LIQUID_RESIDENCE_TIME_S;
             const nll_height_m = (area_req > 0) ? liquid_volume / area_req : 0;
 
@@ -343,14 +372,18 @@ function calculateScrubbers() {
                 caseName: conditionCase.name,
                 stageName: stageName,
                 requiredDiameterIn: diameter_req_m * M_TO_IN,
+                requiredDiameterMm: diameter_req_m * 1000,
                 inletNozzleIn: Math.sqrt(4 * inlet_area / Math.PI) * M_TO_IN,
+                inletNozzleMm: Math.sqrt(4 * inlet_area / Math.PI) * 1000,
                 gasOutletNozzleIn: Math.sqrt(4 * gas_outlet_area / Math.PI) * M_TO_IN,
+                gasOutletNozzleMm: Math.sqrt(4 * gas_outlet_area / Math.PI) * 1000,
                 liquidOutletNozzleIn: Math.sqrt(4 * liquid_outlet_area / Math.PI) * M_TO_IN,
-                nllIn: nll_height_m * M_TO_IN
+                liquidOutletNozzleMm: Math.sqrt(4 * liquid_outlet_area / Math.PI) * 1000,
+                nllIn: nll_height_m * M_TO_IN,
+                nllMm: nll_height_m * 1000
             });
         }
     });
-
     renderResultsTable(results);
 }
 
@@ -369,13 +402,27 @@ function renderResultsTable(results) {
     const caseNames = [...new Set(results.map(r => r.caseName))];
     const stageNames = [...new Set(results.map(r => r.stageName))];
 
+    const parameters = [
+        { keyIn: 'requiredDiameterIn', keyMm: 'requiredDiameterMm', label: 'Vessel ID in (mm)' },
+        { keyIn: 'inletNozzleIn', keyMm: 'inletNozzleMm', label: 'Inlet Nozzle in (mm)' },
+        { keyIn: 'gasOutletNozzleIn', keyMm: 'gasOutletNozzleMm', label: 'Gas Outlet Nozzle in (mm)' },
+        { keyIn: 'liquidOutletNozzleIn', keyMm: 'liquidOutletNozzleMm', label: 'Liquid Outlet Nozzle in (mm)' },
+        { keyIn: 'nllIn', keyMm: 'nllMm', label: 'Normal Liquid Level in (mm)' }
+    ];
+
     stageNames.forEach(stage => {
-        tableData[stage] = { maxDiameter: 0 };
+        tableData[stage] = {};
+        parameters.forEach(param => {
+            tableData[stage][`${param.keyIn}Max`] = 0;
+        });
+
         results.filter(r => r.stageName === stage).forEach(res => {
             tableData[stage][res.caseName] = res;
-            if (res.requiredDiameterIn > tableData[stage].maxDiameter) {
-                tableData[stage].maxDiameter = res.requiredDiameterIn;
-            }
+            parameters.forEach(param => {
+                if (res[param.keyIn] > tableData[stage][`${param.keyIn}Max`]) {
+                    tableData[stage][`${param.keyIn}Max`] = res[param.keyIn];
+                }
+            });
         });
     });
 
@@ -383,14 +430,6 @@ function renderResultsTable(results) {
     caseNames.forEach(name => headerHtml += `<th>${name}</th>`);
 
     let bodyHtml = '';
-    const parameters = [
-        { key: 'requiredDiameterIn', label: 'Vessel ID (in)' },
-        { key: 'inletNozzleIn', label: 'Inlet Nozzle (in)' },
-        { key: 'gasOutletNozzleIn', label: 'Gas Outlet Nozzle (in)' },
-        { key: 'liquidOutletNozzleIn', label: 'Liquid Outlet Nozzle (in)' },
-        { key: 'nllIn', label: 'Normal Liquid Level (in)' }
-    ];
-
     stageNames.forEach(stage => {
         bodyHtml += `<tr><td colspan="${caseNames.length + 1}" class="has-background-light"><strong>${stage}</strong></td></tr>`;
         parameters.forEach(param => {
@@ -398,9 +437,11 @@ function renderResultsTable(results) {
             caseNames.forEach(caseName => {
                 const result = tableData[stage][caseName];
                 if (result) {
-                    const isMax = param.key === 'requiredDiameterIn' && result.requiredDiameterIn === tableData[stage].maxDiameter;
-                    const value = result[param.key].toFixed(2);
-                    bodyHtml += `<td>${isMax ? `<strong>${value}</strong>` : value}</td>`;
+                    const isMax = result[param.keyIn] === tableData[stage][`${param.keyIn}Max`];
+                    const valueIn = result[param.keyIn];
+                    const valueMm = result[param.keyMm];
+                    const cellContent = `${valueIn.toFixed(2)} (${valueMm.toFixed(2)})`;
+                    bodyHtml += `<td>${isMax ? `<strong>${cellContent}</strong>` : cellContent}</td>`;
                 } else {
                     bodyHtml += '<td>-</td>';
                 }
@@ -411,7 +452,7 @@ function renderResultsTable(results) {
 
     const fullTableHtml = `
         <h3 class="title is-5">Sizing Summary</h3>
-        <p class="subtitle is-6">The controlling case for vessel diameter is marked in <strong>bold</strong>. All diameters are internal.</p>
+        <p class="subtitle is-6">The controlling case for each parameter is marked in <strong>bold</strong>. All diameters are internal.</p>
         <div class="table-container">
             <table class="table is-fullwidth is-bordered is-striped is-hoverable">
                 <thead><tr>${headerHtml}</tr></thead>
@@ -453,6 +494,7 @@ function loadProjectData(event) {
             const loadedData = JSON.parse(e.target.result);
             projectInfo = loadedData.projectInfo || projectInfo;
             conditions = loadedData.conditions || [];
+            renderProjectInfo();
             renderConditionsTable();
             clearForm();
             alert("Project loaded successfully.");
