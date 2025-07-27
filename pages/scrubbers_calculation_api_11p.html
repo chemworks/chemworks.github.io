@@ -13,11 +13,10 @@
     <section class="section">
         <div class="container">
             <div class="has-text-centered">
-                 <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZm9udC1mYW1pbHk9Ik1vbnRzZXJyYXQsIHNhbnMtc2VyaWYiPg0KICA8IS0tIA0KICAgIExvZ28gcGFyYSBDaGVtIFdvcmtzDQogICAgVmVyc2nDs246IE1vbGVjdWxhciBjb24gaW5pY2lhbGVzIENXDQogICAgRXN0ZSBhcmNoaXZvIFNWRyBlcyBlc2NhbGFibGUgYSBjdWFscXVpZXIgdGFtYcOxbyBzaW4gcGVyZGVyIGNhbGxpZGFkYS4NCiAgLS0+DQoNCiAgPCEtLSBHcnVwbyBwcmluY2lwYWwgcXVlIGNvbnRpZW5lIHRvZG9zIGxvcyBlbGVtZW50b3MgZGVsIGxvZ28gLS0+DQogIDxnPg0KICAgIDwhLS0gQW5pbGxvIGRlIGJlbmNlbm8gKGhleMOhZ29ubykgLS0+DQogICAgPGcgc3Ryb2tlPSIjNEE5MEUyIiBzdHJva2Utd2lkdGg9IjEyIiBmaWxsPSJub25lIj4NCiAgICAgIDxwYXRoIGQ9Ik0xMDAgMjUgTDE3NSA2Mi41IFYxMzcuNSBMMTAwIDE3NSBMMjUgMTM3LjUgVjYyLjUgTDEwMCAyNVoiIC8+DQogICAgICANCiAgICAgIDwhLS0gQyByY3Vsb2MgaW50ZXJpb3IgcGFyYSBhbG9qYXIgbGFzIGxldHJhcyAtLT4NCiAgICAgIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iMzUiIGZpbGw9IiM0QTkwRTIiIHN0cm9rZT0ibm9uZSIvPg0KICAgIDwvZz4NCiAgICANCiAgICA8IS0tIExldHJhcyAnQycgeSAnVycg0KICAgIDx0ZXh0IHg9IjYyIiB5PSIxMTMiIGZvbnQtc2l6ZT0iNDUiIGZpbGw9IndoaXRlIiBmb250LXdlaWdodD0iYm9sZCI+QzwvdGV4dD4NCiAgICA8dGV4dCB4PSI5MiIgeT0iMTEzIiBmb250LXNpemU9IjQ1IiBmaWxsPSJ3aGl0ZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlc8L3RleHQ+PC9zdmc+" alt="Chem Works Logo" class="chemworks-logo">
+                 <img src="data:image/svg+xml;base64,...(logo)..." alt="Chem Works Logo" class="chemworks-logo">
             </div>
-
             <nav class="navbar" role="navigation" aria-label="main navigation">
-                <div id="navbarBasicExample" class="navbar-menu is-active">
+                 <div id="navbarBasicExample" class="navbar-menu is-active">
                   <div class="navbar-start">
                     <a href="../index.html" class="navbar-item">Home</a>
                     <div class="navbar-item has-dropdown is-hoverable">
@@ -50,7 +49,6 @@
                 </div>
             </nav>
 
-
             <h1 class="title is-2 has-text-centered">Scrubbers Calculation</h1>
             <p class="subtitle is-5 has-text-centered">Sizing according to API 11P</p>
 
@@ -61,23 +59,28 @@
                     <h3 class="title is-5" id="condition-form-title">Add New Condition Case</h3>
                     <input type="hidden" id="edit-index" value="-1">
 
-                    <div class="field">
-                        <label class="label">Condition Case Name</label>
-                        <div class="control">
-                            <input class="input" type="text" id="condition-name" placeholder="e.g., Design Case, Max Flow Case" required>
+                    <div class="columns">
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">Condition Case Name</label>
+                                <div class="control">
+                                    <input class="input" type="text" id="condition-name" placeholder="e.g., Design Case" required>
+                                </div>
+                            </div>
                         </div>
-                    </div>
-
-                    <div class="field">
-                        <label class="label">Number of Scrubber Stages</label>
-                        <div class="control">
-                            <div class="select">
-                                <select id="numStages">
-                                    <option value="1">1 Stage</option>
-                                    <option value="2">2 Stages</option>
-                                    <option value="3">3 Stages</option>
-                                    <option value="4">4 Stages</option>
-                                </select>
+                        <div class="column">
+                            <div class="field">
+                                <label class="label">Number of Scrubber Stages</label>
+                                <div class="control">
+                                    <div class="select">
+                                        <select id="numStages">
+                                            <option value="1">1 Stage</option>
+                                            <option value="2">2 Stages</option>
+                                            <option value="3">3 Stages</option>
+                                            <option value="4">4 Stages</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -95,25 +98,24 @@
                 </form>
 
                 <h3 class="title is-5 mt-5">Saved Condition Cases</h3>
-                <div id="conditions-table-container" class="table-container">
-                    <p class="has-text-grey">No condition cases have been added yet.</p>
-                </div>
+                <div id="conditions-table-container" class="table-container"></div>
             </div>
 
             <div class="field is-grouped is-grouped-centered mt-5">
-                    <div class="control">
-                        <button id="calculateBtn" class="button is-primary is-medium">
-                            <span class="icon is-small"><i class="fas fa-calculator"></i></span>
-                            <span>Calculate Scrubbers</span>
-                        </button>
+                <p class="control">
+                    <button id="calculateBtn" class="button is-primary is-medium">
+                        <span class="icon is-small"><i class="fas fa-calculator"></i></span>
+                        <span>Calculate</span>
+                    </button>
+                </p>
+            </div>
+
+            <div id="resultsSection" class="box mt-5" style="display:none;">
+                <h2 class="title is-4">Calculation Results</h2>
+                <div id="resultsDisplay" class="content">
                     </div>
-                    <div class="control">
-                        <button id="exportCsvBtn" class="button is-info is-medium" disabled>
-                            <span class="icon is-small"><i class="fas fa-file-csv"></i></span>
-                            <span>Export to CSV</span>
-                        </button>
-                    </div>
-                </div>
+            </div>
+
         </div>
     </section>
     <script src="../js/scrubbers_calculator.js" defer></script>
