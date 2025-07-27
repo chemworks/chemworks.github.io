@@ -1,16 +1,14 @@
 // --- Global Data Store ---
 let projectInfo = {
-    "Project Name": "Scrubber Sizing Study",
-    "Project Number": "SCB-2025-001",
-    "Client": "Acme Inc.",
-    "Prepared by": "Engineering Dept.",
-    "Reviewed by": "Reviewer's Name",
+    "Project Name": "Scrubber Sizing Study", "Project Number": "SCB-2025-001",
+    "Client": "Acme Inc.", "Prepared by": "Engineering Dept.", "Reviewed by": "Reviewer's Name",
     "Date": new Date().toLocaleDateString('en-US', { day: '2-digit', month: 'long', year: 'numeric' })
 };
-let conditions = []; // Array to store all condition cases
+let designCriteria = { "minNllMm": 250, "minLiqOutletIn": 2 };
+let conditions = []; 
 const originalConditions = []; 
 
-// --- Constants (Self-contained) ---
+// --- Constants ---
 const K_VALUE_PRESETS = { "C": 0.18, "B": 0.25, "A": 0.35 };
 const L_PER_MIN_TO_M3_PER_S = 1 / 60000;
 const P_STANDARD_KGF_CM2A = 1.03323;
@@ -20,7 +18,7 @@ const M_TO_IN = 39.3701;
 const KGFCMA_TO_PA = 98066.5;
 const R_UNIVERSAL_J_MOLK = 8.31446;
 const CELSIUS_TO_KELVIN = 273.15;
-const INLET_MOMENTUM_LIMIT = 1488; 
+const INLET_MOMENTUM_LIMIT = 2976; 
 const GAS_OUTLET_VELOCITY_LIMIT = 20; 
 const LIQUID_OUTLET_VELOCITY_LIMIT = 1; 
 const LIQUID_RESIDENCE_TIME_S = 5 * 60; 
@@ -28,6 +26,7 @@ const LIQUID_RESIDENCE_TIME_S = 5 * 60;
 // --- DOMContentLoaded: Initial Setup ---
 window.addEventListener('DOMContentLoaded', () => {
     renderProjectInfo();
+    renderDesignCriteria();
     renderConditionsTable();
     renderDynamicInputs();
     
@@ -48,12 +47,13 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     });
 
-    // Main Action Buttons
     document.getElementById('calculateBtn').addEventListener('click', calculateScrubbers);
     document.getElementById('save-project-btn').addEventListener('click', saveProjectData);
     document.getElementById('load-project-btn').addEventListener('click', () => document.getElementById('load-project-file-input').click());
     document.getElementById('load-project-file-input').addEventListener('change', loadProjectData);
     document.getElementById('reset-data-btn').addEventListener('click', resetData);
+    document.getElementById('min-nll').addEventListener('change', () => designCriteria.minNllMm = parseFloat(document.getElementById('min-nll').value) || 250);
+    document.getElementById('min-liq-outlet').addEventListener('change', () => designCriteria.minLiqOutletIn = parseFloat(document.getElementById('min-liq-outlet').value) || 2);
 });
 
 function handleProjectInfoSubmit(event) {
@@ -77,8 +77,7 @@ function renderProjectInfo() {
     }
     html += '</ul>';
     container.innerHTML = html;
-
-    // Populate form fields
+    
     document.getElementById('project-name').value = projectInfo["Project Name"];
     document.getElementById('project-number').value = projectInfo["Project Number"];
     document.getElementById('client').value = projectInfo["Client"];
@@ -86,8 +85,10 @@ function renderProjectInfo() {
     document.getElementById('reviewed-by').value = projectInfo["Reviewed by"];
 }
 
-
-// --- Rest of the JavaScript functions (unchanged) ---
+function renderDesignCriteria() {
+    document.getElementById('min-nll').value = designCriteria.minNllMm;
+    document.getElementById('min-liq-outlet').value = designCriteria.minLiqOutletIn;
+}
 
 function setupKValueControlsForStage(stageIdPrefix) {
     const optionsSelect = document.getElementById(`${stageIdPrefix}-k-options`);
@@ -173,7 +174,7 @@ function handleFormSubmit(event) {
         }
 
         conditionCase.parameters.push({
-            kValue: kValue,
+            kValue,
             gasFlow: parseFloat(document.getElementById(`${stageIdPrefix}-gasFlow`).value) || 0,
             gasSg: parseFloat(document.getElementById(`${stageIdPrefix}-gasSg`).value) || 0,
             opTemp: parseFloat(document.getElementById(`${stageIdPrefix}-opTemp`).value) || 0,
@@ -359,28 +360,26 @@ function calculateScrubbers() {
             const v_max = calculateMaxVelocity(params.kValue, rho_l, rho_g);
             const area_req = (v_max > 0 && v_max !== Infinity) ? q_g_actual / v_max : 0;
             const diameter_req_m = (area_req > 0) ? Math.sqrt(4 * area_req / Math.PI) : 0;
-            
+
             const rho_m_inlet = (rho_g * q_g_actual + rho_l * q_l_total_actual) / (q_g_actual + q_l_total_actual || 1);
             const inlet_area = (q_g_actual + q_l_total_actual) * Math.sqrt(rho_m_inlet / INLET_MOMENTUM_LIMIT);
             const gas_outlet_area = q_g_actual / GAS_OUTLET_VELOCITY_LIMIT;
             const liquid_outlet_area = q_l_total_actual / LIQUID_OUTLET_VELOCITY_LIMIT;
             
+            let liqOutletIn = Math.sqrt(4 * liquid_outlet_area / Math.PI) * M_TO_IN;
+            liqOutletIn = Math.max(liqOutletIn, designCriteria.minLiqOutletIn);
+
             const liquid_volume = q_l_total_actual * LIQUID_RESIDENCE_TIME_S;
-            const nll_height_m = (area_req > 0) ? liquid_volume / area_req : 0;
+            let nll_m = (area_req > 0) ? liquid_volume / area_req : 0;
+            nll_m = Math.max(nll_m, designCriteria.minNllMm / 1000);
 
             results.push({
-                caseName: conditionCase.name,
-                stageName: stageName,
-                requiredDiameterIn: diameter_req_m * M_TO_IN,
-                requiredDiameterMm: diameter_req_m * 1000,
-                inletNozzleIn: Math.sqrt(4 * inlet_area / Math.PI) * M_TO_IN,
-                inletNozzleMm: Math.sqrt(4 * inlet_area / Math.PI) * 1000,
-                gasOutletNozzleIn: Math.sqrt(4 * gas_outlet_area / Math.PI) * M_TO_IN,
-                gasOutletNozzleMm: Math.sqrt(4 * gas_outlet_area / Math.PI) * 1000,
-                liquidOutletNozzleIn: Math.sqrt(4 * liquid_outlet_area / Math.PI) * M_TO_IN,
-                liquidOutletNozzleMm: Math.sqrt(4 * liquid_outlet_area / Math.PI) * 1000,
-                nllIn: nll_height_m * M_TO_IN,
-                nllMm: nll_height_m * 1000
+                caseName: conditionCase.name, stageName: stageName,
+                requiredDiameterIn: diameter_req_m * M_TO_IN, requiredDiameterMm: diameter_req_m * 1000,
+                inletNozzleIn: Math.sqrt(4 * inlet_area / Math.PI) * M_TO_IN, inletNozzleMm: Math.sqrt(4 * inlet_area / Math.PI) * 1000,
+                gasOutletNozzleIn: Math.sqrt(4 * gas_outlet_area / Math.PI) * M_TO_IN, gasOutletNozzleMm: Math.sqrt(4 * gas_outlet_area / Math.PI) * 1000,
+                liquidOutletNozzleIn: liqOutletIn, liquidOutletNozzleMm: liqOutletIn / M_TO_IN * 1000,
+                nllIn: nll_m * M_TO_IN, nllMm: nll_m * 1000
             });
         }
     });
@@ -403,24 +402,24 @@ function renderResultsTable(results) {
     const stageNames = [...new Set(results.map(r => r.stageName))];
 
     const parameters = [
-        { keyIn: 'requiredDiameterIn', keyMm: 'requiredDiameterMm', label: 'Vessel ID in (mm)' },
-        { keyIn: 'inletNozzleIn', keyMm: 'inletNozzleMm', label: 'Inlet Nozzle in (mm)' },
-        { keyIn: 'gasOutletNozzleIn', keyMm: 'gasOutletNozzleMm', label: 'Gas Outlet Nozzle in (mm)' },
-        { keyIn: 'liquidOutletNozzleIn', keyMm: 'liquidOutletNozzleMm', label: 'Liquid Outlet Nozzle in (mm)' },
-        { keyIn: 'nllIn', keyMm: 'nllMm', label: 'Normal Liquid Level in (mm)' }
+        { key: 'requiredDiameter', label: 'Vessel ID in (mm)' },
+        { key: 'inletNozzle', label: 'Inlet Nozzle in (mm)' },
+        { key: 'gasOutletNozzle', label: 'Gas Outlet Nozzle in (mm)' },
+        { key: 'liquidOutletNozzle', label: 'Liquid Outlet Nozzle in (mm)' },
+        { key: 'nll', label: 'Normal Liquid Level in (mm)' }
     ];
 
     stageNames.forEach(stage => {
         tableData[stage] = {};
         parameters.forEach(param => {
-            tableData[stage][`${param.keyIn}Max`] = 0;
+            tableData[stage][`${param.key}Max`] = 0;
         });
 
         results.filter(r => r.stageName === stage).forEach(res => {
             tableData[stage][res.caseName] = res;
             parameters.forEach(param => {
-                if (res[param.keyIn] > tableData[stage][`${param.keyIn}Max`]) {
-                    tableData[stage][`${param.keyIn}Max`] = res[param.keyIn];
+                if (res[`${param.key}In`] > tableData[stage][`${param.key}Max`]) {
+                    tableData[stage][`${param.key}Max`] = res[`${param.key}In`];
                 }
             });
         });
@@ -437,9 +436,9 @@ function renderResultsTable(results) {
             caseNames.forEach(caseName => {
                 const result = tableData[stage][caseName];
                 if (result) {
-                    const isMax = result[param.keyIn] === tableData[stage][`${param.keyIn}Max`];
-                    const valueIn = result[param.keyIn];
-                    const valueMm = result[param.keyMm];
+                    const isMax = result[`${param.key}In`] === tableData[stage][`${param.key}Max`];
+                    const valueIn = result[`${param.key}In`];
+                    const valueMm = result[`${param.key}Mm`];
                     const cellContent = `${valueIn.toFixed(2)} (${valueMm.toFixed(2)})`;
                     bodyHtml += `<td>${isMax ? `<strong>${cellContent}</strong>` : cellContent}</td>`;
                 } else {
@@ -474,7 +473,7 @@ function getFormattedFileName(extension) {
 }
 
 function saveProjectData() {
-    const projectData = { projectInfo, conditions };
+    const projectData = { projectInfo, conditions, designCriteria };
     const dataStr = JSON.stringify(projectData, null, 2);
     const blob = new Blob([dataStr], { type: 'application/json' });
     const link = document.createElement('a');
@@ -494,7 +493,9 @@ function loadProjectData(event) {
             const loadedData = JSON.parse(e.target.result);
             projectInfo = loadedData.projectInfo || projectInfo;
             conditions = loadedData.conditions || [];
+            designCriteria = loadedData.designCriteria || designCriteria;
             renderProjectInfo();
+            renderDesignCriteria();
             renderConditionsTable();
             clearForm();
             alert("Project loaded successfully.");
@@ -509,6 +510,8 @@ function loadProjectData(event) {
 function resetData() {
     if (confirm("Are you sure you want to reset all data?")) {
         conditions = [];
+        designCriteria = { "minNllMm": 250, "minLiqOutletIn": 2 };
+        renderDesignCriteria();
         renderConditionsTable();
         clearForm();
         document.getElementById('resultsSection').style.display = 'none';

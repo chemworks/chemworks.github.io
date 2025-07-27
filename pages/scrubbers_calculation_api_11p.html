@@ -15,7 +15,7 @@
     <section class="section">
         <div class="container">
             <div class="has-text-centered">
-                 <img src="data:image/svg+xml;base64,...(logo)..." alt="Chem Works Logo" class="chemworks-logo">
+                 <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjAwIiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDIwMCAyMDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZm9udC1mYW1pbHk9Ik1vbnRzZXJyYXQsIHNhbnMtc2VyaWYiPg0KICA8IS0tIA0KICAgIExvZ28gcGFyYSBDaGVtIFdvcmtzDQogICAgVmVyc2nDs246IE1vbGVjdWxhciBjb24gaW5pY2lhbGVzIENXDQogICAgRXN0ZSBhcmNoaXZvIFNWRyBlcyBlc2NhbGFibGUgYSBjdWFscXVpZXIgdGFtYcOxbyBzaW4gcGVyZGVyIGNhbGxpZGFkYS4NCiAgLS0+DQoNCiAgPCEtLSBHcnVwbyBwcmluY2lwYWwgcXVlIGNvbnRpZW5lIHRvZG9zIGxvcyBlbGVtZW50b3MgZGVsIGxvZ28gLS0+DQogIDxnPg0KICAgIDwhLS0gQW5pbGxvIGRlIGJlbmNlbm8gKGhleMOhZ29ubykgLS0+DQogICAgPGcgc3Ryb2tlPSIjNEE5MEUyIiBzdHJva2Utd2lkdGg9IjEyIiBmaWxsPSJub25lIj4NCiAgICAgIDxwYXRoIGQ9Ik0xMDAgMjUgTDE3NSA2Mi41IFYxMzcuNSBMMTAwIDE3NSBMMjUgMTM3LjUgVjYyLjUgTDEwMCAyNVoiIC8+DQogICAgICANCiAgICAgIDwhLS0gQyByY3Vsb2MgaW50ZXJpb3IgcGFyYSBhbG9qYXIgbGFzIGxldHJhcyAtLT4NCiAgICAgIDxjaXJjbGUgY3g9IjEwMCIgY3k9IjEwMCIgcj0iMzUiIGZpbGw9IiM0QTkwRTIiIHN0cm9rZT0ibm9uZSIvPg0KICAgIDwvZz4NCiAgICANCiAgICA8IS0tIExldHJhcyAnQycgeSAnVycg0KICAgIDx0ZXh0IHg9IjYyIiB5PSIxMTMiIGZvbnQtc2l6ZT0iNDUiIGZpbGw9IndoaXRlIiBmb250LXdlaWdodD0iYm9sZCI+QzwvdGV4dD4NCiAgICA8dGV4dCB4PSI5MiIgeT0iMTEzIiBmb250LXNpemU9IjQ1IiBmaWxsPSJ3aGl0ZSIgZm9udC13ZWlnaHQ9ImJvbGQiPlc8L3RleHQ+PC9zdmc+" alt="Chem Works Logo" class="chemworks-logo">
             </div>
             <nav class="navbar" role="navigation" aria-label="main navigation">
                 <div id="navbarBasicExample" class="navbar-menu is-active">
@@ -61,14 +61,29 @@
                 </header>
                 <div class="card-content is-hidden">
                     <form id="project-info-form" class="box">
-                        <div class="field"><label class="label">Project Name</label><div class="control"><input class="input" type="text" id="project-name" placeholder="e.g., Scrubber Sizing Study" required></div></div>
-                        <div class="field"><label class="label">Project Number</label><div class="control"><input class="input" type="text" id="project-number" placeholder="e.g., SCB-2025-001" required></div></div>
-                        <div class="field"><label class="label">Client</label><div class="control"><input class="input" type="text" id="client" placeholder="e.g., Acme Inc." required></div></div>
-                        <div class="field"><label class="label">Prepared by</label><div class="control"><input class="input" type="text" id="prepared-by" placeholder="e.g., Your Name / Engineering Dept." required></div></div>
-                        <div class="field"><label class="label">Reviewed by</label><div class="control"><input class="input" type="text" id="reviewed-by" placeholder="e.g., Reviewer's Name" required></div></div>
+                        <div class="field"><label class="label">Project Name</label><div class="control"><input class="input" type="text" id="project-name" required></div></div>
+                        <div class="field"><label class="label">Project Number</label><div class="control"><input class="input" type="text" id="project-number" required></div></div>
+                        <div class="field"><label class="label">Client</label><div class="control"><input class="input" type="text" id="client" required></div></div>
+                        <div class="field"><label class="label">Prepared by</label><div class="control"><input class="input" type="text" id="prepared-by" required></div></div>
+                        <div class="field"><label class="label">Reviewed by</label><div class="control"><input class="input" type="text" id="reviewed-by" required></div></div>
                         <div class="field is-grouped"><div class="control"><button type="submit" class="button is-link">Save Information</button></div></div>
                     </form>
                     <div id="project-info-display" class="content mt-4"></div>
+                </div>
+            </div>
+
+            <div class="card mb-5">
+                <header class="card-header is-clickable">
+                    <p class="card-header-title">Design Criteria</p>
+                    <button class="card-header-icon" aria-label="more options"><span class="icon"><i class="fas fa-angle-down" aria-hidden="true"></i></span></button>
+                </header>
+                <div class="card-content is-hidden">
+                    <div class="box">
+                        <div class="columns">
+                            <div class="column"><div class="field"><label class="label">Minimum NLL (mm)</label><div class="control"><input class="input" type="number" id="min-nll" value="250"></div></div></div>
+                            <div class="column"><div class="field"><label class="label">Minimum Liquid Outlet (in)</label><div class="control"><input class="input" type="number" id="min-liq-outlet" value="2"></div></div></div>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -80,9 +95,7 @@
                     <div class="columns">
                         <div class="column"><div class="field"><label class="label">Condition Case Name</label><div class="control"><input class="input" type="text" id="condition-name" placeholder="e.g., Design Case" required></div></div></div>
                         <div class="column"><div class="field"><label class="label">Number of Scrubber Stages</label><div class="control"><div class="select">
-                            <select id="numStages">
-                                <option value="1">1 Stage</option><option value="2">2 Stages</option><option value="3">3 Stages</option><option value="4">4 Stages</option>
-                            </select>
+                            <select id="numStages"><option value="1">1 Stage</option><option value="2">2 Stages</option><option value="3">3 Stages</option><option value="4">4 Stages</option></select>
                         </div></div></div></div>
                     </div>
                     <div id="dynamic-scrubber-inputs" class="mt-4"></div>
@@ -108,19 +121,19 @@
                 <div class="card-content is-hidden">
                     <div class="content">
                         <h4 class="title is-5">Vertical Separator Sizing (API 11P / ISO 13631)</h4>
-                        <p>El diámetro del recipiente (Vessel ID) se calcula a partir de la velocidad máxima de gas permisible que evita el arrastre de gotas de líquido. La fórmula se basa en la sección <strong>10.2.6 de ISO 13631</strong>.</p>
+                        <p>El diámetro del recipiente (Vessel ID) se calcula a partir de la velocidad máxima de gas permisible que evita el arrastre de líquido. La fórmula se basa en la sección <strong>10.2.6 de ISO 13631</strong>.</p>
                         <p>$$ v_{max} = K \cdot \sqrt{\frac{\rho_l - \rho_g}{\rho_g}} \quad \Rightarrow \quad A_{gas} = \frac{Q_g}{v_{max}} \quad \Rightarrow \quad D_{vessel} = \sqrt{\frac{4 \cdot A_{gas}}{\pi}} $$</p>
                         
                         <h4 class="title is-5 mt-4">Sizing de Conexiones (GPSA Criteria)</h4>
-                        <p>Las conexiones se dimensionan para no exceder los límites de momentum o velocidad recomendados para evitar erosión, vibraciones y re-arrastre.</p>
+                        <p>Las boquillas se dimensionan para no exceder los límites de momentum o velocidad recomendados para evitar erosión, vibraciones y re-arrastre.</p>
                         <ul>
-                            <li><b>Entrada (sin diverter):</b> Se limita el momentum de la mezcla. $$ \rho_m v^2 \le 1488 \frac{kg}{m \cdot s^2} $$</li>
-                            <li><b>Salida de Gas:</b> Se limita la velocidad del gas. $$ v_{gas} \le 20 \frac{m}{s} $$</li>
-                            <li><b>Salida de Líquido:</b> Se limita la velocidad del líquido. $$ v_{liquid} \le 1 \frac{m}{s} $$</li>
+                            <li><b>Entrada (Half Pipe):</b> Se limita el momentum de la mezcla. $$ \rho_m v^2 \le 2976 \frac{kg}{m \cdot s^2} \quad (GPSA, \text{Fig. 7-7}) $$</li>
+                            <li><b>Salida de Gas:</b> Se limita la velocidad del gas. $$ v_{gas} \le 20 \frac{m}{s} \quad (\text{Práctica recomendada}) $$</li>
+                            <li><b>Salida de Líquido:</b> Se limita la velocidad del líquido. $$ v_{liquid} \le 1 \frac{m}{s} \quad (\text{Práctica recomendada}) $$</li>
                         </ul>
                          
                         <h4 class="title is-5 mt-4">Tiempo de Residencia y Nivel de Líquido (GPSA)</h4>
-                         <p>El volumen de líquido se calcula para un tiempo de residencia (t) de **5 minutos**, lo cual permite una adecuada separación de las fases y la estabilización del control de nivel. Con este volumen y el área del recipiente, se determina la altura del nivel normal (NLL).</p>
+                         <p>El volumen de líquido se calcula para un tiempo de residencia (t) de **5 minutos** para permitir la desgasificación y estabilizar el control. Con este volumen y el área del recipiente, se determina la altura del nivel normal (NLL) (GPSA, Fig. 7-20).</p>
                          <p>$$ V_{liquid} = Q_l \cdot t \quad \Rightarrow \quad NLL = \frac{V_{liquid}}{A_{vessel}} $$</p>
                     </div>
                 </div>
@@ -138,7 +151,6 @@
 
         </div>
     </section>
-    
     <script src="../js/scrubbers_calculator.js" defer></script>
 </body>
 </html>
