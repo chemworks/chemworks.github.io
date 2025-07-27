@@ -6,7 +6,7 @@ let projectInfo = {
 };
 let designCriteria = { "minNllMm": 250, "minLiqOutletIn": 2 };
 let conditions = []; 
-const originalConditions = []; 
+let calculationResults = [];
 
 // --- Constants ---
 const K_VALUE_PRESETS = { "C": 0.18, "B": 0.25, "A": 0.35 };
@@ -307,7 +307,7 @@ function calculateScrubbers() {
         return;
     }
 
-    let allResults = [];
+    calculationResults = []; // Reset global results
     conditions.forEach(conditionCase => {
         for (let i = 0; i < conditionCase.parameters.length; i++) {
             const params = conditionCase.parameters[i];
@@ -337,7 +337,7 @@ function calculateScrubbers() {
             let nll_m = (area_req > 0) ? liquid_volume / area_req : 0;
             nll_m = Math.max(nll_m, designCriteria.minNllMm / 1000);
 
-            allResults.push({
+            calculationResults.push({
                 caseName: conditionCase.name, stageName, params,
                 q_g_actual, q_l_total_actual, rho_g, rho_l, rho_m_inlet, v_max, area_req,
                 requiredDiameterIn: diameter_req_m * M_TO_IN, requiredDiameterMm: diameter_req_m * 1000,
@@ -348,8 +348,13 @@ function calculateScrubbers() {
             });
         }
     });
-    renderResultsTable(allResults);
-    renderCalculationMemo(allResults);
+    renderResultsTable(calculationResults);
+    renderCalculationMemo(calculationResults);
+
+    // Enable download buttons
+    document.getElementById('download-pdf-btn').disabled = false;
+    document.getElementById('download-csv-btn').disabled = false;
+    document.getElementById('download-all-btn').disabled = false;
 }
 
 function renderResultsTable(results) {
@@ -416,6 +421,7 @@ function renderResultsTable(results) {
     });
 
     const fullTableHtml = `<h3 class="title is-5">Sizing Summary</h3><p class="subtitle is-6">The controlling case for each parameter is marked in <strong>bold</strong>. All diameters are internal.</p><div class="table-container"><table class="table is-fullwidth is-bordered is-striped is-hoverable"><thead><tr>${headerHtml}</tr></thead><tbody>${bodyHtml}</tbody></table></div>`;
+    
     container.innerHTML = fullTableHtml;
     section.style.display = 'block';
     section.scrollIntoView({ behavior: 'smooth' });
@@ -434,17 +440,24 @@ function renderCalculationMemo(results) {
                 <div class="table-container">
                     <table class="table is-fullwidth is-bordered is-narrow">
                         <tbody>
-                            <tr><td>Actual Gas Flow (q_g)</td><td>${res.q_g_actual.toFixed(4)} m³/s</td></tr>
+                            <tr><td colspan="2" class="has-background-light has-text-weight-bold">Flows & Densities</td></tr>
+                            <tr><td>Actual Gas Flow (q_g)</td><td>${res.q_g_actual.toFixed(5)} m³/s</td></tr>
                             <tr><td>Actual Liquid Flow (q_l)</td><td>${res.q_l_total_actual.toFixed(5)} m³/s</td></tr>
                             <tr><td>Gas Density (ρ_g)</td><td>${res.rho_g.toFixed(3)} kg/m³</td></tr>
                             <tr><td>Liquid Density (ρ_l)</td><td>${res.rho_l.toFixed(3)} kg/m³</td></tr>
                             <tr><td>Mixture Inlet Density (ρ_m)</td><td>${res.rho_m_inlet.toFixed(3)} kg/m³</td></tr>
+                            
+                            <tr><td colspan="2" class="has-background-light has-text-weight-bold">Vessel Sizing</td></tr>
                             <tr><td>Max. Gas Velocity (v_max)</td><td>${res.v_max.toFixed(3)} m/s</td></tr>
                             <tr><td>Required Vessel Area (A_gas)</td><td>${res.area_req.toFixed(4)} m²</td></tr>
                             <tr><td class="has-text-weight-bold">Required Vessel ID</td><td class="has-text-weight-bold">${res.requiredDiameterIn.toFixed(2)} in (${res.requiredDiameterMm.toFixed(2)} mm)</td></tr>
+
+                            <tr><td colspan="2" class="has-background-light has-text-weight-bold">Nozzle Sizing</td></tr>
                             <tr><td>Required Inlet Nozzle ID</td><td>${res.inletNozzleIn.toFixed(2)} in (${res.inletNozzleMm.toFixed(2)} mm)</td></tr>
                             <tr><td>Required Gas Outlet Nozzle ID</td><td>${res.gasOutletNozzleIn.toFixed(2)} in (${res.gasOutletNozzleMm.toFixed(2)} mm)</td></tr>
                             <tr><td>Required Liquid Outlet ID</td><td>${res.liquidOutletNozzleIn.toFixed(2)} in (${res.liquidOutletNozzleMm.toFixed(2)} mm)</td></tr>
+                            
+                            <tr><td colspan="2" class="has-background-light has-text-weight-bold">Liquid Level</td></tr>
                             <tr><td>Required NLL</td><td>${res.nllIn.toFixed(2)} in (${res.nllMm.toFixed(2)} mm)</td></tr>
                         </tbody>
                     </table>
