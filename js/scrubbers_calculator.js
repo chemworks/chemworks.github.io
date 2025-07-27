@@ -10,30 +10,32 @@ let projectInfo = {
 let conditions = []; // Array to store all condition cases
 const originalConditions = []; // To store initial state for reset
 
-// --- Constants ---
+// --- Constants (Self-contained) ---
 const K_VALUE_PRESETS = { "C": 0.18, "B": 0.25, "A": 0.35 };
 const L_PER_MIN_TO_M3_PER_S = 1 / 60000;
-const SM3_PER_D_TO_SM3_PER_S = 1 / (24 * 3600);
-const KGFCMA_TO_PA = 98066.5;
-const CELSIUS_TO_KELVIN = 273.15;
-const R_UNIVERSAL_J_MOLK = 8.31446;
 const P_STANDARD_KGF_CM2A = 1.03323;
 const T_STANDARD_K = 273.15;
 const FT_PER_S_TO_M_PER_S = 0.3048;
 const M_TO_IN = 39.3701;
+const KGFCMA_TO_PA = 98066.5;
+const R_UNIVERSAL_J_MOLK = 8.31446;
+const CELSIUS_TO_KELVIN = 273.15;
+
+// Design Criteria Constants (GPSA)
+const INLET_MOMENTUM_LIMIT = 1488; // kg/(m·s²)
+const GAS_OUTLET_VELOCITY_LIMIT = 20; // m/s
+const LIQUID_OUTLET_VELOCITY_LIMIT = 1; // m/s
+const LIQUID_RESIDENCE_TIME_S = 5 * 60; // 5 minutes in seconds
 
 // --- DOMContentLoaded: Initial Setup ---
 window.addEventListener('DOMContentLoaded', () => {
-    // Initial UI Rendering
     renderConditionsTable();
     renderDynamicInputs();
-
-    // --- Event Listeners ---
+    
     document.getElementById('numStages').addEventListener('change', renderDynamicInputs);
     document.getElementById('condition-form').addEventListener('submit', handleFormSubmit);
     document.getElementById('clear-form-btn').addEventListener('click', clearForm);
 
-    // Collapsible Card Headers
     document.querySelectorAll('.card-header.is-clickable').forEach(header => {
         header.addEventListener('click', () => {
             const content = header.closest('.card').querySelector('.card-content');
@@ -52,13 +54,9 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('load-project-btn').addEventListener('click', () => document.getElementById('load-project-file-input').click());
     document.getElementById('load-project-file-input').addEventListener('change', loadProjectData);
     document.getElementById('reset-data-btn').addEventListener('click', resetData);
-
-    // Note: Download buttons are enabled after calculation
 });
 
-
 // --- UI and Data Handling Functions ---
-
 function setupKValueControlsForStage(stageIdPrefix) {
     const optionsSelect = document.getElementById(`${stageIdPrefix}-k-options`);
     const valueInput = document.getElementById(`${stageIdPrefix}-k-input`);
@@ -124,53 +122,6 @@ function renderDynamicInputs() {
     }
 }
 
-function handleFormSubmit(event) {
-    event.preventDefault();
-    const conditionName = document.getElementById('condition-name').value.trim();
-    if (!conditionName) { alert('Please provide a name for the condition case.'); return; }
-
-    const numStages = parseInt(document.getElementById('numStages').value);
-    const totalSections = numStages + 1;
-    const conditionCase = { name: conditionName, stages: numStages, parameters: [] };
-
-    for (let i = 1; i <= totalSections; i++) {
-        const stageIdPrefix = `sc-${i}`;
-        const kValue = parseFloat(document.getElementById(`${stageIdPrefix}-k-input`).value);
-        if (isNaN(kValue) || kValue <= 0) {
-            const stageName = i > numStages ? 'Discharge Scrubber' : `Scrubber ${i}`;
-            alert(`Please provide a valid K-value for ${stageName}.`);
-            return;
-        }
-
-        conditionCase.parameters.push({
-            kValue,
-            gasFlow: parseFloat(document.getElementById(`${stageIdPrefix}-gasFlow`).value) || 0,
-            gasSg: parseFloat(document.getElementById(`${stageIdPrefix}-gasSg`).value) || 0,
-            opTemp: parseFloat(document.getElementById(`${stageIdPrefix}-opTemp`).value) || 0,
-            lightLiqFlow: parseFloat(document.getElementById(`${stageIdPrefix}-lightLiqFlow`).value) || 0,
-            heavyLiqFlow: parseFloat(document.getElementById(`${stageIdPrefix}-heavyLiqFlow`).value) || 0,
-            opPress: parseFloat(document.getElementById(`${stageIdPrefix}-opPress`).value) || 0,
-            lightLiqDens: parseFloat(document.getElementById(`${stageIdPrefix}-lightLiqDens`).value) || 0,
-            heavyLiqDens: parseFloat(document.getElementById(`${stageIdPrefix}-heavyLiqDens`).value) || 0,
-            mawp: parseFloat(document.getElementById(`${stageIdPrefix}-mawp`).value) || 0,
-        });
-    }
-
-    const editIndex = document.getElementById('edit-index').value;
-    if (editIndex > -1) {
-        conditions[editIndex] = conditionCase;
-    } else {
-        if (conditions.some(c => c.name === conditionName)) {
-            alert(`A condition case with the name "${conditionName}" already exists.`);
-            return;
-        }
-        conditions.push(conditionCase);
-    }
-
-    renderConditionsTable();
-    clearForm();
-}
-
 function renderConditionsTable() {
     const container = document.getElementById('conditions-table-container');
     if (!container) return;
@@ -206,6 +157,53 @@ function renderConditionsTable() {
         bodyHtml += `<tr>${rowHtml}</tr>`;
     });
     container.innerHTML = `<table class="table is-fullwidth is-bordered is-striped is-narrow is-hoverable"><thead><tr>${headerHtml}</tr></thead><tbody>${bodyHtml}</tbody></table>`;
+}
+
+function handleFormSubmit(event) {
+    event.preventDefault();
+    const conditionName = document.getElementById('condition-name').value.trim();
+    if (!conditionName) { alert('Please provide a name for the condition case.'); return; }
+
+    const numStages = parseInt(document.getElementById('numStages').value);
+    const totalSections = numStages + 1;
+    const conditionCase = { name: conditionName, stages: numStages, parameters: [] };
+
+    for (let i = 1; i <= totalSections; i++) {
+        const stageIdPrefix = `sc-${i}`;
+        const kValue = parseFloat(document.getElementById(`${stageIdPrefix}-k-input`).value);
+        if (isNaN(kValue) || kValue <= 0) {
+            const stageName = i > numStages ? 'Discharge Scrubber' : `Scrubber ${i}`;
+            alert(`Please provide a valid K-value for ${stageName}.`);
+            return;
+        }
+
+        conditionCase.parameters.push({
+            kValue: kValue,
+            gasFlow: parseFloat(document.getElementById(`${stageIdPrefix}-gasFlow`).value) || 0,
+            gasSg: parseFloat(document.getElementById(`${stageIdPrefix}-gasSg`).value) || 0,
+            opTemp: parseFloat(document.getElementById(`${stageIdPrefix}-opTemp`).value) || 0,
+            lightLiqFlow: parseFloat(document.getElementById(`${stageIdPrefix}-lightLiqFlow`).value) || 0,
+            heavyLiqFlow: parseFloat(document.getElementById(`${stageIdPrefix}-heavyLiqFlow`).value) || 0,
+            opPress: parseFloat(document.getElementById(`${stageIdPrefix}-opPress`).value) || 0,
+            lightLiqDens: parseFloat(document.getElementById(`${stageIdPrefix}-lightLiqDens`).value) || 0,
+            heavyLiqDens: parseFloat(document.getElementById(`${stageIdPrefix}-heavyLiqDens`).value) || 0,
+            mawp: parseFloat(document.getElementById(`${stageIdPrefix}-mawp`).value) || 0,
+        });
+    }
+
+    const editIndex = document.getElementById('edit-index').value;
+    if (editIndex > -1) {
+        conditions[editIndex] = conditionCase;
+    } else {
+        if (conditions.some(c => c.name === conditionName)) {
+            alert(`A condition case with the name "${conditionName}" already exists.`);
+            return;
+        }
+        conditions.push(conditionCase);
+    }
+
+    renderConditionsTable();
+    clearForm();
 }
 
 function loadCaseForEdit(index) {
@@ -318,21 +316,37 @@ function calculateScrubbers() {
             const params = conditionCase.parameters[i];
             const stageName = (i < conditionCase.stages) ? `Scrubber ${i + 1}` : 'Discharge Scrubber';
             if (isStageDataEmpty(params)) continue;
-            
-            const q_g_actual = calculateActualGasFlow(params.gasFlow, params.opPress, params.opTemp);
-            if (q_g_actual === 0) continue; // Skip sizing if there's no gas flow
 
+            const q_g_actual = calculateActualGasFlow(params.gasFlow, params.opPress, params.opTemp);
+            if (q_g_actual === 0) continue;
+
+            const q_l_total_actual = (params.lightLiqFlow + params.heavyLiqFlow) * L_PER_MIN_TO_M3_PER_S;
             const rho_g = calculateGasDensity(params.opPress, params.opTemp, params.gasSg);
             let rho_l = calculateMeanLiquidDensity(params);
+            
+            // Vessel Diameter
             const v_max = calculateMaxVelocity(params.kValue, rho_l, rho_g);
             const area_req = (v_max > 0 && v_max !== Infinity) ? q_g_actual / v_max : 0;
             const diameter_req_m = (area_req > 0) ? Math.sqrt(4 * area_req / Math.PI) : 0;
+            
+            // Nozzle Sizing
+            const rho_m_inlet = (rho_g * q_g_actual + rho_l * q_l_total_actual) / (q_g_actual + q_l_total_actual || 1);
+            const inlet_area = (q_g_actual + q_l_total_actual) * Math.sqrt(rho_m_inlet / INLET_MOMENTUM_LIMIT);
+            const gas_outlet_area = q_g_actual / GAS_OUTLET_VELOCITY_LIMIT;
+            const liquid_outlet_area = q_l_total_actual / LIQUID_OUTLET_VELOCITY_LIMIT;
+
+            // Liquid Level
+            const liquid_volume = q_l_total_actual * LIQUID_RESIDENCE_TIME_S;
+            const nll_height_m = (area_req > 0) ? liquid_volume / area_req : 0;
 
             results.push({
                 caseName: conditionCase.name,
                 stageName: stageName,
                 requiredDiameterIn: diameter_req_m * M_TO_IN,
-                requiredDiameterMm: diameter_req_m * 1000
+                inletNozzleIn: Math.sqrt(4 * inlet_area / Math.PI) * M_TO_IN,
+                gasOutletNozzleIn: Math.sqrt(4 * gas_outlet_area / Math.PI) * M_TO_IN,
+                liquidOutletNozzleIn: Math.sqrt(4 * liquid_outlet_area / Math.PI) * M_TO_IN,
+                nllIn: nll_height_m * M_TO_IN
             });
         }
     });
@@ -351,63 +365,66 @@ function renderResultsTable(results) {
         return;
     }
 
-    // 1. Re-structure data: { "Scrubber 1": { "CASE_A": 36.5, "CASE_B": 35.5 }, ... }
     const tableData = {};
-    const caseNames = [...new Set(results.map(r => r.caseName))]; // Get unique case names
-    const stageNames = [...new Set(results.map(r => r.stageName))]; // Get unique stage names
+    const caseNames = [...new Set(results.map(r => r.caseName))];
+    const stageNames = [...new Set(results.map(r => r.stageName))];
 
     stageNames.forEach(stage => {
-        tableData[stage] = {};
+        tableData[stage] = { maxDiameter: 0 };
         results.filter(r => r.stageName === stage).forEach(res => {
             tableData[stage][res.caseName] = res;
-        });
-    });
-
-    // 2. Find max diameter for each stage to identify the dimensioning case
-    stageNames.forEach(stage => {
-        const diameters = Object.values(tableData[stage]).map(res => res.requiredDiameterMm);
-        tableData[stage].maxDiameter = Math.max(...diameters);
-    });
-
-    // 3. Build the HTML table
-    let headerHtml = '<th>Equipment</th>';
-    caseNames.forEach(name => {
-        headerHtml += `<th>${name}</th>`;
-    });
-
-    let bodyHtml = '';
-    stageNames.forEach(stage => {
-        bodyHtml += `<tr><td><strong>${stage}</strong></td>`;
-        caseNames.forEach(caseName => {
-            const result = tableData[stage][caseName];
-            if (result) {
-                const isMax = result.requiredDiameterMm === tableData[stage].maxDiameter;
-                const cellContent = `${result.requiredDiameterIn.toFixed(2)} in (${result.requiredDiameterMm.toFixed(2)} mm)`;
-                bodyHtml += `<td>${isMax ? `<strong>${cellContent}</strong>` : cellContent}</td>`;
-            } else {
-                bodyHtml += '<td>-</td>'; // No data for this case/stage combo
+            if (res.requiredDiameterIn > tableData[stage].maxDiameter) {
+                tableData[stage].maxDiameter = res.requiredDiameterIn;
             }
         });
-        bodyHtml += '</tr>';
+    });
+
+    let headerHtml = '<th>Parameter</th>';
+    caseNames.forEach(name => headerHtml += `<th>${name}</th>`);
+
+    let bodyHtml = '';
+    const parameters = [
+        { key: 'requiredDiameterIn', label: 'Vessel ID (in)' },
+        { key: 'inletNozzleIn', label: 'Inlet Nozzle (in)' },
+        { key: 'gasOutletNozzleIn', label: 'Gas Outlet Nozzle (in)' },
+        { key: 'liquidOutletNozzleIn', label: 'Liquid Outlet Nozzle (in)' },
+        { key: 'nllIn', label: 'Normal Liquid Level (in)' }
+    ];
+
+    stageNames.forEach(stage => {
+        bodyHtml += `<tr><td colspan="${caseNames.length + 1}" class="has-background-light"><strong>${stage}</strong></td></tr>`;
+        parameters.forEach(param => {
+            bodyHtml += `<tr><td>${param.label}</td>`;
+            caseNames.forEach(caseName => {
+                const result = tableData[stage][caseName];
+                if (result) {
+                    const isMax = param.key === 'requiredDiameterIn' && result.requiredDiameterIn === tableData[stage].maxDiameter;
+                    const value = result[param.key].toFixed(2);
+                    bodyHtml += `<td>${isMax ? `<strong>${value}</strong>` : value}</td>`;
+                } else {
+                    bodyHtml += '<td>-</td>';
+                }
+            });
+            bodyHtml += '</tr>';
+        });
     });
 
     const fullTableHtml = `
-        <h3 class="title is-5">Required Internal Diameters</h3>
-        <p class="subtitle is-6">The dimensioning case for each scrubber is marked in <strong>bold</strong>.</p>
+        <h3 class="title is-5">Sizing Summary</h3>
+        <p class="subtitle is-6">The controlling case for vessel diameter is marked in <strong>bold</strong>. All diameters are internal.</p>
         <div class="table-container">
             <table class="table is-fullwidth is-bordered is-striped is-hoverable">
                 <thead><tr>${headerHtml}</tr></thead>
                 <tbody>${bodyHtml}</tbody>
             </table>
         </div>`;
-
+    
     container.innerHTML = fullTableHtml;
     section.style.display = 'block';
     section.scrollIntoView({ behavior: 'smooth' });
 }
 
 // --- Project Data Functions ---
-
 function getFormattedFileName(extension) {
     const now = new Date();
     const dateStr = `${String(now.getDate()).padStart(2, '0')}_${String(now.getMonth() + 1).padStart(2, '0')}_${now.getFullYear()}`;
